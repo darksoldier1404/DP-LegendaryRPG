@@ -1,0 +1,8 @@
+name: DS-LegendaryRPG
+version: 1.0.0.13
+main: com.darksoldier1404.dlr.LegendaryRPG
+api-version: 1.17
+authors: [ DEAD_POOLIO_ ]
+commands:
+  dlr:
+  dlrs:

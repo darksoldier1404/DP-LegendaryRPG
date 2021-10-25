@@ -1,0 +1,28 @@
+Settings:
+  # 해당 플러그인이 보내는 메시지의 PREFIX 설정
+  prefix: "&f[ &eDLR &f] "
+
+  #---------- 커맨드 설정 ----------#
+
+  # /스포너
+  cmd-spawner: "스포너"
+  # /몹
+  cmd-mobs: "몹"
+
+  #---------- 스포너 설정 ----------#
+
+  # 스포너를 생성할 위치.
+  # STAND : 자신이 서있는 위치
+  # LOOK : 자신이 바라보고 있는 가장 가까운 블럭의 위치 (최대 30블럭)
+  set-spawner-point: STAND
+
+  # 스포너 생성시 자동으로 타이머를 설정할지의 여부
+  # true, false
+  set-spawner-auto-timer: true
+
+  # 스포너 생성시 자동으로 타이머를 설정할 때 설정될 타이머 기본값 (초 단위)
+  set-spawner-default-timer: 30
+
+  # 스포너 생성후 몇마리씩 소환되게 할지 설정을 안했을때 기본값
+  # 모든 스포너 해당.
+  set-spawner-default-per-spawn: 1
