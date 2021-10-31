@@ -2,8 +2,14 @@
 # 파일명과 동일해야 합니다. (확장자 제외)
 DisplayName: "W-GAR-1"
 
+# 해당 무기를 유저간 거래를 가능하게 할지의 여부
+CanTrade: false
+
 # 이 무기를 사용하기 위해 필요한 레벨
 RequiredLevel: 1
+
+# 이 무기가 달성 가능한 최대 레벨
+MaxWeaponLevel: 30
 
 # 이 무기의 아이템 타입
 Material: "BOW"
@@ -80,3 +86,20 @@ StatusChance: 25
 
 # 총알이 발사된 후 삭제되기까지 걸리는 시간 (초 단위)
 BulletDeletionTime: 2
+
+# 제작 레시피
+Craft:
+  # 제작에 필요한 시간 (초 단위)
+  CraftingTime: 43200
+  # 제작에 필요한 크레딧
+  Credit: 15000
+  # 필요한 자원 최대 종류 (1~4)
+  # 자원 이름은 resources/ 폴더 아레에 있는 자원 파일 리스트에서 가져옵니다.
+  # 파일의 이름은 상관이 없으나 자원 파일의 Name: 항목의 이름과 정확하게 일치하여야 합니다. (대소문자 구분)
+  Resources:
+    Ferrite: 250
+    Titanium: 150
+    Ceramic: 100
+    Polymer: 300
+  # 시간 단축에 필요한 캐쉬 (-1로 설정할 경우 단축 불가)
+  Rush: 50

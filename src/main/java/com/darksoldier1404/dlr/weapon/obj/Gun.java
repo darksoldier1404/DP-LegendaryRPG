@@ -25,14 +25,23 @@ public interface Gun extends Weapon {
     byte getBulletDeletionTime();
 
     void setTriggerType(TriggerType triggerType);
+
     void setBurstAtOnce(byte burstAtOnce);
+
     void setAccuracy(int accuracy);
+
     void setAmmoType(String ammoType);
+
     void setFireRate(float fireRate);
+
     void setMagazineSize(int magazineSize);
+
     void setMaxAmmo(int maxAmmo);
+
     void setReloadTime(byte reloadTime);
+
     void setMultiShot(byte multiShot);
+
     void setBulletDeletionTime(byte bulletDeletionTime);
 
 }

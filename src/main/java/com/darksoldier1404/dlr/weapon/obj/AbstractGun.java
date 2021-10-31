@@ -3,8 +3,9 @@ package com.darksoldier1404.dlr.weapon.obj;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class AbstractGun implements Gun {
     //weapon
     private String displayName;
@@ -38,6 +39,39 @@ public class AbstractGun implements Gun {
     private byte reloadTime;
     private byte multiShot;
     private byte bulletDeletionTime;
+
+    public AbstractGun(YamlConfiguration data) {
+        this.displayName = data.getString("DisplayName");
+        this.requiredLevel = data.getInt("RequiredLevel");
+        this.material = Material.getMaterial(data.getString("Material"));
+        this.weaponType = WeaponType.valueOf(data.getString("WeaponType"));
+        this.criticalChance = (byte) data.getInt("CriticalChance");
+        this.criticalAmount = data.getDouble("CriticalAmount");
+        this.statusChance = (byte) data.getInt("StatusChance");
+        this.impactDamage = data.getDouble("ImpactDamage");
+        this.punctureDamage = data.getDouble("PunctureDamage");
+        this.slashDamage = data.getDouble("SlashDamage");
+        this.coldDamage = data.getDouble("ColdDamage");
+        this.electricityDamage = data.getDouble("ElectricityDamage");
+        this.heatDamage = data.getDouble("HeatDamage");
+        this.toxinDamage = data.getDouble("ToxinDamage");
+        this.blastDamage = data.getDouble("BlastDamage");
+        this.corrosiveDamage = data.getDouble("CorrosiveDamage");
+        this.gasDamage = data.getDouble("GasDamage");
+        this.magneticDamage = data.getDouble("MagneticDamage");
+        this.radiationDamage = data.getDouble("RadiationDamage");
+        this.virusDamage = data.getDouble("VirusDamage");
+        this.triggerType = TriggerType.valueOf(data.getString("TriggerType"));
+        this.burstAtOnce = (byte) data.getInt("BurstAtOnce");
+        this.accuracy = data.getInt("Accuracy");
+        this.ammoType = data.getString("AmmoType");
+        this.fireRate = (float) data.getDouble("FireRate");
+        this.magazineSize = data.getInt("MagazineSize");
+        this.maxAmmo = data.getInt("MaxAmmo");
+        this.reloadTime = (byte) data.getInt("ReloadTime");
+        this.multiShot = (byte) data.getInt("MultiShot");
+        this.bulletDeletionTime = (byte) data.getInt("BulletDeletionTime");
+    }
 
     @Override
     public String getDisplayName() {
