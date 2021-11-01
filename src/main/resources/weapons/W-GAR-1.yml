@@ -1,5 +1,8 @@
 # 목록에 표시되는 이름
 # 파일명과 동일해야 합니다. (확장자 제외)
+
+# *--- Default Options ---*
+
 DisplayName: "W-GAR-1"
 
 # 해당 무기를 유저간 거래를 가능하게 할지의 여부
@@ -16,6 +19,9 @@ Material: "BOW"
 
 # 무기 종류 - GUN, MELEE
 WeaponType: "GUN"
+
+# 리소스팩을 위한 커스텀 모델 데이터
+CustomModelData: 0
 
 # *--- GUN TYPE ONLY ---*
 

@@ -9,6 +9,14 @@ public interface Weapon {
 
     int getRequiredLevel();
 
+    int getCurrentLevel();
+
+    int getMaxLevel();
+
+    double getCurrentExp();
+
+    double getMaxExp();
+
     Material getMaterial();
 
     WeaponType getWeaponType();
@@ -48,6 +56,14 @@ public interface Weapon {
     void setDisplayName(String displayName);
 
     void setRequiredLevel(int requiredLevel);
+
+    void setCurrentLevel(int currentLevel);
+
+    void setMaxLevel(int maxLevel);
+
+    void setCurrentExp(double currentExp);
+
+    void setMaxExp(double maxExp);
 
     void setMaterial(Material material);
 

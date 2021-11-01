@@ -8,6 +8,10 @@ public class AbstractMelee implements Melee {
     //weapon
     private String displayName;
     private int requiredLevel;
+    private int currentLevel;
+    private int maxLevel;
+    private double currentExp;
+    private double maxExp;
     private Material material;
     private WeaponType weaponType;
     private byte criticalChance;
@@ -49,6 +53,46 @@ public class AbstractMelee implements Melee {
     @Override
     public void setRequiredLevel(int requiredLevel) {
         this.requiredLevel = requiredLevel;
+    }
+
+    @Override
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    @Override
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    @Override
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
+
+    @Override
+    public double getCurrentExp() {
+        return currentExp;
+    }
+
+    @Override
+    public void setCurrentExp(double currentExp) {
+        this.currentExp = currentExp;
+    }
+
+    @Override
+    public double getMaxExp() {
+        return maxExp;
+    }
+
+    @Override
+    public void setMaxExp(double maxExp) {
+        this.maxExp = maxExp;
     }
 
     @Override
