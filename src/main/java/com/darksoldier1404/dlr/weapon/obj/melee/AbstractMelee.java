@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.weapon.obj;
+package com.darksoldier1404.dlr.weapon.obj.melee;
 
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import org.bukkit.Material;
@@ -14,9 +14,9 @@ public class AbstractMelee implements Melee {
     private double maxExp;
     private Material material;
     private WeaponType weaponType;
-    private byte criticalChance;
-    private double criticalAmount;
-    private byte statusChance;
+    private float criticalChance;
+    private float criticalAmount;
+    private float statusChance;
     private double impactDamage;
     private double punctureDamage;
     private double slashDamage;
@@ -116,32 +116,32 @@ public class AbstractMelee implements Melee {
     }
 
     @Override
-    public byte getCriticalChance() {
+    public float getCriticalChance() {
         return criticalChance;
     }
 
     @Override
-    public void setCriticalChance(byte criticalChance) {
+    public void setCriticalChance(float criticalChance) {
         this.criticalChance = criticalChance;
     }
 
     @Override
-    public double getCriticalAmount() {
+    public float getCriticalAmount() {
         return criticalAmount;
     }
 
     @Override
-    public void setCriticalAmount(double criticalAmount) {
+    public void setCriticalAmount(float criticalAmount) {
         this.criticalAmount = criticalAmount;
     }
 
     @Override
-    public byte getStatusChance() {
+    public float getStatusChance() {
         return statusChance;
     }
 
     @Override
-    public void setStatusChance(byte statusChance) {
+    public void setStatusChance(float statusChance) {
         this.statusChance = statusChance;
     }
 

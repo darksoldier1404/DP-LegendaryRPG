@@ -10,10 +10,10 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 public class NBT {
-    public static ItemStack setTag(ItemStack objitem, String key, String value) {
+    public static ItemStack setTag(ItemStack objitem, String key, Object value) {
         final net.minecraft.world.item.ItemStack item = CraftItemStack.asNMSCopy(objitem);
         final NBTTagCompound ntc = item.hasTag() ? item.getTag() : new NBTTagCompound();
-        ntc.set(key, NBTTagString.a(value));
+        ntc.set(key, NBTTagString.a(value.toString()));
         item.setTag(ntc);
         return CraftItemStack.asBukkitCopy(item);
     }

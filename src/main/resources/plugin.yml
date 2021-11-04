@@ -4,5 +4,5 @@ main: com.darksoldier1404.dlr.LegendaryRPG
 api-version: 1.17
 authors: [ DEAD_POOLIO_ ]
 commands:
-  dlr:
-  dlrs:
+  lrs:
+  lra:

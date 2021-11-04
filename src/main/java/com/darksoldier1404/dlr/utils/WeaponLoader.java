@@ -1,7 +1,7 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.weapon.obj.AbstractGun;
+import com.darksoldier1404.dlr.weapon.obj.gun.AbstractGun;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -9,9 +9,11 @@ import java.io.File;
 @SuppressWarnings("all")
 public class WeaponLoader {
     private static final LegendaryRPG plugin = LegendaryRPG.getInstance();
-    private static final File weaponPath = new File(plugin.getDataFolder() + "/weapons");
 
     public static void loadGuns() {
+        plugin.getWeapons().clear();
+        plugin.getRawWeapons().clear();
+        File weaponPath = new File(plugin.getDataFolder() + "/weapons");
         if (weaponPath.exists()) {
             if (weaponPath.isDirectory()) {
                 if(weaponPath.listFiles().length == 0){
@@ -34,6 +36,7 @@ public class WeaponLoader {
                         String name = w.getString("DisplayName");
                         if(type.equals("GUN")) {
                             plugin.getWeapons().put(name, new AbstractGun(w));
+                            plugin.getRawWeapons().put(name, w);
                             plugin.getLogger().info("Loaded weapon: " + name);
                         }
                     }

@@ -1,33 +1,36 @@
 package com.darksoldier1404.dlr.events;
 
-import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.weapon.obj.AbstractGun;
-import net.minecraft.world.item.SpyglassItem;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class LREvent implements Listener {
 
     @EventHandler
-    public void onInteractWithSpyGlass(PlayerInteractEvent e) {
-        if(e.getItem() == null) return;
-        if(e.getItem().getType() == Material.SPYGLASS) {
+    public void onItemPickup(EntityPickupItemEvent e) {
+        if(e.getItem().hasMetadata("dc")) {
             e.setCancelled(true);
-            System.out.println("canceled");
-            CraftItemStack ci = (CraftItemStack) e.getItem();
-            SpyglassItem si;
         }
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        AbstractGun gun = (AbstractGun) LegendaryRPG.getInstance().getWeapons().get("W-GAR-1");
-        p.getInventory().addItem(gun.getItemStack());
+    public void onOpenInventory(InventoryOpenEvent e) {
+        if(e.getInventory().getType() == InventoryType.ANVIL) {
+            Inventory inv = e.getInventory();
+            inv.setItem(0, new ItemStack(Material.STICK));
+            inv.setItem(1, new ItemStack(Material.DIAMOND));
+            inv.setItem(2, new ItemStack(Material.DIAMOND_SWORD));
+        }
+    }
+
+    @EventHandler
+    public void test(PrepareAnvilEvent e) {
+        e.setResult(new ItemStack(Material.DIAMOND_SWORD));
     }
 }

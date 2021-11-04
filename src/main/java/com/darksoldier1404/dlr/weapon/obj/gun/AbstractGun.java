@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.weapon.obj;
+package com.darksoldier1404.dlr.weapon.obj.gun;
 
 import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
@@ -22,9 +22,9 @@ public class AbstractGun implements Gun {
     private double maxExp;
     private Material material;
     private WeaponType weaponType;
-    private byte criticalChance;
-    private double criticalAmount;
-    private byte statusChance;
+    private float criticalChance;
+    private float criticalAmount;
+    private float statusChance;
     private double impactDamage;
     private double punctureDamage;
     private double slashDamage;
@@ -43,11 +43,13 @@ public class AbstractGun implements Gun {
     private byte burstAtOnce;
     private int accuracy;
     private String ammoType;
+    private float bulletSpeed;
     private float fireRate;
     private int magazineSize;
+    private int currentMagazineSize;
     private int maxAmmo;
-    private byte reloadTime;
-    private byte multiShot;
+    private float reloadTime;
+    private float multiShot;
     private byte bulletDeletionTime;
 
     public AbstractGun(YamlConfiguration data) {
@@ -55,9 +57,9 @@ public class AbstractGun implements Gun {
         this.requiredLevel = data.getInt("RequiredLevel");
         this.material = Material.getMaterial(data.getString("Material"));
         this.weaponType = WeaponType.valueOf(data.getString("WeaponType"));
-        this.criticalChance = (byte) data.getInt("CriticalChance");
-        this.criticalAmount = data.getDouble("CriticalAmount");
-        this.statusChance = (byte) data.getInt("StatusChance");
+        this.criticalChance = (float) data.getDouble("CriticalChance");
+        this.criticalAmount = (float) data.getDouble("CriticalAmount");
+        this.statusChance = (float) data.getDouble("StatusChance");
         this.impactDamage = data.getDouble("Impact");
         this.punctureDamage = data.getDouble("Puncture");
         this.slashDamage = data.getDouble("Slash");
@@ -75,47 +77,48 @@ public class AbstractGun implements Gun {
         this.burstAtOnce = (byte) data.getInt("BurstAtOnce");
         this.accuracy = data.getInt("Accuracy");
         this.ammoType = data.getString("AmmoType");
+        this.bulletSpeed = (float) data.getDouble("BulletSpeed");
         this.fireRate = (float) data.getDouble("FireRate");
         this.magazineSize = data.getInt("MagazineSize");
         this.maxAmmo = data.getInt("MaxAmmo");
-        this.reloadTime = (byte) data.getInt("ReloadTime");
-        this.multiShot = (byte) data.getInt("MultiShot");
+        this.reloadTime = (float) data.getDouble("ReloadTime");
+        this.multiShot = (float) data.getDouble("MultiShot");
         this.bulletDeletionTime = (byte) data.getInt("BulletDeletionTime");
-        test();
+        currentMagazineSize = magazineSize;
     }
 
-    public void test() {
-        System.out.println("displayName : " + this.displayName);
-        System.out.println("requiredLevel : " + this.requiredLevel);
-        System.out.println("material : " + this.material);
-        System.out.println("weaponType : " + this.weaponType);
-        System.out.println("criticalChance : " + this.criticalChance);
-        System.out.println("criticalAmount : " + this.criticalAmount);
-        System.out.println("statusChance : " + this.statusChance);
-        System.out.println("impactDamage : " + this.impactDamage);
-        System.out.println("punctureDamage : " + this.punctureDamage);
-        System.out.println("slashDamage : " + this.slashDamage);
-        System.out.println("coldDamage : " + this.coldDamage);
-        System.out.println("electricityDamage : " + this.electricityDamage);
-        System.out.println("heatDamage : " + this.heatDamage);
-        System.out.println("toxinDamage : " + this.toxinDamage);
-        System.out.println("blastDamage : " + this.blastDamage);
-        System.out.println("corrosiveDamage : " + this.corrosiveDamage);
-        System.out.println("gasDamage : " + this.gasDamage);
-        System.out.println("magneticDamage : " + this.magneticDamage);
-        System.out.println("radiationDamage : " + this.radiationDamage);
-        System.out.println("virusDamage : " + this.virusDamage);
-        System.out.println("triggerType : " + this.triggerType);
-        System.out.println("burstAtOnce : " + this.burstAtOnce);
-        System.out.println("accuracy : " + this.accuracy);
-        System.out.println("ammoType : " + this.ammoType);
-        System.out.println("fireRate : " + this.fireRate);
-        System.out.println("magazineSize : " + this.magazineSize);
-        System.out.println("maxAmmo : " + this.maxAmmo);
-        System.out.println("reloadTime : " + this.reloadTime);
-        System.out.println("multiShot : " + this.multiShot);
-        System.out.println("bulletDeletionTime : " + this.bulletDeletionTime);
-    }
+//    public void test() {
+//        System.out.println("displayName : " + this.displayName);
+//        System.out.println("requiredLevel : " + this.requiredLevel);
+//        System.out.println("material : " + this.material);
+//        System.out.println("weaponType : " + this.weaponType);
+//        System.out.println("criticalChance : " + this.criticalChance);
+//        System.out.println("criticalAmount : " + this.criticalAmount);
+//        System.out.println("statusChance : " + this.statusChance);
+//        System.out.println("impactDamage : " + this.impactDamage);
+//        System.out.println("punctureDamage : " + this.punctureDamage);
+//        System.out.println("slashDamage : " + this.slashDamage);
+//        System.out.println("coldDamage : " + this.coldDamage);
+//        System.out.println("electricityDamage : " + this.electricityDamage);
+//        System.out.println("heatDamage : " + this.heatDamage);
+//        System.out.println("toxinDamage : " + this.toxinDamage);
+//        System.out.println("blastDamage : " + this.blastDamage);
+//        System.out.println("corrosiveDamage : " + this.corrosiveDamage);
+//        System.out.println("gasDamage : " + this.gasDamage);
+//        System.out.println("magneticDamage : " + this.magneticDamage);
+//        System.out.println("radiationDamage : " + this.radiationDamage);
+//        System.out.println("virusDamage : " + this.virusDamage);
+//        System.out.println("triggerType : " + this.triggerType);
+//        System.out.println("burstAtOnce : " + this.burstAtOnce);
+//        System.out.println("accuracy : " + this.accuracy);
+//        System.out.println("ammoType : " + this.ammoType);
+//        System.out.println("fireRate : " + this.fireRate);
+//        System.out.println("magazineSize : " + this.magazineSize);
+//        System.out.println("maxAmmo : " + this.maxAmmo);
+//        System.out.println("reloadTime : " + this.reloadTime);
+//        System.out.println("multiShot : " + this.multiShot);
+//        System.out.println("bulletDeletionTime : " + this.bulletDeletionTime);
+//    }
 
 
     public ItemStack getItemStack() {
@@ -171,13 +174,14 @@ public class AbstractGun implements Gun {
         }
         lore.add("§7┌━━━━━━━━━━━━━━━━━━━━━━━━━┐");
         lore.add("§f▶   §b트리거 타입 : " + triggerType);
-        if(triggerType == TriggerType.BURST) {
+        if (triggerType == TriggerType.BURST) {
             lore.add("§f▶   §b연발 횟수 : " + burstAtOnce);
         }
         lore.add("§f▶   §b정확도 : " + accuracy);
         lore.add("§f▶   §b탄약 타입 : " + ammoType);
+        lore.add("§f▶   §b탄속 : " + bulletSpeed);
         lore.add("§f▶   §b연사력 : " + fireRate + " FPS");
-        lore.add("§f▶   §b탄창 크기 : " + magazineSize );
+        lore.add("§f▶   §b탄창 크기 : " + magazineSize);
         if (maxAmmo != 0) {
             lore.add("§f▶   §b최대 탄약 수 : " + maxAmmo);
         }
@@ -270,32 +274,32 @@ public class AbstractGun implements Gun {
     }
 
     @Override
-    public byte getCriticalChance() {
+    public float getCriticalChance() {
         return criticalChance;
     }
 
     @Override
-    public void setCriticalChance(byte criticalChance) {
+    public void setCriticalChance(float criticalChance) {
         this.criticalChance = criticalChance;
     }
 
     @Override
-    public double getCriticalAmount() {
+    public float getCriticalAmount() {
         return criticalAmount;
     }
 
     @Override
-    public void setCriticalAmount(double criticalAmount) {
+    public void setCriticalAmount(float criticalAmount) {
         this.criticalAmount = criticalAmount;
     }
 
     @Override
-    public byte getStatusChance() {
+    public float getStatusChance() {
         return statusChance;
     }
 
     @Override
-    public void setStatusChance(byte statusChance) {
+    public void setStatusChance(float statusChance) {
         this.statusChance = statusChance;
     }
 
@@ -470,6 +474,16 @@ public class AbstractGun implements Gun {
     }
 
     @Override
+    public float getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    @Override
+    public void setBulletSpeed(float bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
+    }
+
+    @Override
     public float getFireRate() {
         return fireRate;
     }
@@ -490,6 +504,16 @@ public class AbstractGun implements Gun {
     }
 
     @Override
+    public int getCurrentMagazineSize() {
+        return currentMagazineSize;
+    }
+
+    @Override
+    public void setCurrentMagazineSize(int currentMagazineSize) {
+        this.currentMagazineSize = currentMagazineSize;
+    }
+
+    @Override
     public int getMaxAmmo() {
         return maxAmmo;
     }
@@ -500,22 +524,22 @@ public class AbstractGun implements Gun {
     }
 
     @Override
-    public byte getReloadTime() {
+    public float getReloadTime() {
         return reloadTime;
     }
 
     @Override
-    public void setReloadTime(byte reloadTime) {
+    public void setReloadTime(float reloadTime) {
         this.reloadTime = reloadTime;
     }
 
     @Override
-    public byte getMultiShot() {
+    public float getMultiShot() {
         return multiShot;
     }
 
     @Override
-    public void setMultiShot(byte multiShot) {
+    public void setMultiShot(float multiShot) {
         this.multiShot = multiShot;
     }
 
