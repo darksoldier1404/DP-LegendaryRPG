@@ -7,12 +7,17 @@ import com.darksoldier1404.dlr.functions.CommandFunction;
 import com.darksoldier1404.dlr.utils.ConfigUtils;
 import com.darksoldier1404.dlr.utils.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.Weapon;
+import net.minecraft.util.Tuple;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Arrow;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("all")
 public class LegendaryRPG extends JavaPlugin {
@@ -23,6 +28,7 @@ public class LegendaryRPG extends JavaPlugin {
     private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
     private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
     private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
+    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = new HashMap<>();
 
     public Map<String, YamlConfiguration> getRawWeapons() {
         return rawWeapons;
@@ -34,6 +40,10 @@ public class LegendaryRPG extends JavaPlugin {
 
     public Map<String, YamlConfiguration> getSpawners() {
         return spawners;
+    }
+
+    public Map<UUID, Tuple<BukkitTask, Arrow>> getHomingArrows() {
+        return homingArrows;
     }
 
     public static LegendaryRPG getInstance() {
@@ -76,6 +86,22 @@ public class LegendaryRPG extends JavaPlugin {
         plugin.getServer().getPluginManager().registerEvents(new EntityGetDamageEvent(), plugin); // register EntityGetDamageEvent
 
         CommandFunction.commandRegister();
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            try{
+                homingArrows.forEach((uuid, tuple) -> {
+                    if(tuple.b().isOnGround()) {
+                        tuple.a().cancel();
+                        homingArrows.remove(uuid);
+                    }else if (tuple.b().isDead()) {
+                        tuple.a().cancel();
+                        homingArrows.remove(uuid);
+                    }else if (!tuple.b().isValid()) {
+                        tuple.a().cancel();
+                        homingArrows.remove(uuid);
+                    }
+                });
+            }catch (Exception ignored){}
+        }, 0L, 1L);
     }
 
     @Override

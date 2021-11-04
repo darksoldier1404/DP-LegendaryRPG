@@ -50,11 +50,12 @@ public class ItemStackNBTUtil {
         item = NBT.setTag(item, "accuracy", gun.getAccuracy());
         item = NBT.setTag(item, "ammoType", gun.getAmmoType());
         item = NBT.setTag(item, "bulletSpeed", gun.getBulletSpeed());
+        item = NBT.setTag(item, "bulletType", gun.getBulletType());
         item = NBT.setTag(item, "fireRate", gun.getFireRate());
         item = NBT.setTag(item, "magazineSize", gun.getMagazineSize());
         item = NBT.setTag(item, "currentMagazineSize", gun.getMagazineSize());
         item = NBT.setTag(item, "maxAmmo", gun.getMaxAmmo());
-        item = NBT.setTag(item, "currentMaxAmmo", gun.getMaxAmmo());
+        item = NBT.setTag(item, "currentAmmo", gun.getMaxAmmo());
         item = NBT.setTag(item, "reloadTime", gun.getReloadTime());
         item = NBT.setTag(item, "multiShot", gun.getMultiShot());
         item = NBT.setTag(item, "bulletDeletionTime", gun.getBulletDeletionTime());

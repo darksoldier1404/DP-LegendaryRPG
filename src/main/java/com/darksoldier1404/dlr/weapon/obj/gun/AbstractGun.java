@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.weapon.obj.gun;
 
 import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
+import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import org.bukkit.Material;
@@ -44,10 +45,12 @@ public class AbstractGun implements Gun {
     private int accuracy;
     private String ammoType;
     private float bulletSpeed;
+    private BulletType bulletType;
     private float fireRate;
     private int magazineSize;
     private int currentMagazineSize;
     private int maxAmmo;
+    private int currentAmmo;
     private float reloadTime;
     private float multiShot;
     private byte bulletDeletionTime;
@@ -78,6 +81,7 @@ public class AbstractGun implements Gun {
         this.accuracy = data.getInt("Accuracy");
         this.ammoType = data.getString("AmmoType");
         this.bulletSpeed = (float) data.getDouble("BulletSpeed");
+        this.bulletType = BulletType.valueOf(data.getString("BulletType"));
         this.fireRate = (float) data.getDouble("FireRate");
         this.magazineSize = data.getInt("MagazineSize");
         this.maxAmmo = data.getInt("MaxAmmo");
@@ -484,6 +488,16 @@ public class AbstractGun implements Gun {
     }
 
     @Override
+    public BulletType getBulletType() {
+        return bulletType;
+    }
+
+    @Override
+    public void setBulletType(BulletType bulletType) {
+        this.bulletType = bulletType;
+    }
+
+    @Override
     public float getFireRate() {
         return fireRate;
     }
@@ -521,6 +535,16 @@ public class AbstractGun implements Gun {
     @Override
     public void setMaxAmmo(int maxAmmo) {
         this.maxAmmo = maxAmmo;
+    }
+
+    @Override
+    public int getCurrentAmmo() {
+        return currentAmmo;
+    }
+
+    @Override
+    public void setCurrentAmmo(int currentAmmo) {
+        this.currentAmmo = currentAmmo;
     }
 
     @Override
