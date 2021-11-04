@@ -1,0 +1,35 @@
+# 스포너 설정입니다.
+
+# 스포너 이름
+Name: "Test-1"
+
+# 몹 이름
+MobName: "Kuva"
+# 로케이션 정보
+Location: loc
+# 스포너 주변으로 몹이 소환되는 반경
+SpawnRadius: 20
+# 해당 스포너에서 소환될 수 있는 최대 개체수
+MaxMobs: '10'
+# 스포너에서 소환될 수 있는 몹 레벨
+MobLevel: 1-10
+# 스포너가 몹을 소환시킬때 한번에 소환시킬 개체수
+MobsPerSpawn: 5
+# 소환된 개체가 사망한 시점으로부터 재소환 되기까지 걸리는 시간
+SpawnDelay: 20
+# 스포너 주변에 플레이어가 있을 경우에만 소환할지의 여부
+CheckForPlayers: true
+# 스포너 활성화 반경
+ActivationRange: 100
+
+# 해당 스포너에서 소환된 몹이 스포너 기준으로 해당 반경 밖으로 나가면
+# 다시 스포너쪽으로 텔레포트 시킬지의 여부
+# 0으로 설정시 비활성화
+LeashRange: 100
+
+# 해당 옵션은 전부 레벨당 증가되는 수치들입니다.
+HealthPerLevel: 30
+ShieldPerLevel: 0
+ArmorPerLevel: 0
+DamagePerLevel: 10
+DropExpPerLevel: 20

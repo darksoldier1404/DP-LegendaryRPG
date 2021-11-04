@@ -10,6 +10,7 @@ public class ConfigUtils {
     private static final LegendaryRPG plugin = LegendaryRPG.getInstance();
     private static final String prefix = LegendaryRPG.prefix;
 
+
     public static void saveData(YamlConfiguration data, String path) {
         try {
             data.save(new File(path));

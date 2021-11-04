@@ -1,7 +1,7 @@
 # 목록에 표시되는 이름
 # 파일명과 동일해야 합니다. (확장자 제외)
 
-# *--- Default Options ---*
+# --- Default Options ---
 
 DisplayName: "W-GAR-1"
 
@@ -23,7 +23,7 @@ WeaponType: "GUN"
 # 리소스팩을 위한 커스텀 모델 데이터
 CustomModelData: 0
 
-# *--- GUN TYPE ONLY ---*
+# --- GUN TYPE ONLY ---
 
 # AUTO (연사), SEMI-AUTO (단발), BURST (점사)
 TriggerType: "AUTO"
@@ -31,64 +31,72 @@ TriggerType: "AUTO"
 # BURST TYPE ONLY
 #BURST-AT-ONCE: 3
 
-# 정확도 (1~100)
-Accuracy: 80
+# 정확도 (1~1000) 1에 가까울수록 더 정확하게 발사됩니다.
+Accuracy: 15
 
 # 해당 총이 사용하게될 총알의 종류.
 AmmoType: Rifle
+
+# 총알 속도 (벡터의 멀티플라이어 배수입니다.)
+BulletSpeed: 5.7
 
 # 연사력 (최대 20, 1초당 발사되는 총알의 수)
 FireRate: 13.3
 
 # 탄창 크기
-MagazineSize: 90
+MagazineSize: 60
 
 # 최대 탄약 수
-MaxAmmo: 900
+MaxAmmo: 660
 
 # 재장전 시간 (초 단위)
-ReloadTime: 3
+ReloadTime: 2.4
 
 # 멀티샷은 총을 발사할때 탄약 소모 없이 추가로 발사됩니다.
+# 소수점 자리가 남을경우 해당 확률로 변환하여 발사됩니다.
+# 예시 : 2.5 = 2발은 고정으로 발사되며 50%의 확률로 추가로 1발 더 발사됩니다.
+# * 주의 * 멀티샷의 최소값은 무조건 1이여야합니다.
+# 모드나 다른 외부의 효과로 인하여 이론상 멀티샷이 1 이하가 되어도 무조건 1로 고정됩니다.
 # 1 = DEFAULT
-# 2 = ONE SHOT TWO BULLET
-MultiShot: 1
+MultiShot: 1.3
 
-# *--- GLOBAL VARS ---*
+# --- GLOBAL VARS ---
 
 # 물리 속성
 
 # 충격
-Impact: 5
+Impact: 1
 # 관통
-Puncture: 3
+Puncture: 16.3
 # 베기
-Slash: 22
+Slash: 4
 
 # 원소 속성
 
 # 냉기
-#Cold: 10
+#Cold: 1
 
 # 전기
-#Electricity: 10
+#Electricity: 20
 
 # 화염
-Heat: 10
+Heat: 5
 
 # 독성
-#Toxin: 10
+#Toxin: 1
 
 # 공통 유틸리티 변수
 
-# 치명타 확률 (1~100)
-CriticalChance: 13
+# 치명타 확률
+# EX) CriticalChance: 135 = 100% 치명타 -> 35% 추가 치명타 = (35% 추가 치명타가 터질경우)
+# 데미지가 2배가 됩니다.
+CriticalChance: 15.5
 
 # 치명타 배수
-CriticalAmount: 2.1
+CriticalAmount: 1.5
 
 # 상태이상 확률 (1~100)
-StatusChance: 25
+StatusChance: 10
 
 # 총알이 발사된 후 삭제되기까지 걸리는 시간 (초 단위)
 BulletDeletionTime: 2

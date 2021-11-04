@@ -21,11 +21,11 @@ public interface Weapon {
 
     WeaponType getWeaponType();
 
-    byte getCriticalChance();
+    float getCriticalChance();
 
-    double getCriticalAmount();
+    float getCriticalAmount();
 
-    byte getStatusChance();
+    float getStatusChance();
 
     double getImpactDamage();
 
@@ -69,11 +69,11 @@ public interface Weapon {
 
     void setWeaponType(WeaponType weaponType);
 
-    void setCriticalChance(byte criticalChance);
+    void setCriticalChance(float criticalChance);
 
-    void setCriticalAmount(double criticalAmount);
+    void setCriticalAmount(float criticalAmount);
 
-    void setStatusChance(byte statusChance);
+    void setStatusChance(float statusChance);
 
     void setImpactDamage(double impactDamage);
 

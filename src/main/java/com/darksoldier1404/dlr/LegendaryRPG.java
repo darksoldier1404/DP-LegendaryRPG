@@ -1,6 +1,8 @@
 package com.darksoldier1404.dlr;
 
 import com.darksoldier1404.dlr.events.LREvent;
+import com.darksoldier1404.dlr.events.GunFireLogic;
+import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
 import com.darksoldier1404.dlr.utils.ConfigUtils;
 import com.darksoldier1404.dlr.utils.WeaponLoader;
@@ -17,11 +19,21 @@ public class LegendaryRPG extends JavaPlugin {
     private PluginManager pm;
     public static final String prefix = "§f[ §eDLR §f] ";
     private static LegendaryRPG plugin;
-    public YamlConfiguration config;
-    private final Map<String, Weapon> weapons = new HashMap<String, Weapon>();
+    public YamlConfiguration config; // 설정 파일
+    private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
+    private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
+    private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
+
+    public Map<String, YamlConfiguration> getRawWeapons() {
+        return rawWeapons;
+    }
 
     public Map<String, Weapon> getWeapons() {
         return weapons;
+    }
+
+    public Map<String, YamlConfiguration> getSpawners() {
+        return spawners;
     }
 
     public static LegendaryRPG getInstance() {
@@ -60,13 +72,15 @@ public class LegendaryRPG extends JavaPlugin {
 
         ConfigUtils.loadDefaultConfig();
         plugin.getServer().getPluginManager().registerEvents(new LREvent(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new GunFireLogic(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new EntityGetDamageEvent(), plugin); // register EntityGetDamageEvent
+
         CommandFunction.commandRegister();
     }
 
     @Override
     public void onDisable() {
         // save all yaml file
-
 
     }
 
