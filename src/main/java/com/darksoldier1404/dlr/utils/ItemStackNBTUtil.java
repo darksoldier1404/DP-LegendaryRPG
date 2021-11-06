@@ -1,6 +1,6 @@
 package com.darksoldier1404.dlr.utils;
 
-import com.darksoldier1404.dlr.weapon.obj.gun.AbstractGun;
+import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
 import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings("all")
@@ -25,7 +25,7 @@ public class ItemStackNBTUtil {
     }
     // todo: 총알의 타입별로 nbt 설정 나누기
 
-    public static ItemStack setNBTValues(ItemStack item, AbstractGun gun) {
+    public static ItemStack setNBTValues(ItemStack item, GunImpl gun) {
         item = NBT.setTag(item, "displayName", gun.getDisplayName());
         item = NBT.setTag(item, "requiredLevel", gun.getRequiredLevel());
         item = NBT.setTag(item, "material", gun.getMaterial());
@@ -52,7 +52,6 @@ public class ItemStackNBTUtil {
         item = NBT.setTag(item, "ammoType", gun.getAmmoType());
         item = NBT.setTag(item, "bulletSpeed", gun.getBulletSpeed());
         item = NBT.setTag(item, "bulletType", gun.getBulletType());
-        item = NBT.setTag(item, "startHomingDelay", gun.getBulletType());
         item = NBT.setTag(item, "fireRate", gun.getFireRate());
         item = NBT.setTag(item, "magazineSize", gun.getMagazineSize());
         item = NBT.setTag(item, "currentMagazineSize", gun.getMagazineSize());
@@ -61,6 +60,30 @@ public class ItemStackNBTUtil {
         item = NBT.setTag(item, "reloadTime", gun.getReloadTime());
         item = NBT.setTag(item, "multiShot", gun.getMultiShot());
         item = NBT.setTag(item, "bulletDeletionTime", gun.getBulletDeletionTime());
+        // bullet type
+        // homing
+        item = NBT.setTag(item, "isHomingBullet", gun.isHomingBullet());
+        item = NBT.setTag(item, "startHomingDelay", gun.getStartHomingDelay());
+        // electric
+        item = NBT.setTag(item, "isElectricBullet", gun.isElectricBullet());
+        item = NBT.setTag(item, "chainRange", gun.getChainRange());
+        item = NBT.setTag(item, "maxChainRange", gun.getMaxChainRange());
+        item = NBT.setTag(item, "chainDamage", gun.getChainDamage());
+        // gravity
+        item = NBT.setTag(item, "isGravityBullet", gun.isGravityBullet());
+        item = NBT.setTag(item, "gravityRange", gun.getGravityRange());
+        item = NBT.setTag(item, "gravityDuration", gun.getGravityDuration());
+        item = NBT.setTag(item, "gravityPower", gun.getGravityPower());
+        item = NBT.setTag(item, "gravityDamage", gun.getGravityDamage());
+        item = NBT.setTag(item, "isReversal", gun.isReversal());
+        // explosive
+        item = NBT.setTag(item, "isExplosiveBullet", gun.isExplosiveBullet());
+        item = NBT.setTag(item, "explosionRange", gun.getExplosionRange());
+        item = NBT.setTag(item, "explosionDamage", gun.getExplosionDamage());
+        item = NBT.setTag(item, "explosionKnockBack", gun.getExplosionKnockBack());
+
+
+
         return item;
     }
 }

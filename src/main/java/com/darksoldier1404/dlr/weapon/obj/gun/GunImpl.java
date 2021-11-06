@@ -5,6 +5,7 @@ import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ElectricBullet;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ExplosiveBullet;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.GravityBullet;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.HomingBullet;
 import org.bukkit.Material;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class AbstractGun implements Gun, ElectricBullet, GravityBullet, HomingBullet {
+public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet {
     //weapon
     private String displayName;
     private int requiredLevel;
@@ -73,8 +74,14 @@ public class AbstractGun implements Gun, ElectricBullet, GravityBullet, HomingBu
     private float gravityPower;
     private double gravityDamage;
     private boolean isReversal;
+    // explosive
+    private boolean isExplosiveBullet;
+    private float explosionRange;
+    private double explosionDamage;
+    private float explosionKnockBack;
 
-    public AbstractGun(YamlConfiguration data) {
+
+    public GunImpl(YamlConfiguration data) {
         // weapon
         this.displayName = data.getString("DisplayName");
         this.requiredLevel = data.getInt("RequiredLevel");
@@ -126,6 +133,10 @@ public class AbstractGun implements Gun, ElectricBullet, GravityBullet, HomingBu
         this.gravityDamage = data.getDouble("GravityDamage");
         this.isReversal = data.getBoolean("IsReversal");
         // explosive
+        this.isExplosiveBullet = data.getBoolean("IsExplosiveBullet");
+        this.explosionRange = (float) data.getDouble("ExplosionRange");
+        this.explosionDamage = data.getDouble("ExplosionDamage");
+        this.explosionKnockBack = (float) data.getDouble("ExplosionKnockBack");
         currentMagazineSize = magazineSize;
     }
 
@@ -736,5 +747,44 @@ public class AbstractGun implements Gun, ElectricBullet, GravityBullet, HomingBu
     @Override
     public void setReversal(boolean reversal) {
         isReversal = reversal;
+    }
+
+    @Override
+    public boolean isExplosiveBullet() {
+        return isExplosiveBullet;
+    }
+
+    public void setIsExplosiveBullet(boolean explosiveBullet) {
+        isExplosiveBullet = explosiveBullet;
+    }
+
+    @Override
+    public float getExplosionRange() {
+        return explosionRange;
+    }
+
+    @Override
+    public void setExplosionRange(float explosionRange) {
+        this.explosionRange = explosionRange;
+    }
+
+    @Override
+    public double getExplosionDamage() {
+        return explosionDamage;
+    }
+
+    @Override
+    public void setExplosionDamage(double explosionDamage) {
+        this.explosionDamage = explosionDamage;
+    }
+
+    @Override
+    public float getExplosionKnockBack() {
+        return explosionKnockBack;
+    }
+
+    @Override
+    public void setExplosionKnockBack(float explosionKnockBack) {
+        this.explosionKnockBack = explosionKnockBack;
     }
 }

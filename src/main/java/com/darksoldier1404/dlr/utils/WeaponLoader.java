@@ -1,7 +1,7 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.weapon.obj.gun.AbstractGun;
+import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -36,9 +36,7 @@ public class WeaponLoader {
                         String name = w.getString("DisplayName");
                         String bulletType = w.getString("BulletType");
                         if(type.equals("GUN")) {
-
-
-                            plugin.getWeapons().put(name, new AbstractGun(w));
+                            plugin.getWeapons().put(name, new GunImpl(w));
                             plugin.getRawWeapons().put(name, w);
                             plugin.getLogger().info("Loaded weapon: " + name);
                         }

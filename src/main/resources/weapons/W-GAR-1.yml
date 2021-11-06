@@ -60,6 +60,8 @@ ReloadTime: 2.4
 # 1 = DEFAULT
 MultiShot: 10.7
 
+# --- Before Bullet Hited ---
+
 # 해당 총이 발사하는 총알의 타입
 # NORMAL, HOMING, EXPLOSIVE, PENETRATING, CHAIN, LASER
 
@@ -80,6 +82,8 @@ IsExplosiveBullet: true
 ExplosionRange: 3
 # 폭발 데미지
 ExplosionDamage: 20
+# 폭발시 적을 밀어내는 정도 (벡터값의 멀티플라이어에 들어가는 값입니다.)
+ExplosionKnockBack: 1
 
 # [ 주변 적을 하나씩 감전시키는 총알 ]
 IsElectricChainBullet: true

@@ -24,9 +24,10 @@ import java.util.*;
 
 @SuppressWarnings("all")
 public class GunFireLogic implements Listener {
+    private final LegendaryRPG plugin = LegendaryRPG.getInstance();
     private final Set<UUID> fired = new HashSet<>();
     private final Set<UUID> reloading = new HashSet<>();
-    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = LegendaryRPG.getInstance().getHomingArrows();
+    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = plugin.getHomingArrows();
     private final Random rnd = new Random();
 
 
@@ -40,7 +41,7 @@ public class GunFireLogic implements Listener {
             float reloadTime = Float.parseFloat(NBT.getStringTag(item, "reloadTime").replace('"', ' ').trim());
             int magazineSize = Integer.parseInt(NBT.getStringTag(item, "magazineSize").replace('"', ' ').trim());
             reloading.add(e.getPlayer().getUniqueId());
-            Bukkit.getScheduler().runTaskLater(LegendaryRPG.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 reloading.remove(e.getPlayer().getUniqueId());
                 NBT.setTag(item, "currentMagazineSize", String.valueOf(magazineSize));
             }, (long) (20 * reloadTime));
@@ -58,7 +59,7 @@ public class GunFireLogic implements Listener {
                 // if while reloading return
                 if (reloading.contains(p.getUniqueId())) return;
                 if (fired.contains(p.getUniqueId())) return;
-                Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
+                Bukkit.getScheduler().runTask(plugin, () -> {
                     BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType").replace('"', ' ').trim());
                     float bulletSpeed = Float.parseFloat(NBT.getStringTag(item, "bulletSpeed").replace('"', ' ').trim());
                     float fireRate = Float.parseFloat(NBT.getStringTag(item, "fireRate").replace('"', ' ').trim());
@@ -95,7 +96,7 @@ public class GunFireLogic implements Listener {
                     // after launched bullet
                     if (!((long) (20 / fireRate) == 0)) {
                         fired.add(p.getUniqueId());
-                        Bukkit.getScheduler().runTaskLater(LegendaryRPG.getInstance(), () -> fired.remove(p.getUniqueId()), (long) (20 / fireRate));
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> fired.remove(p.getUniqueId()), (long) (20 / fireRate));
                     }
                     p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_SHOOT, 0.6F, 1.6F);
                     Bukkit.getPluginManager().callEvent(new GunFireEvent(p, item));
@@ -103,9 +104,46 @@ public class GunFireLogic implements Listener {
             }
         }
     }
+    
+    private void setMetadata(Arrow ar, ItemStack item, double damage) {
+        ar.setMetadata("damage", new FixedMetadataValue(plugin, damage));
+        // critical chance metadata
+        ar.setMetadata("criticalChance", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalChance").replace('"', ' ').trim())));
+        // critical damage metadata
+        ar.setMetadata("criticalAmount", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
+        // bullet type
+        // homing
+        if(ar.getMetadata("isHomingBullet").get(0).asBoolean()) {
+            ar.setMetadata("isHomingBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim()));
+            ar.setMetadata("startHomingDelay", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "startHomingDelay").replace('"', ' ').trim())));
+        }
+        // electric
+        if(ar.getMetadata("isElectricBullet").get(0).asBoolean()) {
+            ar.setMetadata("isElectricBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim()));
+            ar.setMetadata("chainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "chainRange").replace('"', ' ').trim())));
+            ar.setMetadata("maxChainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "maxChainRange").replace('"', ' ').trim())));
+            ar.setMetadata("chainDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "chainDamage").replace('"', ' ').trim())));
+        }
+        // gravity
+        if(ar.getMetadata("isGravityBullet").get(0).asBoolean()) {
+            ar.setMetadata("isGravityBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim()));
+            ar.setMetadata("gravityRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityRange").replace('"', ' ').trim())));
+            ar.setMetadata("gravityDuration", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityDuration").replace('"', ' ').trim())));
+            ar.setMetadata("gravityPower", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityPower").replace('"', ' ').trim())));
+            ar.setMetadata("gravityDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "gravityDamage").replace('"', ' ').trim())));
+            ar.setMetadata("isReversal", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "isReversal").replace('"', ' ').trim())));
+        }
+        // explosive
+        if(ar.getMetadata("isExplosiveBullet").get(0).asBoolean()) {
+            ar.setMetadata("isExplosiveBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim()));
+            ar.setMetadata("explosionRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionRange").replace('"', ' ').trim())));
+            ar.setMetadata("explosionDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "explosionDamage").replace('"', ' ').trim())));
+            ar.setMetadata("explosionKnockBack", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionKnockBack").replace('"', ' ').trim())));
+        }
+    }
 
     private void launchProjectile(Player p, ItemStack item, float bulletSpeed, float bulletDeletionTime, float ac) {
-        Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(plugin, () -> {
             Arrow ar = p.launchProjectile(Arrow.class);
             ar.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
             ar.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
@@ -116,19 +154,15 @@ public class GunFireLogic implements Listener {
             double y = Math.random() * spread - (spread / 2);
             double z = Math.random() * spread - (spread / 2);
             ar.setVelocity(ar.getVelocity().add(new Vector(x, y, z)));
-            ar.setMetadata("damage", new FixedMetadataValue(LegendaryRPG.getInstance(), damage));
-            // critical chance metadata
-            ar.setMetadata("criticalChance", new FixedMetadataValue(LegendaryRPG.getInstance(), Float.parseFloat(NBT.getStringTag(item, "criticalChance").replace('"', ' ').trim())));
-            // critical damage metadata
-            ar.setMetadata("criticalAmount", new FixedMetadataValue(LegendaryRPG.getInstance(), Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
+            setMetadata(ar, item, damage);
             //todo 상태이상 추가
-            Bukkit.getScheduler().runTaskLater(LegendaryRPG.getInstance(), () -> ar.remove(), (long) (20 * bulletDeletionTime));
+            Bukkit.getScheduler().runTaskLater(plugin, () -> ar.remove(), (long) (20 * bulletDeletionTime));
             Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, ar));
         });
     }
 
     private void launchHomingProjectile(Player p, ItemStack item, float bulletSpeed, float bulletDeletionTime, float ac, List<LivingEntity> les) {
-        Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(plugin, () -> {
             Arrow ar = p.launchProjectile(Arrow.class);
             ar.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
             ar.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
@@ -139,20 +173,16 @@ public class GunFireLogic implements Listener {
             double y = Math.random() * spread - (spread / 2);
             double z = Math.random() * spread - (spread / 2);
             ar.setVelocity(ar.getVelocity().add(new Vector(x, y + 0.7, z)));
-            ar.setMetadata("damage", new FixedMetadataValue(LegendaryRPG.getInstance(), damage));
-            // critical chance metadata
-            ar.setMetadata("criticalChance", new FixedMetadataValue(LegendaryRPG.getInstance(), Float.parseFloat(NBT.getStringTag(item, "criticalChance").replace('"', ' ').trim())));
-            // critical damage metadata
-            ar.setMetadata("criticalAmount", new FixedMetadataValue(LegendaryRPG.getInstance(), Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
+            setMetadata(ar, item, damage);
             //todo 상태이상 추가
 
             try {
                 LivingEntity le = les.get(new Random().nextInt(les.size()));
-                homingArrows.put(ar.getUniqueId(), new Tuple<>(Bukkit.getScheduler().runTaskTimer(LegendaryRPG.getInstance(), () -> {
+                homingArrows.put(ar.getUniqueId(), new Tuple<>(Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                     ar.setVelocity(le.getLocation().toVector().subtract(ar.getLocation().toVector()).normalize().multiply(bulletSpeed));
                 }, 10, 2), ar));
             } catch (Exception ignored) {}
-            Bukkit.getScheduler().runTaskLater(LegendaryRPG.getInstance(), () -> ar.remove(), (long) (20 * bulletDeletionTime));
+            Bukkit.getScheduler().runTaskLater(plugin, () -> ar.remove(), (long) (20 * bulletDeletionTime));
             Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, ar));
         });
     }

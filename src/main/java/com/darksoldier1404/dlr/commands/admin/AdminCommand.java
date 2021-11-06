@@ -2,7 +2,7 @@ package com.darksoldier1404.dlr.commands.admin;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.utils.WeaponLoader;
-import com.darksoldier1404.dlr.weapon.obj.gun.AbstractGun;
+import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -72,7 +72,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 if(plugin.getWeapons().containsKey(args[2])) {
                     String type = plugin.getRawWeapons().get(args[2]).getString("WeaponType");
                     if(type.equals("GUN")) {
-                        AbstractGun gun = (AbstractGun) plugin.getWeapons().get(args[2]);
+                        GunImpl gun = (GunImpl) plugin.getWeapons().get(args[2]);
                         ItemStack item = gun.getItemStack();
                         Bukkit.getPlayer(args[3]).getInventory().addItem(item);
                         return false;

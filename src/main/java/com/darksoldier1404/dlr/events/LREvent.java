@@ -4,6 +4,7 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
 import com.darksoldier1404.dlr.events.fire.BulletLaunchedEvent;
 import com.darksoldier1404.dlr.utils.DamageUtils;
+import com.darksoldier1404.dlr.utils.NBT;
 import com.darksoldier1404.dlr.utils.ParticleUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -50,16 +51,18 @@ public class LREvent implements Listener {
             // todo :  렉 해결하기
             Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
                 Location loc = e.getLastLocation();
-                ParticleUtil.sphere(loc, 5, 15, Particle.SOUL_FIRE_FLAME);
-                loc.getNearbyEntities(5, 5, 5).forEach(o -> {
-                    if(o instanceof LivingEntity le && !(o instanceof Player)) {
-                        try{
-                            DamageUtils.damage(e.getArrow(), le);
-                        }catch (Exception ex) {
-                            ex.printStackTrace();
+                if (e.getArrow().getMetadata("isExplosiveBullet").get(0).asBoolean()) {
+                    ParticleUtil.sphere(loc, 5, 15, Particle.SOUL_FIRE_FLAME);
+                    loc.getNearbyEntities(5, 5, 5).forEach(o -> {
+                        if(o instanceof LivingEntity le && !(o instanceof Player)) {
+                            try{
+                                DamageUtils.damage(e.getArrow(), le);
+                            }catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
         }catch (Exception ignored) {}
     }
