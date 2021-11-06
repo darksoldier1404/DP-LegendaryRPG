@@ -131,7 +131,7 @@ public class GunFireLogic implements Listener {
             ar.setMetadata("gravityDuration", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityDuration").replace('"', ' ').trim())));
             ar.setMetadata("gravityPower", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityPower").replace('"', ' ').trim())));
             ar.setMetadata("gravityDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "gravityDamage").replace('"', ' ').trim())));
-            ar.setMetadata("isReversal", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "isReversal").replace('"', ' ').trim())));
+            ar.setMetadata("isReversal", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isReversal").replace('"', ' ').trim()));
         }
         // explosive
         if(NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim().equals("true")) {
