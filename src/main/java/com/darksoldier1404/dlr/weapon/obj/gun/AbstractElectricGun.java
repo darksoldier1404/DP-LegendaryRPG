@@ -4,6 +4,7 @@ import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ElectricBullet;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class AbstractElectricGun extends AbstractGun implements ElectricBullet {
+    private boolean isElectricBullet;
     private float chainRange;
     private float maxChainRange;
     private double chainDamage;
@@ -11,9 +12,20 @@ public class AbstractElectricGun extends AbstractGun implements ElectricBullet {
 
     public AbstractElectricGun(YamlConfiguration data) {
         super(data);
-        this.chainRange = (float) data.getDouble("chainRange");
-        this.maxChainRange = (float) data.getDouble("maxChainRange");
-        this.chainDamage = data.getDouble("chainDamage");
+        this.isElectricBullet = data.getBoolean("IsElectricBullet");
+        this.chainRange = (float) data.getDouble("ChainRange");
+        this.maxChainRange = (float) data.getDouble("MaxChainRange");
+        this.chainDamage = data.getDouble("ChainDamage");
+    }
+
+    @Override
+    public boolean isElectricBullet() {
+        return isElectricBullet;
+    }
+
+    @Override
+    public void setElectricBullet(boolean electricBullet) {
+        isElectricBullet = electricBullet;
     }
 
     @Override

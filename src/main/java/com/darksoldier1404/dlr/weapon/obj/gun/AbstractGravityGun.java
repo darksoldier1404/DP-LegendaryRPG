@@ -4,6 +4,7 @@ import com.darksoldier1404.dlr.weapon.obj.gun.bullets.GravityBullet;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class AbstractGravityGun extends AbstractGun implements GravityBullet {
+    private boolean isGravityBullet;
     private float gravityRange;
     private float gravityDuration;
     private float gravityPower;
@@ -12,11 +13,22 @@ public class AbstractGravityGun extends AbstractGun implements GravityBullet {
 
     public AbstractGravityGun(YamlConfiguration data) {
         super(data);
-        this.gravityRange = data.getInt("gravityRange");
-        this.gravityDuration = data.getInt("gravityDuration");
-        this.gravityPower = data.getInt("gravityPower");
-        this.isReversal = data.getBoolean("isReversal");
-        this.gravityDamage = data.getDouble("gravityDamage");
+        isGravityBullet = data.getBoolean("IsGravityBullet");
+        this.gravityRange = (float) data.getDouble("GravityRange");
+        this.gravityDuration = (float) data.getDouble("GravityDuration");
+        this.gravityPower = (float) data.getDouble("GravityPower");
+        this.isReversal = data.getBoolean("IsReversal");
+        this.gravityDamage = data.getDouble("GravityDamage");
+    }
+
+    @Override
+    public boolean isGravityBullet() {
+        return isGravityBullet;
+    }
+
+    @Override
+    public void setGravityBullet(boolean gravityBullet) {
+        isGravityBullet = gravityBullet;
     }
 
     @Override

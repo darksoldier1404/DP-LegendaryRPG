@@ -34,7 +34,10 @@ public class WeaponLoader {
                         }
                         String type = w.getString("WeaponType");
                         String name = w.getString("DisplayName");
+                        String bulletType = w.getString("BulletType");
                         if(type.equals("GUN")) {
+
+
                             plugin.getWeapons().put(name, new AbstractGun(w));
                             plugin.getRawWeapons().put(name, w);
                             plugin.getLogger().info("Loaded weapon: " + name);

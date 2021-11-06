@@ -1,6 +1,10 @@
 package com.darksoldier1404.dlr.weapon.obj.gun.bullets;
 
 public interface GravityBullet {
+    boolean isGravityBullet();
+
+    void setGravityBullet(boolean gravityBullet);
+
     float getGravityRange();
 
     float getGravityDuration();
