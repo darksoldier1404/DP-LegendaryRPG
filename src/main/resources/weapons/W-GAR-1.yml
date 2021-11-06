@@ -32,13 +32,22 @@ TriggerType: "AUTO"
 #BURST-AT-ONCE: 3
 
 # 정확도 (1~1000) 1에 가까울수록 더 정확하게 발사됩니다.
-Accuracy: 15
+Accuracy: 1
 
 # 해당 총이 사용하게될 총알의 종류.
 AmmoType: Rifle
 
+# 해당 총이 발사하는 총알의 타입
+# NORMAL, HOMING, EXPLOSIVE, PENETRATING, CHAIN, LASER
+
+BulletType: HOMING
+
+# --- HOMING ONLY ---
+# 총알이 나간뒤 몇초뒤에 적을 찾아 날아갈지를 정합니다.
+START_HOMING_DELAY: 1
+
 # 총알 속도 (벡터의 멀티플라이어 배수입니다.)
-BulletSpeed: 5.7
+BulletSpeed: 5.5
 
 # 연사력 (최대 20, 1초당 발사되는 총알의 수)
 FireRate: 13.3
@@ -58,7 +67,40 @@ ReloadTime: 2.4
 # * 주의 * 멀티샷의 최소값은 무조건 1이여야합니다.
 # 모드나 다른 외부의 효과로 인하여 이론상 멀티샷이 1 이하가 되어도 무조건 1로 고정됩니다.
 # 1 = DEFAULT
-MultiShot: 1.3
+MultiShot: 10.7
+
+# --- After Bullet Hited ---
+# 총알이 적이나 블럭에 닿으면 어떤 추가설정을 할지 정합니다.
+# 전부 사용해도 상관 없습니다. (렉을 유발시킬뿐...)
+
+# [ 폭발성 총알 ]
+IsExplosiveBullet: true
+# 폭발 반경
+ExplosionRange: 3
+# 폭발 데미지
+ExplosionDamage: 20
+
+# [ 주변 적을 하나씩 감전시키는 총알 ]
+IsElectricChainBullet: true
+# 총알로부터 적을 감지하는 범위 & 감전된 적을 추가로 감전시킬 수 있는 거리
+ChainRange: 5
+# 총알로부터 감전시킬 수 있는 최대 반경
+MaxChainRange: 30
+# 체인 데미지
+ChainDamage: 16.5
+
+# [ 중력 총알 ]
+IsGravityBullet: true
+# 적을 끌어들일 수 있는 반경
+GravityRange: 7
+# 지속 시간 (초단위)
+GravityDuration: 2
+# 중력의 위력 (벡터값의 멀티플라이어에 들어가는 값입니다.)
+GravityPower: 2
+# 중력을 반전 시킬지 정합니다. true = 적을 밀어냅니다. false = 적을 끌어당깁니다.
+IsReversal: false
+# 적이 받는 총 중력 데미지
+GravityDamage: 21
 
 # --- GLOBAL VARS ---
 
@@ -90,7 +132,7 @@ Heat: 5
 # 치명타 확률
 # EX) CriticalChance: 135 = 100% 치명타 -> 35% 추가 치명타 = (35% 추가 치명타가 터질경우)
 # 데미지가 2배가 됩니다.
-CriticalChance: 15.5
+CriticalChance: 300
 
 # 치명타 배수
 CriticalAmount: 1.5
@@ -99,7 +141,7 @@ CriticalAmount: 1.5
 StatusChance: 10
 
 # 총알이 발사된 후 삭제되기까지 걸리는 시간 (초 단위)
-BulletDeletionTime: 2
+BulletDeletionTime: 7
 
 # 제작 레시피
 Craft:

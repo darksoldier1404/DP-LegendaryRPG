@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.weapon.obj.gun;
 
 import com.darksoldier1404.dlr.weapon.obj.Weapon;
+import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 
 @SuppressWarnings("unused")
@@ -15,6 +16,8 @@ public interface Gun extends Weapon {
 
     float getBulletSpeed();
 
+    BulletType getBulletType();
+
     float getFireRate();
 
     int getMagazineSize();
@@ -22,6 +25,8 @@ public interface Gun extends Weapon {
     int getCurrentMagazineSize();
 
     int getMaxAmmo();
+
+    int getCurrentAmmo();
 
     float getReloadTime();
 
@@ -37,6 +42,8 @@ public interface Gun extends Weapon {
 
     void setBulletSpeed(float bulletSpeed);
 
+    void setBulletType(BulletType bulletType);
+
     void setAmmoType(String ammoType);
 
     void setFireRate(float fireRate);
@@ -47,7 +54,7 @@ public interface Gun extends Weapon {
 
     void setMaxAmmo(int maxAmmo);
 
-    void setCurrentMaxAmmo(int currentMaxAmmo);
+    void setCurrentAmmo(int currentAmmo);
 
     void setReloadTime(float reloadTime);
 

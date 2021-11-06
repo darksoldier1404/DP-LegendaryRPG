@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.events.fire;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -8,22 +9,29 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("all")
-public class GunFireEvent extends Event {
+public class BulletHitedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private final Player shooter;
-    private final ItemStack gun;
+    private final Arrow arrow;
+    private final Location lastLocation;
 
-    public GunFireEvent(final Player shooter, final ItemStack gun) {
-        this.shooter = shooter;
-        this.gun = gun;
+    public BulletHitedEvent(final Arrow arrow) {
+        this.shooter = (Player) arrow.getShooter();
+        this.arrow = arrow;
+        this.lastLocation = arrow.getLocation();
+
     }
 
     public Player getShooter() {
         return shooter;
     }
 
-    public ItemStack getGun() {
-        return gun;
+    public Arrow getArrow() {
+        return arrow;
+    }
+
+    public Location getLastLocation() {
+        return lastLocation;
     }
 
     @Override
