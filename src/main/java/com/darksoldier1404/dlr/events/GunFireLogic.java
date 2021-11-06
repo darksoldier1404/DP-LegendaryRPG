@@ -175,7 +175,6 @@ public class GunFireLogic implements Listener {
             ar.setVelocity(ar.getVelocity().add(new Vector(x, y + 0.7, z)));
             setMetadata(ar, item, damage);
             //todo 상태이상 추가
-
             try {
                 LivingEntity le = les.get(new Random().nextInt(les.size()));
                 homingArrows.put(ar.getUniqueId(), new Tuple<>(Bukkit.getScheduler().runTaskTimer(plugin, () -> {
