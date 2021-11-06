@@ -4,6 +4,10 @@ import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
 import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ElectricBullet;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ExplosiveBullet;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.GravityBullet;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.HomingBullet;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class AbstractGun implements Gun {
+public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet {
     //weapon
     private String displayName;
     private int requiredLevel;
@@ -54,8 +58,31 @@ public class AbstractGun implements Gun {
     private float reloadTime;
     private float multiShot;
     private byte bulletDeletionTime;
+    // bullet type
+    // homing
+    private boolean isHomingBullet;
+    private float startHomingDelay;
+    // electric
+    private boolean isElectricBullet;
+    private float chainRange;
+    private float maxChainRange;
+    private double chainDamage;
+    // gravity
+    private boolean isGravityBullet;
+    private float gravityRange;
+    private float gravityDuration;
+    private float gravityPower;
+    private double gravityDamage;
+    private boolean isReversal;
+    // explosive
+    private boolean isExplosiveBullet;
+    private float explosionRange;
+    private double explosionDamage;
+    private float explosionKnockBack;
 
-    public AbstractGun(YamlConfiguration data) {
+
+    public GunImpl(YamlConfiguration data) {
+        // weapon
         this.displayName = data.getString("DisplayName");
         this.requiredLevel = data.getInt("RequiredLevel");
         this.material = Material.getMaterial(data.getString("Material"));
@@ -76,6 +103,7 @@ public class AbstractGun implements Gun {
         this.magneticDamage = data.getDouble("Magnetic");
         this.radiationDamage = data.getDouble("Radiation");
         this.virusDamage = data.getDouble("Virus");
+        // gun
         this.triggerType = TriggerType.valueOf(data.getString("TriggerType"));
         this.burstAtOnce = (byte) data.getInt("BurstAtOnce");
         this.accuracy = data.getInt("Accuracy");
@@ -88,6 +116,27 @@ public class AbstractGun implements Gun {
         this.reloadTime = (float) data.getDouble("ReloadTime");
         this.multiShot = (float) data.getDouble("MultiShot");
         this.bulletDeletionTime = (byte) data.getInt("BulletDeletionTime");
+        // bullet type
+        // homing
+        this.isHomingBullet = data.getBoolean("IsHomingBullet");
+        this.startHomingDelay = (float) data.getDouble("StartHomingDelay");
+        // electric
+        this.isElectricBullet = data.getBoolean("IsElectricBullet");
+        this.chainRange = (float) data.getDouble("ChainRange");
+        this.maxChainRange = (float) data.getDouble("MaxChainRange");
+        this.chainDamage = data.getDouble("ChainDamage");
+        // gravity
+        this.isGravityBullet = data.getBoolean("IsGravityBullet");
+        this.gravityRange = (float) data.getDouble("GravityRange");
+        this.gravityDuration = (float) data.getDouble("GravityDuration");
+        this.gravityPower = (float) data.getDouble("GravityPower");
+        this.gravityDamage = data.getDouble("GravityDamage");
+        this.isReversal = data.getBoolean("IsReversal");
+        // explosive
+        this.isExplosiveBullet = data.getBoolean("IsExplosiveBullet");
+        this.explosionRange = (float) data.getDouble("ExplosionRange");
+        this.explosionDamage = data.getDouble("ExplosionDamage");
+        this.explosionKnockBack = (float) data.getDouble("ExplosionKnockBack");
         currentMagazineSize = magazineSize;
     }
 
@@ -577,4 +626,165 @@ public class AbstractGun implements Gun {
         this.bulletDeletionTime = bulletDeletionTime;
     }
 
+    // bullet types
+
+
+    @Override
+    public boolean isHomingBullet() {
+        return isHomingBullet;
+    }
+
+    @Override
+    public void setHomingBullet(boolean homingBullet) {
+        isHomingBullet = homingBullet;
+    }
+
+    @Override
+    public float getStartHomingDelay() {
+        return startHomingDelay;
+    }
+
+    @Override
+    public void setStartHomingDelay(float startHomingDelay) {
+        this.startHomingDelay = startHomingDelay;
+    }
+
+    @Override
+    public boolean isElectricBullet() {
+        return isElectricBullet;
+    }
+
+    @Override
+    public void setElectricBullet(boolean electricBullet) {
+        isElectricBullet = electricBullet;
+    }
+
+    @Override
+    public float getChainRange() {
+        return chainRange;
+    }
+
+    @Override
+    public void setChainRange(float chainRange) {
+        this.chainRange = chainRange;
+    }
+
+    @Override
+    public float getMaxChainRange() {
+        return maxChainRange;
+    }
+
+    @Override
+    public void setMaxChainRange(float maxChainRange) {
+        this.maxChainRange = maxChainRange;
+    }
+
+    @Override
+    public double getChainDamage() {
+        return chainDamage;
+    }
+
+    @Override
+    public void setChainDamage(double chainDamage) {
+        this.chainDamage = chainDamage;
+    }
+
+    @Override
+    public boolean isGravityBullet() {
+        return isGravityBullet;
+    }
+
+    @Override
+    public void setGravityBullet(boolean gravityBullet) {
+        isGravityBullet = gravityBullet;
+    }
+
+    @Override
+    public float getGravityRange() {
+        return gravityRange;
+    }
+
+    @Override
+    public void setGravityRange(float gravityRange) {
+        this.gravityRange = gravityRange;
+    }
+
+    @Override
+    public float getGravityDuration() {
+        return gravityDuration;
+    }
+
+    @Override
+    public void setGravityDuration(float gravityDuration) {
+        this.gravityDuration = gravityDuration;
+    }
+
+    @Override
+    public float getGravityPower() {
+        return gravityPower;
+    }
+
+    @Override
+    public void setGravityPower(float gravityPower) {
+        this.gravityPower = gravityPower;
+    }
+
+    @Override
+    public double getGravityDamage() {
+        return gravityDamage;
+    }
+
+    @Override
+    public void setGravityDamage(double gravityDamage) {
+        this.gravityDamage = gravityDamage;
+    }
+
+    @Override
+    public boolean isReversal() {
+        return isReversal;
+    }
+
+    @Override
+    public void setReversal(boolean reversal) {
+        isReversal = reversal;
+    }
+
+    @Override
+    public boolean isExplosiveBullet() {
+        return isExplosiveBullet;
+    }
+
+    public void setIsExplosiveBullet(boolean explosiveBullet) {
+        isExplosiveBullet = explosiveBullet;
+    }
+
+    @Override
+    public float getExplosionRange() {
+        return explosionRange;
+    }
+
+    @Override
+    public void setExplosionRange(float explosionRange) {
+        this.explosionRange = explosionRange;
+    }
+
+    @Override
+    public double getExplosionDamage() {
+        return explosionDamage;
+    }
+
+    @Override
+    public void setExplosionDamage(double explosionDamage) {
+        this.explosionDamage = explosionDamage;
+    }
+
+    @Override
+    public float getExplosionKnockBack() {
+        return explosionKnockBack;
+    }
+
+    @Override
+    public void setExplosionKnockBack(float explosionKnockBack) {
+        this.explosionKnockBack = explosionKnockBack;
+    }
 }

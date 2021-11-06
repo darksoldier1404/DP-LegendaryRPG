@@ -1,8 +1,11 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
+import net.minecraft.core.particles.Particles;
+import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -17,7 +20,14 @@ import static java.lang.Math.sin;
 public class ParticleUtil {
     private final static LegendaryRPG plugin = LegendaryRPG.getInstance();
     private final static BukkitScheduler scheduler = plugin.getServer().getScheduler();
-    
+
+    public static void sendParticlePacket(Location loc) {
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(Particles.D, false, loc.getX(), loc.getY(), loc.getZ(), 0, 0, 0, 0, 0);
+        for (Player p : loc.getWorld().getPlayers()) {
+            ((CraftPlayer)p).getHandle().b.sendPacket(packet);
+        }
+    }
+
     public static void createParticle(Entity p, Particle pp, Location loc, double ox, double oy, double oz, int count,
                                       double extra) {
         scheduler.runTask(plugin, () -> p.getWorld().spawnParticle(pp, loc.getX(), loc.getY(), loc.getZ(), count, ox,
@@ -246,7 +256,10 @@ public class ParticleUtil {
                     double dy = radius * sin(Math.toRadians(elevationAngle))
                             * sin(Math.toRadians(polarAnge));
                     double dz = radius * cos(Math.toRadians(elevationAngle));
-                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, 0, 0, 0);
+//                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, 0, 0, 0);
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        sendParticlePacket(middle.clone().add(dx, dy, dz));
+                    });
                 }
             }
         });

@@ -37,15 +37,6 @@ Accuracy: 1
 # 해당 총이 사용하게될 총알의 종류.
 AmmoType: Rifle
 
-# 해당 총이 발사하는 총알의 타입
-# NORMAL, HOMING, EXPLOSIVE, PENETRATING, CHAIN, LASER
-
-BulletType: HOMING
-
-# --- HOMING ONLY ---
-# 총알이 나간뒤 몇초뒤에 적을 찾아 날아갈지를 정합니다.
-START_HOMING_DELAY: 1
-
 # 총알 속도 (벡터의 멀티플라이어 배수입니다.)
 BulletSpeed: 5.5
 
@@ -69,9 +60,21 @@ ReloadTime: 2.4
 # 1 = DEFAULT
 MultiShot: 10.7
 
+# --- Before Bullet Hited ---
+
+# 해당 총이 발사하는 총알의 타입
+# NORMAL, HOMING, EXPLOSIVE, PENETRATING, CHAIN, LASER
+
+BulletType: HOMING
+
 # --- After Bullet Hited ---
 # 총알이 적이나 블럭에 닿으면 어떤 추가설정을 할지 정합니다.
 # 전부 사용해도 상관 없습니다. (렉을 유발시킬뿐...)
+
+# [ 미사일 총알 ]
+IsHomingBullet: true
+# 적을 감지하는데 걸리는 시간입니다. (초단위, 총알의 속도가 빠를수록 수치를 낮게 설정하는것을 권장드립니다. )
+StartHomingDelay: 1
 
 # [ 폭발성 총알 ]
 IsExplosiveBullet: true
@@ -79,6 +82,8 @@ IsExplosiveBullet: true
 ExplosionRange: 3
 # 폭발 데미지
 ExplosionDamage: 20
+# 폭발시 적을 밀어내는 정도 (벡터값의 멀티플라이어에 들어가는 값입니다.)
+ExplosionKnockBack: 1
 
 # [ 주변 적을 하나씩 감전시키는 총알 ]
 IsElectricChainBullet: true

@@ -5,7 +5,7 @@ import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 
 @SuppressWarnings("unused")
-public interface Gun extends Weapon {
+public interface Gun extends Weapon{
     TriggerType getTriggerType();
 
     byte getBurstAtOnce();

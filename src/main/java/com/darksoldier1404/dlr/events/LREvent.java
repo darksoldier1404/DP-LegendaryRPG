@@ -4,11 +4,9 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
 import com.darksoldier1404.dlr.events.fire.BulletLaunchedEvent;
 import com.darksoldier1404.dlr.utils.DamageUtils;
+import com.darksoldier1404.dlr.utils.NBT;
 import com.darksoldier1404.dlr.utils.ParticleUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,16 +48,24 @@ public class LREvent implements Listener {
             // todo :  렉 해결하기
             Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
                 Location loc = e.getLastLocation();
-                ParticleUtil.sphere(loc, 5, 15, Particle.SOUL_FIRE_FLAME);
-                loc.getNearbyEntities(5, 5, 5).forEach(o -> {
-                    if(o instanceof LivingEntity le && !(o instanceof Player)) {
-                        try{
-                            DamageUtils.damage(e.getArrow(), le);
-                        }catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
+                if(e.getArrow().hasMetadata("isExplosiveBullet")) {
+                    if (e.getArrow().getMetadata("isExplosiveBullet").get(0).asBoolean()) {
+                        // get explosion range from arrow as float
+                        float range = e.getArrow().getMetadata("explosionRange").get(0).asFloat();
+                        ParticleUtil.sphere(loc, range, 15, Particle.SOUL_FIRE_FLAME);
+                        ParticleUtil.createParticle(Particle.EXPLOSION_NORMAL, loc, range, range, range, 0, 0);
+                        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 0.6F, 1.4F);
+                        loc.getNearbyEntities(range, range, range).forEach(o -> {
+                            if(o instanceof LivingEntity le && !(o instanceof Player)) {
+                                try{
+                                    DamageUtils.damage(e.getArrow(), le);
+                                }catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        });
                     }
-                });
+                }
             });
         }catch (Exception ignored) {}
     }
