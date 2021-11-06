@@ -113,19 +113,19 @@ public class GunFireLogic implements Listener {
         ar.setMetadata("criticalAmount", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
         // bullet type
         // homing
-        if(ar.getMetadata("isHomingBullet").get(0).asBoolean()) {
+        if(NBT.getStringTag(item, "IsHomingBullet").replace('"', ' ').trim().equals("true")) {
             ar.setMetadata("isHomingBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim()));
             ar.setMetadata("startHomingDelay", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "startHomingDelay").replace('"', ' ').trim())));
         }
         // electric
-        if(ar.getMetadata("isElectricBullet").get(0).asBoolean()) {
+        if(NBT.getStringTag(item, "IsElectricBullet").replace('"', ' ').trim().equals("true")) {
             ar.setMetadata("isElectricBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim()));
             ar.setMetadata("chainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "chainRange").replace('"', ' ').trim())));
             ar.setMetadata("maxChainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "maxChainRange").replace('"', ' ').trim())));
             ar.setMetadata("chainDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "chainDamage").replace('"', ' ').trim())));
         }
         // gravity
-        if(ar.getMetadata("isGravityBullet").get(0).asBoolean()) {
+        if(NBT.getStringTag(item, "IsGravityBullet").replace('"', ' ').trim().equals("true")) {
             ar.setMetadata("isGravityBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim()));
             ar.setMetadata("gravityRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityRange").replace('"', ' ').trim())));
             ar.setMetadata("gravityDuration", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityDuration").replace('"', ' ').trim())));
@@ -134,7 +134,7 @@ public class GunFireLogic implements Listener {
             ar.setMetadata("isReversal", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "isReversal").replace('"', ' ').trim())));
         }
         // explosive
-        if(ar.getMetadata("isExplosiveBullet").get(0).asBoolean()) {
+        if(NBT.getStringTag(item, "IsExplosiveBullet").replace('"', ' ').trim().equals("true")) {
             ar.setMetadata("isExplosiveBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim()));
             ar.setMetadata("explosionRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionRange").replace('"', ' ').trim())));
             ar.setMetadata("explosionDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "explosionDamage").replace('"', ' ').trim())));
