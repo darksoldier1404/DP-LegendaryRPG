@@ -23,6 +23,7 @@ public class ItemStackNBTUtil {
         totalDamage += Double.parseDouble(NBT.getStringTag(item, "virusDamage").replace('"', ' ').trim());
         return totalDamage;
     }
+    // todo: 총알의 타입별로 nbt 설정 나누기
 
     public static ItemStack setNBTValues(ItemStack item, AbstractGun gun) {
         item = NBT.setTag(item, "displayName", gun.getDisplayName());
@@ -51,6 +52,7 @@ public class ItemStackNBTUtil {
         item = NBT.setTag(item, "ammoType", gun.getAmmoType());
         item = NBT.setTag(item, "bulletSpeed", gun.getBulletSpeed());
         item = NBT.setTag(item, "bulletType", gun.getBulletType());
+        item = NBT.setTag(item, "startHomingDelay", gun.getBulletType());
         item = NBT.setTag(item, "fireRate", gun.getFireRate());
         item = NBT.setTag(item, "magazineSize", gun.getMagazineSize());
         item = NBT.setTag(item, "currentMagazineSize", gun.getMagazineSize());
