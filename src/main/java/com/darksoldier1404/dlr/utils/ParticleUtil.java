@@ -24,7 +24,7 @@ public class ParticleUtil {
     public static void sendParticlePacket(Location loc) {
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(Particles.D, false, loc.getX(), loc.getY(), loc.getZ(), 0, 0, 0, 0, 0);
         for (Player p : loc.getWorld().getPlayers()) {
-            ((CraftPlayer)p).getHandle().b.sendPacket(packet);
+            ((CraftPlayer) p).getHandle().b.sendPacket(packet);
         }
     }
 
@@ -256,10 +256,10 @@ public class ParticleUtil {
                     double dy = radius * sin(Math.toRadians(elevationAngle))
                             * sin(Math.toRadians(polarAnge));
                     double dz = radius * cos(Math.toRadians(elevationAngle));
-//                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, 0, 0, 0);
-                    Bukkit.getScheduler().runTask(plugin, () -> {
-                        sendParticlePacket(middle.clone().add(dx, dy, dz));
-                    });
+                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, 0, 0, 0);
+//                    Bukkit.getScheduler().runTask(plugin, () -> {
+//                        sendParticlePacket(middle.clone().add(dx, dy, dz));
+//                    });
                 }
             }
         });

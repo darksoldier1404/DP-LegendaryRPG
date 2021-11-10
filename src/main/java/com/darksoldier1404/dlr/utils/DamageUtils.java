@@ -32,6 +32,7 @@ public class DamageUtils {
 //                System.out.println("arrow has no damage");
 //                return;
 //            }
+            if(!damager.hasMetadata("damage")) return;
             double damage = damager.getMetadata("damage").get(0).asDouble();
             float criticalChance = damager.getMetadata("criticalChance").get(0).asFloat();
             float criticalAmount = damager.getMetadata("criticalAmount").get(0).asFloat();
