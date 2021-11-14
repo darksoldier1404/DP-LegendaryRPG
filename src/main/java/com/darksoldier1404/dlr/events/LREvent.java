@@ -18,6 +18,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -92,12 +93,12 @@ public class LREvent implements Listener {
                         }
                     });
                     // get nearest entity from loc in list in range
-                    int maxTarget = 10;
+                    int maxTarget = 100;
                     LivingEntity nearest = null;
                     for (int i = 0; i < maxTarget; i++) {
                         double nearestDistance = Double.MAX_VALUE;
                         for (LivingEntity le : list) {
-                            if(!alreadyChained.containsKey(le.getUniqueId())) {
+                            if (!alreadyChained.containsKey(le.getUniqueId())) {
                                 double distance = le.getLocation().distance(cl);
                                 if (distance < nearestDistance && distance < range) {
                                     nearest = le;
@@ -105,7 +106,7 @@ public class LREvent implements Listener {
                                 }
                             }
                         }
-                        if(nearest != null) {
+                        if (nearest != null) {
                             if (!alreadyChained.containsKey(nearest.getUniqueId())) {
                                 alreadyChained.put(nearest.getUniqueId(), new HashSet<>());
                                 DamageUtils.damage(ar, nearest);
@@ -116,6 +117,21 @@ public class LREvent implements Listener {
                     }
                     alreadyChained.clear();
                 }
+            }
+            if (ar.hasMetadata("isGravityBullet")) {
+                if (ar.getMetadata("isGravityBullet").get(0).asBoolean()) {
+                    Location gl = loc.clone();
+                    float range = ar.getMetadata("gravityRange").get(0).asFloat();
+                    float duration = ar.getMetadata("gravityDuration").get(0).asFloat();
+                    float power = ar.getMetadata("gravityPower").get(0).asFloat();
+                    BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> gl.getNearbyEntities(range, range, range).forEach(o -> {
+                        if (o instanceof LivingEntity le && !(o instanceof Player)) {
+                            le.setVelocity(le.getVelocity().add(le.getLocation().toVector().subtract(gl.toVector()).normalize().multiply(power)));
+                        }
+                    }), 0L, 10L);
+                    Bukkit.getScheduler().runTaskLater(plugin, task::cancel, (long) (duration * 20));
+                }
+
             }
         } catch (Exception ignored) {
         }
