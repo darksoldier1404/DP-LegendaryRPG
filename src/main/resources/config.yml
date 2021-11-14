@@ -2,6 +2,48 @@ Settings:
   # 해당 플러그인이 보내는 메시지의 PREFIX 설정
   prefix: "&f[ &eDLR &f] "
 
+  #---------- UI 설정 ----------#
+
+  # 스킬 슬롯, 무기슬롯 고정 또는 자유
+  # true = 고정, false = 자유
+  ui-immovable: true
+
+  # true 일경우의 설정
+
+  # 위치를 -1로 설정할 경우 빈 슬롯이 됩니다.
+  # 슬롯 : 0 ~ 8
+  #1번 스킬 위치
+  ui-skill-1: 0
+  #2번 스킬 위치
+  ui-skill-2: 1
+  #3번 스킬 위치
+  ui-skill-3: 2
+  #4번 스킬 위치
+  ui-skill-4: 3
+  #5번 스킬 위치
+  ui-skill-5: 4
+  #6번 스킬 위치
+  ui-skill-6: 5
+  #7번 스킬 위치
+  ui-skill-7: 6
+  #8번 스킬 위치
+  ui-skill-8: 7
+
+
+  # 무기 변경 방식 - 권장 설정은 true 입니다.
+  # true = 주 무기, 보조 무기, 근접 무기가 순서대로 돌아가며 변경됩니다.
+  # false = 주 무기, 보조 무기, 근접 무기의 슬롯을 지정해줘야 합니다.
+  ui-weapon-switch: true
+
+  # true 일경우의 설정
+
+  ui-weapon: 8
+
+  # false 일경우의 설정
+#  ui-primary-weapon: 0
+#  ui-secondary-weapon: 1
+#  ui-melee-weapon: 2
+
   #---------- 커맨드 설정 ----------#
 
   # /스포너

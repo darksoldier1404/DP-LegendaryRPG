@@ -1,0 +1,48 @@
+Container:
+  Name: 3개중택1
+  # TYPES: C-1, C-2, C-3 = 택1, 택2, 택3 || C- 다음의 숫자는 최대 9개까지 가능합니다.
+  Type: C-3
+  Description: 아레 리스트에서 랜덤의 확률로 3개를 유저에게 보여준다. 유저는 3개중 1개의 보상을 선택하여 받는다.
+  Reward:
+    # TYPES: ITEM, MONEY, EXP, COUPON
+    - Type: "ITEM"
+        Chance: 20
+        Material: "DIAMOND_SWORD"
+    - Type: "MONEY"
+        Chance: 20
+        Amount: 100
+    - Type: "EXP"
+        Chance: 20
+        Amount: 100
+    - Type: "COUPON"
+        Chance: 5
+        Discount: 20
+    - Type: "COUPON"
+        Chance: 5
+        Discount: 25
+    - Type: "COUPON"
+        Chance: 5
+        Discount: 50
+    - Type: "COUPON"
+        Chance: 5
+        Discount: 75
+    - Type: "MATERIAL"
+        Chance: 20
+        Name: "페라이트"
+        Amount: 100
+    - Type: "MATERIAL"
+        Chance: 20
+        Name: "루비도"
+        Amount: 70
+    - Type: "MATERIAL"
+        Chance: 20
+        Name: "갈륨"
+        Amount: 5
+    - Type: "MATERIAL"
+        Chance: 20
+        Name: "뉴로드"
+        Amount: 5
+    - Type: "MATERIAL"
+        Chance: 20
+        Name: "아르곤 크리스탈"
+        Amount: 100

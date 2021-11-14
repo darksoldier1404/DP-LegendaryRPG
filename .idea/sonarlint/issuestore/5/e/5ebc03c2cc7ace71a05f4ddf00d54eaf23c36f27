@@ -1,0 +1,7 @@
+
+t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ü”‚ıÿÿÿÿ
+P
+java:S1118	":Add a private constructor to hide the implicit public one.( ¡©“
+N	java:S106"9Replace this use of System.out or System.err by a logger.(Â†¡š
+a
+java:S1192"KDefine a constant instead of duplicating this literal "config.yml" 3 times.(½¯ù
