@@ -24,7 +24,7 @@ public class ParticleUtil {
     public static void sendParticlePacket(Location loc) {
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(Particles.D, false, loc.getX(), loc.getY(), loc.getZ(), 0, 0, 0, 0, 0);
         for (Player p : loc.getWorld().getPlayers()) {
-            ((CraftPlayer)p).getHandle().b.sendPacket(packet);
+            ((CraftPlayer) p).getHandle().b.sendPacket(packet);
         }
     }
 
@@ -177,6 +177,23 @@ public class ParticleUtil {
         });
     }
 
+    public static void around(Location center, double min, double max, double distance, Particle particle, int count,
+                              double extra) {
+        scheduler.runTask(plugin, () -> {
+            for (double d = min; d < max; d += distance) {
+                for (int degree = 0; degree < 360; degree += 5) {
+                    double radians = Math.toRadians(degree);
+                    double x = cos(radians) * d;
+                    double z = sin(radians) * d;
+                    center.add(x, 0, z);
+                    center.getWorld().spawnParticle(particle, center, 1);
+                    createParticle(particle, center, 0, 0, 0, count, extra);
+                    center.subtract(x, 0, z);
+                }
+            }
+        });
+    }
+
     public static void around(Entity p, double min, double max, double distance, Particle particle, int count,
                               double extra) {
         Location location = p.getLocation();
@@ -256,13 +273,33 @@ public class ParticleUtil {
                     double dy = radius * sin(Math.toRadians(elevationAngle))
                             * sin(Math.toRadians(polarAnge));
                     double dz = radius * cos(Math.toRadians(elevationAngle));
-//                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, 0, 0, 0);
-                    Bukkit.getScheduler().runTask(plugin, () -> {
-                        sendParticlePacket(middle.clone().add(dx, dy, dz));
-                    });
+                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, 0, 0, 0);
+//                    Bukkit.getScheduler().runTask(plugin, () -> {
+//                        sendParticlePacket(middle.clone().add(dx, dy, dz));
+//                    });
                 }
             }
         });
+    }
+
+    public static void helix(Location loc, double height, double distance, Particle particle) {
+        double rad;
+        for (double y = height; y >= 0; y -= distance) {
+            rad = y / 3;
+            double x = rad * cos(3 * y);
+            double z = rad * sin(3 * y);
+            double y2 = height - y;
+            Location loc2 = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y2, loc.getZ() + z);
+            loc.getWorld().spawnParticle(particle, loc2, 1);
+        }
+        for (double y = height; y >= 0; y -= distance) {
+            rad = y / 3;
+            double x = -(rad * cos(3 * y));
+            double z = -(rad * sin(3 * y));
+            double y2 = height - y;
+            Location loc2 = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y2, loc.getZ() + z);
+            loc.getWorld().spawnParticle(particle, loc2, 1);
+        }
     }
 
     public static void helix(Location loc, double height, double distance, Color color) {

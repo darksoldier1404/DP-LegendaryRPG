@@ -1,16 +1,15 @@
 package com.darksoldier1404.dlr;
 
-import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.GunFireLogic;
+import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
-import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
 import com.darksoldier1404.dlr.tasks.BulletTask;
 import com.darksoldier1404.dlr.utils.ConfigUtils;
+import com.darksoldier1404.dlr.utils.Metrics;
 import com.darksoldier1404.dlr.utils.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.Weapon;
 import net.minecraft.util.Tuple;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.plugin.PluginManager;
@@ -26,6 +25,7 @@ import java.util.UUID;
 
 @SuppressWarnings("all")
 public class LegendaryRPG extends JavaPlugin {
+    private final int pluginID = 13314;
     private PluginManager pm;
     public static final String prefix = "§f[ §eDLR §f] ";
     private static LegendaryRPG plugin;
@@ -33,8 +33,8 @@ public class LegendaryRPG extends JavaPlugin {
     private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
     private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
     private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
-    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = new HashMap<>();
-    private final Map<UUID, Arrow> firedArrows = new HashMap<>();
+    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = new HashMap<>(); // 발사된 미사일 총알
+    private final Map<UUID, Arrow> firedArrows = new HashMap<>(); // 발사된 모든 총알
 
     public Map<String, YamlConfiguration> getRawWeapons() {
         return rawWeapons;
@@ -68,7 +68,6 @@ public class LegendaryRPG extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("default world name : " + Bukkit.getWorlds().get(0).getName());
         // 아레 플러그인은 이 플러그인과 충돌 가능성이 높으므로 같이 사용이 불가할 수 있습니다.
         // 이외 다른 플러그인중 플레이어의 어트리뷰트 정보를 가져와 사용하는 플러그인은 해당 플러그인을 정식 서버에 사용하기 전에 먼저 테스트를 해보셔야 합니다.
         getServer().getScheduler().runTaskLater(plugin, () -> {
@@ -92,6 +91,7 @@ public class LegendaryRPG extends JavaPlugin {
             }
         }, 40L);
 
+        Metrics metrics = new Metrics(this, pluginID);
         WeaponLoader.saveDefaultWeapons();
         WeaponLoader.loadGuns();
 
@@ -103,7 +103,7 @@ public class LegendaryRPG extends JavaPlugin {
         CommandFunction.commandRegister();
 
         BulletTask.BulletHitTask();
-        BulletTask.BulletListTask();
+//        BulletTask.BulletListTask();
     }
 
     @Override

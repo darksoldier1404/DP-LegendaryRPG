@@ -32,6 +32,7 @@ public class DamageUtils {
 //                System.out.println("arrow has no damage");
 //                return;
 //            }
+            if (!damager.hasMetadata("damage")) return;
             double damage = damager.getMetadata("damage").get(0).asDouble();
             float criticalChance = damager.getMetadata("criticalChance").get(0).asFloat();
             float criticalAmount = damager.getMetadata("criticalAmount").get(0).asFloat();
@@ -46,9 +47,12 @@ public class DamageUtils {
                 damage *= criticalAmount;
                 isCritical = true;
             }
-            vic.setHealth(Math.max(0, vic.getHealth() - damage));
-            vic.setCustomNameVisible(true);
-            vic.setCustomName("체력 : " + (int) vic.getHealth());
+            double finalDamage = damage;
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                vic.setHealth(Math.max(0, vic.getHealth() - finalDamage));
+                vic.setCustomName("체력 : " + (int) vic.getHealth());
+            });
+
             damageCounter(vic, damage, loop, isCritical);
         } catch (Exception e) {
             e.printStackTrace();

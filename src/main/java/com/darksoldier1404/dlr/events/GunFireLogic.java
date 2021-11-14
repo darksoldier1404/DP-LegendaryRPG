@@ -31,7 +31,6 @@ public class GunFireLogic implements Listener {
     private final Random rnd = new Random();
 
 
-
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e) {
         if (NBT.hasTagKey(e.getItemDrop().getItemStack(), "fireRate")) {
@@ -59,7 +58,7 @@ public class GunFireLogic implements Listener {
                 // if while reloading return
                 if (reloading.contains(p.getUniqueId())) return;
                 if (fired.contains(p.getUniqueId())) return;
-                Bukkit.getScheduler().runTask(plugin, () -> {
+//                Bukkit.getScheduler().runTask(plugin, () -> {
                     BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType").replace('"', ' ').trim());
                     float bulletSpeed = Float.parseFloat(NBT.getStringTag(item, "bulletSpeed").replace('"', ' ').trim());
                     float fireRate = Float.parseFloat(NBT.getStringTag(item, "fireRate").replace('"', ' ').trim());
@@ -100,50 +99,53 @@ public class GunFireLogic implements Listener {
                     }
                     p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_SHOOT, 0.6F, 1.6F);
                     Bukkit.getPluginManager().callEvent(new GunFireEvent(p, item));
-                });
+//                });
             }
         }
     }
-    
+
     private void setMetadata(Arrow ar, ItemStack item, double damage) {
-        ar.setMetadata("damage", new FixedMetadataValue(plugin, damage));
-        // critical chance metadata
-        ar.setMetadata("criticalChance", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalChance").replace('"', ' ').trim())));
-        // critical damage metadata
-        ar.setMetadata("criticalAmount", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
-        // bullet type
-        // homing
-        if(NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim().equals("true")) {
-            ar.setMetadata("isHomingBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim()));
-            ar.setMetadata("startHomingDelay", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "startHomingDelay").replace('"', ' ').trim())));
-        }
-        // electric
-        if(NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim().equals("true")) {
-            ar.setMetadata("isElectricBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim()));
-            ar.setMetadata("chainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "chainRange").replace('"', ' ').trim())));
-            ar.setMetadata("maxChainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "maxChainRange").replace('"', ' ').trim())));
-            ar.setMetadata("chainDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "chainDamage").replace('"', ' ').trim())));
-        }
-        // gravity
-        if(NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim().equals("true")) {
-            ar.setMetadata("isGravityBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim()));
-            ar.setMetadata("gravityRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityRange").replace('"', ' ').trim())));
-            ar.setMetadata("gravityDuration", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityDuration").replace('"', ' ').trim())));
-            ar.setMetadata("gravityPower", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityPower").replace('"', ' ').trim())));
-            ar.setMetadata("gravityDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "gravityDamage").replace('"', ' ').trim())));
-            ar.setMetadata("isReversal", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isReversal").replace('"', ' ').trim()));
-        }
-        // explosive
-        if(NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim().equals("true")) {
-            ar.setMetadata("isExplosiveBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim()));
-            ar.setMetadata("explosionRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionRange").replace('"', ' ').trim())));
-            ar.setMetadata("explosionDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "explosionDamage").replace('"', ' ').trim())));
-            ar.setMetadata("explosionKnockBack", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionKnockBack").replace('"', ' ').trim())));
-        }
+//        Bukkit.getScheduler().runTask(plugin, () -> {
+
+            ar.setMetadata("damage", new FixedMetadataValue(plugin, damage));
+            // critical chance metadata
+            ar.setMetadata("criticalChance", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalChance").replace('"', ' ').trim())));
+            // critical damage metadata
+            ar.setMetadata("criticalAmount", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
+            // bullet type
+            // homing
+            if (NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim().equals("true")) {
+                ar.setMetadata("isHomingBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim()));
+                ar.setMetadata("startHomingDelay", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "startHomingDelay").replace('"', ' ').trim())));
+            }
+            // electric
+            if (NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim().equals("true")) {
+                ar.setMetadata("isElectricBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim()));
+                ar.setMetadata("chainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "chainRange").replace('"', ' ').trim())));
+                ar.setMetadata("maxChainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "maxChainRange").replace('"', ' ').trim())));
+                ar.setMetadata("chainDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "chainDamage").replace('"', ' ').trim())));
+            }
+            // gravity
+            if (NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim().equals("true")) {
+                ar.setMetadata("isGravityBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim()));
+                ar.setMetadata("gravityRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityRange").replace('"', ' ').trim())));
+                ar.setMetadata("gravityDuration", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityDuration").replace('"', ' ').trim())));
+                ar.setMetadata("gravityPower", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityPower").replace('"', ' ').trim())));
+                ar.setMetadata("gravityDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "gravityDamage").replace('"', ' ').trim())));
+                ar.setMetadata("isReversal", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isReversal").replace('"', ' ').trim()));
+            }
+            // explosive
+            if (NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim().equals("true")) {
+                ar.setMetadata("isExplosiveBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim()));
+                ar.setMetadata("explosionRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionRange").replace('"', ' ').trim())));
+                ar.setMetadata("explosionDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "explosionDamage").replace('"', ' ').trim())));
+                ar.setMetadata("explosionKnockBack", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionKnockBack").replace('"', ' ').trim())));
+            }
+//        });
     }
 
     private void launchProjectile(Player p, ItemStack item, float bulletSpeed, float bulletDeletionTime, float ac) {
-        Bukkit.getScheduler().runTask(plugin, () -> {
+//        Bukkit.getScheduler().runTask(plugin, () -> {
             Arrow ar = p.launchProjectile(Arrow.class);
             ar.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
             ar.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
@@ -158,11 +160,11 @@ public class GunFireLogic implements Listener {
             //todo 상태이상 추가
             Bukkit.getScheduler().runTaskLater(plugin, () -> ar.remove(), (long) (20 * bulletDeletionTime));
             Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, ar));
-        });
+//        });
     }
 
     private void launchHomingProjectile(Player p, ItemStack item, float bulletSpeed, float bulletDeletionTime, float ac, List<LivingEntity> les) {
-        Bukkit.getScheduler().runTask(plugin, () -> {
+//        Bukkit.getScheduler().runTask(plugin, () -> {
             Arrow ar = p.launchProjectile(Arrow.class);
             ar.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
             ar.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
@@ -179,10 +181,11 @@ public class GunFireLogic implements Listener {
                 LivingEntity le = les.get(new Random().nextInt(les.size()));
                 homingArrows.put(ar.getUniqueId(), new Tuple<>(Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                     ar.setVelocity(le.getLocation().toVector().subtract(ar.getLocation().toVector()).normalize().multiply(bulletSpeed));
-                }, 10, 2), ar));
-            } catch (Exception ignored) {}
+                }, 10, 10), ar));
+            } catch (Exception ignored) {
+            }
             Bukkit.getScheduler().runTaskLater(plugin, () -> ar.remove(), (long) (20 * bulletDeletionTime));
             Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, ar));
-        });
+//        });
     }
 }
