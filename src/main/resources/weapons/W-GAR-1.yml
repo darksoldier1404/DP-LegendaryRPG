@@ -110,6 +110,18 @@ IsReversal: false
 # 적이 받는 총 중력 데미지
 GravityDamage: 21
 
+# [ 유탄 ]
+IsStrayBullet: true
+# 유탄 폭발 반경
+StrayRange: 10
+# 유탄 폭발 데미지
+StrayDamage: 15
+# 유탄 폭발 넉백 (벡터값, 유탄을 기준으로 적들이 밀려나는 힘)
+StrayKnockBack: 3
+# 유탄 폭발 딜레이 (틱 단위)
+StrayExplosionDelay: 60
+
+
 # --- GLOBAL VARS ---
 
 # 물리 속성

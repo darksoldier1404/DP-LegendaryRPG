@@ -9,7 +9,7 @@ public interface ExplosiveBullet {
 
     float getExplosionKnockBack();
 
-    void setIsExplosiveBullet(boolean isExplosiveBullet);
+    void setExplosiveBullet(boolean isExplosiveBullet);
 
     void setExplosionRange(float range);
 

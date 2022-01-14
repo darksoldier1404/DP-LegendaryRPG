@@ -4,9 +4,10 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.events.fire.BulletLaunchedEvent;
 import com.darksoldier1404.dlr.events.fire.GunFireEvent;
 import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
-import com.darksoldier1404.dlr.utils.NBT;
 import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
-import net.minecraft.util.Tuple;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
+import com.darksoldier1404.duc.utils.NBT;
+import com.darksoldier1404.duc.utils.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
@@ -27,7 +28,7 @@ public class GunFireLogic implements Listener {
     private final LegendaryRPG plugin = LegendaryRPG.getInstance();
     private final Set<UUID> fired = new HashSet<>();
     private final Set<UUID> reloading = new HashSet<>();
-    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = plugin.getHomingArrows();
+    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingBullets = plugin.getHomingBullets();
     private final Random rnd = new Random();
 
 
@@ -37,12 +38,12 @@ public class GunFireLogic implements Listener {
             e.setCancelled(true);
             if (reloading.contains(e.getPlayer().getUniqueId())) return;
             ItemStack item = e.getItemDrop().getItemStack();
-            float reloadTime = Float.parseFloat(NBT.getStringTag(item, "reloadTime").replace('"', ' ').trim());
-            int magazineSize = Integer.parseInt(NBT.getStringTag(item, "magazineSize").replace('"', ' ').trim());
+            float reloadTime = Float.parseFloat(NBT.getStringTag(item, "reloadTime"));
+            int magazineSize = Integer.parseInt(NBT.getStringTag(item, "magazineSize"));
             reloading.add(e.getPlayer().getUniqueId());
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 reloading.remove(e.getPlayer().getUniqueId());
-                NBT.setTag(item, "currentMagazineSize", String.valueOf(magazineSize));
+                NBT.setStringTag(item, "currentMagazineSize", String.valueOf(magazineSize));
             }, (long) (20 * reloadTime));
         }
     }
@@ -58,13 +59,13 @@ public class GunFireLogic implements Listener {
                 // if while reloading return
                 if (reloading.contains(p.getUniqueId())) return;
                 if (fired.contains(p.getUniqueId())) return;
-//                Bukkit.getScheduler().runTask(plugin, () -> {
-                    BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType").replace('"', ' ').trim());
-                    float bulletSpeed = Float.parseFloat(NBT.getStringTag(item, "bulletSpeed").replace('"', ' ').trim());
-                    float fireRate = Float.parseFloat(NBT.getStringTag(item, "fireRate").replace('"', ' ').trim());
-                    float bulletDeletionTime = Float.parseFloat(NBT.getStringTag(item, "bulletDeletionTime").replace('"', ' ').trim());
-                    float multiShot = Float.parseFloat(NBT.getStringTag(item, "multiShot").replace('"', ' ').trim());
-                    float accuracy = Float.parseFloat(NBT.getStringTag(item, "accuracy").replace('"', ' ').trim());
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType"));
+                    float bulletSpeed = NBT.getFloatTag(item, "bulletSpeed");
+                    float fireRate = NBT.getFloatTag(item, "fireRate");
+                    float bulletDeletionTime = NBT.getFloatTag(item, "bulletDeletionTime");
+                    float multiShot = NBT.getFloatTag(item, "multiShot");
+                    float accuracy = NBT.getFloatTag(item, "accuracy");
                     int im = (int) multiShot;
                     float imp = multiShot - im;
 
@@ -99,93 +100,114 @@ public class GunFireLogic implements Listener {
                     }
                     p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_SHOOT, 0.6F, 1.6F);
                     Bukkit.getPluginManager().callEvent(new GunFireEvent(p, item));
-//                });
+                });
             }
         }
     }
 
     private void setMetadata(Arrow ar, ItemStack item, double damage) {
-//        Bukkit.getScheduler().runTask(plugin, () -> {
-
-            ar.setMetadata("damage", new FixedMetadataValue(plugin, damage));
-            // critical chance metadata
-            ar.setMetadata("criticalChance", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalChance").replace('"', ' ').trim())));
-            // critical damage metadata
-            ar.setMetadata("criticalAmount", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "criticalAmount").replace('"', ' ').trim())));
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Bullet b = new Bullet(ar.getUniqueId());
+            b.setCriticalChance(NBT.getFloatTag(item, "criticalChance"));
+            b.setCriticalAmount(NBT.getFloatTag(item, "criticalAmount"));
+            b.setImpactDamage(NBT.getDoubleTag(item, "impactDamage"));
+            b.setPunctureDamage(NBT.getDoubleTag(item, "punctureDamage"));
+            b.setSlashDamage(NBT.getDoubleTag(item, "slashDamage"));
+            b.setColdDamage(NBT.getDoubleTag(item, "coldDamage"));
+            b.setElectricityDamage(NBT.getDoubleTag(item, "electricityDamage"));
+            b.setHeatDamage(NBT.getDoubleTag(item, "heatDamage"));
+            b.setToxinDamage(NBT.getDoubleTag(item, "toxinDamage"));
+            b.setBlastDamage(NBT.getDoubleTag(item, "blastDamage"));
+            b.setCorrosiveDamage(NBT.getDoubleTag(item, "corrosiveDamage"));
+            b.setGasDamage(NBT.getDoubleTag(item, "gasDamage"));
+            b.setMagneticDamage(NBT.getDoubleTag(item, "magneticDamage"));
+            b.setRadiationDamage(NBT.getDoubleTag(item, "radiationDamage"));
+            b.setVirusDamage(NBT.getDoubleTag(item, "virusDamage"));
             // bullet type
             // homing
-            if (NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim().equals("true")) {
-                ar.setMetadata("isHomingBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isHomingBullet").replace('"', ' ').trim()));
-                ar.setMetadata("startHomingDelay", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "startHomingDelay").replace('"', ' ').trim())));
+            if (NBT.getStringTag(item, "isHomingBullet").equals("true")) {
+                b.setHomingBullet(true);
+                b.setStartHomingDelay(NBT.getFloatTag(item, "startHomingDelay"));
             }
             // electric
-            if (NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim().equals("true")) {
-                ar.setMetadata("isElectricBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isElectricBullet").replace('"', ' ').trim()));
-                ar.setMetadata("chainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "chainRange").replace('"', ' ').trim())));
-                ar.setMetadata("maxChainRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "maxChainRange").replace('"', ' ').trim())));
-                ar.setMetadata("chainDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "chainDamage").replace('"', ' ').trim())));
+            if (NBT.getStringTag(item, "isElectricBullet").equals("true")) {
+                b.setElectricBullet(true);
+                b.setChainRange(NBT.getFloatTag(item, "chainRange"));
+                b.setMaxChainRange(NBT.getFloatTag(item, "maxChainRange"));
+                b.setChainDamage(NBT.getDoubleTag(item, "chainDamage"));
             }
             // gravity
-            if (NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim().equals("true")) {
-                ar.setMetadata("isGravityBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isGravityBullet").replace('"', ' ').trim()));
-                ar.setMetadata("gravityRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityRange").replace('"', ' ').trim())));
-                ar.setMetadata("gravityDuration", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityDuration").replace('"', ' ').trim())));
-                ar.setMetadata("gravityPower", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "gravityPower").replace('"', ' ').trim())));
-                ar.setMetadata("gravityDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "gravityDamage").replace('"', ' ').trim())));
-                ar.setMetadata("isReversal", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isReversal").replace('"', ' ').trim()));
+            if (NBT.getStringTag(item, "isGravityBullet").equals("true")) {
+                b.setGravityBullet(true);
+                b.setGravityRange(NBT.getFloatTag(item, "gravityRange"));
+                b.setGravityDuration(NBT.getFloatTag(item, "gravityDuration"));
+                b.setGravityPower(NBT.getFloatTag(item, "gravityPower"));
+                b.setGravityDamage(NBT.getDoubleTag(item, "gravityDamage"));
+                b.setReversal(NBT.getStringTag(item, "isReversal").equals("true"));
             }
             // explosive
-            if (NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim().equals("true")) {
-                ar.setMetadata("isExplosiveBullet", new FixedMetadataValue(plugin, NBT.getStringTag(item, "isExplosiveBullet").replace('"', ' ').trim()));
-                ar.setMetadata("explosionRange", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionRange").replace('"', ' ').trim())));
-                ar.setMetadata("explosionDamage", new FixedMetadataValue(plugin, Double.parseDouble(NBT.getStringTag(item, "explosionDamage").replace('"', ' ').trim())));
-                ar.setMetadata("explosionKnockBack", new FixedMetadataValue(plugin, Float.parseFloat(NBT.getStringTag(item, "explosionKnockBack").replace('"', ' ').trim())));
+            if (NBT.getStringTag(item, "isExplosiveBullet").equals("true")) {
+                b.setExplosiveBullet(true);
+                b.setExplosionRange(NBT.getFloatTag(item, "explosionRange"));
+                b.setExplosionDamage(NBT.getDoubleTag(item, "explosionDamage"));
+                b.setExplosionKnockBack(NBT.getFloatTag(item, "explosionKnockBack"));
             }
-//        });
+            // stray
+            if (NBT.getStringTag(item, "isStrayBullet").equals("true")) {
+                b.setStrayBullet(true);
+                b.setStrayExplosionRange(NBT.getFloatTag(item, "strayRange"));
+                b.setStrayExplosionDamage(NBT.getDoubleTag(item, "strayDamage"));
+                b.setStrayExplosionKnockBack(NBT.getFloatTag(item, "strayKnockBack"));
+                b.setStrayExplosionDelay(NBT.getLongTag(item, "strayExplosionDelay"));
+            }
+            plugin.getFBOBJ().put(ar.getUniqueId(), b);
+        });
     }
 
     private void launchProjectile(Player p, ItemStack item, float bulletSpeed, float bulletDeletionTime, float ac) {
-//        Bukkit.getScheduler().runTask(plugin, () -> {
-            Arrow ar = p.launchProjectile(Arrow.class);
-            ar.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
-            ar.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Arrow bullet = p.launchProjectile(Arrow.class);
+            bullet.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
+            bullet.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             double damage = ItemStackNBTUtil.getTotalDamage(item);
             // Using random variables, the closer the accuracy is to 100, the more the vectors x, y, and z spread.
             double spread = ac / 100;
             double x = Math.random() * spread - (spread / 2);
             double y = Math.random() * spread - (spread / 2);
             double z = Math.random() * spread - (spread / 2);
-            ar.setVelocity(ar.getVelocity().add(new Vector(x, y, z)));
-            setMetadata(ar, item, damage);
+            bullet.setVelocity(bullet.getVelocity().add(new Vector(x, y, z)));
+            setMetadata(bullet, item, damage);
             //todo 상태이상 추가
-            Bukkit.getScheduler().runTaskLater(plugin, () -> ar.remove(), (long) (20 * bulletDeletionTime));
-            Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, ar));
-//        });
+            Bukkit.getScheduler().runTaskLater(plugin, () -> bullet.remove(), (long) (20 * bulletDeletionTime));
+            Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.getFBOBJ().remove(bullet.getUniqueId()), (long) (20 * bulletDeletionTime));
+            Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, bullet));
+        });
     }
 
     private void launchHomingProjectile(Player p, ItemStack item, float bulletSpeed, float bulletDeletionTime, float ac, List<LivingEntity> les) {
-//        Bukkit.getScheduler().runTask(plugin, () -> {
-            Arrow ar = p.launchProjectile(Arrow.class);
-            ar.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
-            ar.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Arrow bullet = p.launchProjectile(Arrow.class);
+            bullet.setVelocity(p.getLocation().getDirection().multiply(bulletSpeed));
+            bullet.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             double damage = ItemStackNBTUtil.getTotalDamage(item);
             // Using random variables, the closer the accuracy is to 100, the more the vectors x, y, and z spread.
             double spread = ac / 100;
             double x = Math.random() * spread - (spread / 2);
             double y = Math.random() * spread - (spread / 2);
             double z = Math.random() * spread - (spread / 2);
-            ar.setVelocity(ar.getVelocity().add(new Vector(x, y + 0.7, z)));
-            setMetadata(ar, item, damage);
+            bullet.setVelocity(bullet.getVelocity().add(new Vector(x, y + 0.7, z)));
+            setMetadata(bullet, item, damage);
             //todo 상태이상 추가
             try {
                 LivingEntity le = les.get(new Random().nextInt(les.size()));
-                homingArrows.put(ar.getUniqueId(), new Tuple<>(Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                    ar.setVelocity(le.getLocation().toVector().subtract(ar.getLocation().toVector()).normalize().multiply(bulletSpeed));
-                }, 10, 10), ar));
+                homingBullets.put(bullet.getUniqueId(), new Tuple<>(Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                    bullet.setVelocity(le.getLocation().toVector().subtract(bullet.getLocation().toVector()).normalize().multiply(bulletSpeed));
+                }, 0, 10), bullet));
             } catch (Exception ignored) {
             }
-            Bukkit.getScheduler().runTaskLater(plugin, () -> ar.remove(), (long) (20 * bulletDeletionTime));
-            Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, ar));
-//        });
+            Bukkit.getScheduler().runTaskLater(plugin, () -> bullet.remove(), (long) (20 * bulletDeletionTime));
+            Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.getFBOBJ().remove(bullet.getUniqueId()), (long) (20 * bulletDeletionTime));
+            Bukkit.getPluginManager().callEvent(new BulletLaunchedEvent(p, item, bullet));
+        });
     }
 }

@@ -1,10 +1,10 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -18,26 +18,32 @@ public class DamageUtils {
     private final static Random rd = new Random();
     private final static LegendaryRPG plugin = LegendaryRPG.getInstance();
 
-    public static void damage(Entity damager, LivingEntity vic) {
+    public static void damage(Bullet b, LivingEntity vic) {
         try {
-//            if (damager.isDead()) {
-//                System.out.println("arrow is already dead");
-//                return;
-//            }
-//            if (!damager.isValid()) {
-//                System.out.println("arrow is not valid");
-//                return;
-//            }
-//            if (!damager.hasMetadata("damage")) {
-//                System.out.println("arrow has no damage");
-//                return;
-//            }
-            if (!damager.hasMetadata("damage")) return;
-            double damage = damager.getMetadata("damage").get(0).asDouble();
-            float criticalChance = damager.getMetadata("criticalChance").get(0).asFloat();
-            float criticalAmount = damager.getMetadata("criticalAmount").get(0).asFloat();
+            // physical damage
+            double impact = b.getImpactDamage();
+            double puncture = b.getPunctureDamage();
+            double slash = b.getSlashDamage();
+            // elemental damage
+            double cold = b.getColdDamage();
+            double electric = b.getElectricityDamage();
+            double heat = b.getHeatDamage();
+            double toxin = b.getToxinDamage();
+            // combined damage
+            double blast = b.getBlastDamage();
+            double corrosive = b.getCorrosiveDamage();
+            double gas = b.getGasDamage();
+            double magnetic = b.getMagneticDamage();
+            double radiation = b.getRadiationDamage();
+            double virus = b.getVirusDamage();
+
+            float sc = b.getStatusChance();
+
+            double damage = impact + puncture + slash;
+
+            float criticalChance = b.getCriticalChance();
+            float criticalAmount = b.getCriticalAmount();
             boolean isCritical = false;
-            damager.remove();
             int loop = (int) (criticalChance * 0.01);
             if (loop != 0) {
                 damage *= criticalAmount + loop;
@@ -53,7 +59,7 @@ public class DamageUtils {
                 vic.setCustomName("체력 : " + (int) vic.getHealth());
             });
 
-            damageCounter(vic, damage, loop, isCritical);
+//            damageCounter(vic, damage, loop, isCritical);
         } catch (Exception e) {
             e.printStackTrace();
         }

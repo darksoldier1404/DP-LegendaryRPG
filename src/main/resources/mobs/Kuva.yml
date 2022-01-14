@@ -3,6 +3,14 @@ Name: "Kuva"
 DisplayName: "&f[ &6그리니어 &f] &f&l쿠바 렌서 &f[ &6LV.<level> &f]"
 EntityType: ZOMBIE
 
+MinLevel: 10
+MaxLevel: 20
+Health: 350-450
+Shield: 0
+Armor: 8-18
+Damage: 5-10
+DropExp: 100-150
+
 DropTable:
   TestItem1:
     DropChance: 20
@@ -16,13 +24,6 @@ DropTable:
   TestItem4:
     DropChance: 20
     DropSize: 1-3
-
-Health: 350
-Shield: 0
-Armor: 8
-Damage: 5
-DropExp: 100
-
 
 EntityEquipment:
   HEAD: ItemStack

@@ -1,2 +1,3 @@
-rootProject.name = 'DS-LegendaryRPG'
+rootProject.name = 'DP-LegendaryRPG'
+include 'v1_12_2'
 

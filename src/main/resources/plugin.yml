@@ -1,8 +1,11 @@
 name: DS-LegendaryRPG
-version: 1.0.0.53
+version: 1.0.0.74
 main: com.darksoldier1404.dlr.LegendaryRPG
-api-version: 1.17
+api-version: 1.18
 authors: [ DEAD_POOLIO_ ]
+depend:
+  - DP-UniversalCore
+  - FastAsyncWorldEdit
 commands:
   lrs:
   lra:
