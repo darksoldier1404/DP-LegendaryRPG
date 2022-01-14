@@ -5,11 +5,12 @@ import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
 import com.darksoldier1404.dlr.tasks.BulletTask;
-import com.darksoldier1404.dlr.utils.ConfigUtils;
-import com.darksoldier1404.dlr.utils.Metrics;
 import com.darksoldier1404.dlr.utils.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.Weapon;
-import net.minecraft.util.Tuple;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
+import com.darksoldier1404.duc.utils.ConfigUtils;
+import com.darksoldier1404.duc.utils.Metrics;
+import com.darksoldier1404.duc.utils.Tuple;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.plugin.PluginManager;
@@ -33,8 +34,9 @@ public class LegendaryRPG extends JavaPlugin {
     private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
     private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
     private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
-    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingArrows = new HashMap<>(); // 발사된 미사일 총알
-    private final Map<UUID, Arrow> firedArrows = new HashMap<>(); // 발사된 모든 총알
+    private final Map<UUID, Tuple<BukkitTask, Arrow>> homingBullets = new HashMap<>(); // 발사된 미사일 총알
+    private final Map<UUID, Arrow> firedBullets = new HashMap<>(); // 발사된 모든 총알
+    private final Map<UUID, Bullet> FBOBJ = new HashMap<>(); // 발사된 모든 총알 - 객체
 
     public Map<String, YamlConfiguration> getRawWeapons() {
         return rawWeapons;
@@ -48,12 +50,16 @@ public class LegendaryRPG extends JavaPlugin {
         return spawners;
     }
 
-    public Map<UUID, Tuple<BukkitTask, Arrow>> getHomingArrows() {
-        return homingArrows;
+    public Map<UUID, Tuple<BukkitTask, Arrow>> getHomingBullets() {
+        return homingBullets;
     }
 
-    public Map<UUID, Arrow> getFiredArrows() {
-        return firedArrows;
+    public Map<UUID, Arrow> getFiredBullets() {
+        return firedBullets;
+    }
+
+    public Map<UUID, Bullet> getFBOBJ() {
+        return FBOBJ;
     }
 
     public static LegendaryRPG getInstance() {
@@ -95,7 +101,7 @@ public class LegendaryRPG extends JavaPlugin {
         WeaponLoader.saveDefaultWeapons();
         WeaponLoader.loadGuns();
 
-        ConfigUtils.loadDefaultConfig();
+        config = ConfigUtils.loadDefaultPluginConfig(plugin);
         plugin.getServer().getPluginManager().registerEvents(new LREvent(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new GunFireLogic(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new EntityGetDamageEvent(), plugin); // register EntityGetDamageEvent

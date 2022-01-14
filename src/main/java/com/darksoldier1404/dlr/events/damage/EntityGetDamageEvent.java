@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.events.damage;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
+import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
 import com.darksoldier1404.dlr.utils.DamageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
@@ -20,7 +21,9 @@ public class EntityGetDamageEvent implements Listener {
         if (e.getEntity() instanceof LivingEntity le) {
             Bukkit.getScheduler().runTask(plugin, () -> le.setNoDamageTicks(0));
             if (e.getDamager() instanceof Arrow ar) {
-                DamageUtils.damage(ar, le);
+                DamageUtils.damage(plugin.getFBOBJ().get(ar.getUniqueId()), le);
+                plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(ar));
+                ar.remove();
             }
         }
     }

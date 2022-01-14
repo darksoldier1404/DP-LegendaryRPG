@@ -4,10 +4,7 @@ import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
 import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
-import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ElectricBullet;
-import com.darksoldier1404.dlr.weapon.obj.gun.bullets.ExplosiveBullet;
-import com.darksoldier1404.dlr.weapon.obj.gun.bullets.GravityBullet;
-import com.darksoldier1404.dlr.weapon.obj.gun.bullets.HomingBullet;
+import com.darksoldier1404.dlr.weapon.obj.gun.bullets.*;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet {
+public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet, StrayBullet {
     //weapon
     private String displayName;
     private int requiredLevel;
@@ -79,9 +76,15 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
     private float explosionRange;
     private double explosionDamage;
     private float explosionKnockBack;
-
+    // Stray
+    private boolean isStrayBullet;
+    private float strayRange;
+    private double strayDamage;
+    private float strayKnockBack;
+    private long strayExplosionDelay;
 
     public GunImpl(YamlConfiguration data) {
+        long start = System.currentTimeMillis();
         // weapon
         this.displayName = data.getString("DisplayName");
         this.requiredLevel = data.getInt("RequiredLevel");
@@ -121,7 +124,7 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         this.isHomingBullet = data.getBoolean("IsHomingBullet");
         this.startHomingDelay = (float) data.getDouble("StartHomingDelay");
         // electric
-        this.isElectricBullet = data.getBoolean("IsElectricBullet");
+        this.isElectricBullet = data.getBoolean("IsElectricChainBullet");
         this.chainRange = (float) data.getDouble("ChainRange");
         this.maxChainRange = (float) data.getDouble("MaxChainRange");
         this.chainDamage = data.getDouble("ChainDamage");
@@ -137,7 +140,15 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         this.explosionRange = (float) data.getDouble("ExplosionRange");
         this.explosionDamage = data.getDouble("ExplosionDamage");
         this.explosionKnockBack = (float) data.getDouble("ExplosionKnockBack");
+        // stray
+        this.isStrayBullet = data.getBoolean("IsStrayBullet");
+        this.strayRange = (float) data.getDouble("StrayRange");
+        this.strayDamage = data.getDouble("StrayDamage");
+        this.strayKnockBack = (float) data.getDouble("StrayKnockBack");
+        this.strayExplosionDelay = (long) data.getDouble("StrayExplosionDelay");
         currentMagazineSize = magazineSize;
+        long end = System.currentTimeMillis();
+        System.out.println("GunImpl: " + (end - start));
     }
 
 //    public void test() {
@@ -754,7 +765,7 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         return isExplosiveBullet;
     }
 
-    public void setIsExplosiveBullet(boolean explosiveBullet) {
+    public void setExplosiveBullet(boolean explosiveBullet) {
         isExplosiveBullet = explosiveBullet;
     }
 
@@ -786,5 +797,55 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
     @Override
     public void setExplosionKnockBack(float explosionKnockBack) {
         this.explosionKnockBack = explosionKnockBack;
+    }
+
+    @Override
+    public boolean isStrayBullet() {
+        return isStrayBullet;
+    }
+
+    @Override
+    public float getStrayExplosionRange() {
+        return strayRange;
+    }
+
+    @Override
+    public double getStrayExplosionDamage() {
+        return strayDamage;
+    }
+
+    @Override
+    public float getStrayExplosionKnockBack() {
+        return strayKnockBack;
+    }
+
+    @Override
+    public long getStrayExplosionDelay() {
+        return strayExplosionDelay;
+    }
+
+    @Override
+    public void setStrayBullet(boolean isStrayBullet) {
+        this.isStrayBullet = isStrayBullet;
+    }
+
+    @Override
+    public void setStrayExplosionRange(float range) {
+        this.strayRange = range;
+    }
+
+    @Override
+    public void setStrayExplosionDamage(double damage) {
+        this.strayDamage = damage;
+    }
+
+    @Override
+    public void setStrayExplosionKnockBack(float knockBack) {
+        this.strayKnockBack = knockBack;
+    }
+
+    @Override
+    public void setStrayExplosionDelay(long strayExplosionDelay) {
+        this.strayExplosionDelay = strayExplosionDelay;
     }
 }
