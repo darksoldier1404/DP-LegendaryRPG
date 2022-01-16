@@ -10,19 +10,19 @@ public class ItemStackNBTUtil {
     @Deprecated
     public static double getTotalDamage(ItemStack item) {
         double totalDamage = 0;
-        totalDamage += NBT.getDoubleTag(item, "impactDamage");
-        totalDamage += NBT.getDoubleTag(item, "punctureDamage");
-        totalDamage += NBT.getDoubleTag(item, "slashDamage");
-        totalDamage += NBT.getDoubleTag(item, "coldDamage");
-        totalDamage += NBT.getDoubleTag(item, "electricityDamage");
-        totalDamage += NBT.getDoubleTag(item, "heatDamage");
-        totalDamage += NBT.getDoubleTag(item, "toxinDamage");
-        totalDamage += NBT.getDoubleTag(item, "blastDamage");
-        totalDamage += NBT.getDoubleTag(item, "corrosiveDamage");
-        totalDamage += NBT.getDoubleTag(item, "gasDamage");
-        totalDamage += NBT.getDoubleTag(item, "magneticDamage");
-        totalDamage += NBT.getDoubleTag(item, "radiationDamage");
-        totalDamage += NBT.getDoubleTag(item, "virusDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentImpactDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentPunctureDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentSlashDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentColdDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentElectricityDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentHeatDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentToxinDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentBlastDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentCorrosiveDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentGasDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentMagneticDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentRadiationDamage");
+        totalDamage += NBT.getDoubleTag(item, "currentVirusDamage");
         return totalDamage;
     }
     // todo: 총알의 타입별로 nbt 설정 나누기
@@ -32,22 +32,39 @@ public class ItemStackNBTUtil {
         item = NBT.setIntTag(item, "requiredLevel", gun.getRequiredLevel());
         item = NBT.setStringTag(item, "material", gun.getMaterial().name());
         item = NBT.setStringTag(item, "weaponType", gun.getWeaponType().name());
-        item = NBT.setFloatTag(item, "criticalChance", gun.getCriticalChance());
-        item = NBT.setFloatTag(item, "criticalAmount", gun.getCriticalAmount());
-        item = NBT.setFloatTag(item, "statusChance", gun.getStatusChance());
-        item = NBT.setDoubleTag(item, "impactDamage", gun.getImpactDamage());
-        item = NBT.setDoubleTag(item, "punctureDamage", gun.getPunctureDamage());
-        item = NBT.setDoubleTag(item, "slashDamage", gun.getSlashDamage());
-        item = NBT.setDoubleTag(item, "coldDamage", gun.getColdDamage());
-        item = NBT.setDoubleTag(item, "electricityDamage", gun.getElectricityDamage());
-        item = NBT.setDoubleTag(item, "heatDamage", gun.getHeatDamage());
-        item = NBT.setDoubleTag(item, "toxinDamage", gun.getToxinDamage());
-        item = NBT.setDoubleTag(item, "blastDamage", gun.getBlastDamage());
-        item = NBT.setDoubleTag(item, "corrosiveDamage", gun.getCorrosiveDamage());
-        item = NBT.setDoubleTag(item, "gasDamage", gun.getGasDamage());
-        item = NBT.setDoubleTag(item, "magneticDamage", gun.getMagneticDamage());
-        item = NBT.setDoubleTag(item, "radiationDamage", gun.getRadiationDamage());
-        item = NBT.setDoubleTag(item, "virusDamage", gun.getVirusDamage());
+        item = NBT.setFloatTag(item, "currentCriticalChance", gun.getCurrentCriticalChance());
+        item = NBT.setFloatTag(item, "currentCriticalAmount", gun.getCurrentCriticalAmount());
+        item = NBT.setFloatTag(item, "currentStatusChance", gun.getCurrentStatusChance());
+        item = NBT.setDoubleTag(item, "currentImpactDamage", gun.getCurrentImpactDamage());
+        item = NBT.setDoubleTag(item, "currentPunctureDamage", gun.getCurrentPunctureDamage());
+        item = NBT.setDoubleTag(item, "currentSlashDamage", gun.getCurrentSlashDamage());
+        item = NBT.setDoubleTag(item, "currentColdDamage", gun.getCurrentColdDamage());
+        item = NBT.setDoubleTag(item, "currentElectricityDamage", gun.getCurrentElectricityDamage());
+        item = NBT.setDoubleTag(item, "currentHeatDamage", gun.getCurrentHeatDamage());
+        item = NBT.setDoubleTag(item, "currentToxinDamage", gun.getCurrentToxinDamage());
+        item = NBT.setDoubleTag(item, "currentBlastDamage", gun.getCurrentBlastDamage());
+        item = NBT.setDoubleTag(item, "currentCorrosiveDamage", gun.getCurrentCorrosiveDamage());
+        item = NBT.setDoubleTag(item, "currentGasDamage", gun.getCurrentGasDamage());
+        item = NBT.setDoubleTag(item, "currentMagneticDamage", gun.getCurrentMagneticDamage());
+        item = NBT.setDoubleTag(item, "currentRadiationDamage", gun.getCurrentRadiationDamage());
+        item = NBT.setDoubleTag(item, "currentVirusDamage", gun.getCurrentVirusDamage());
+        item = NBT.setFloatTag(item, "defaultCriticalChance", gun.getDefaultCriticalChance());
+        item = NBT.setFloatTag(item, "defaultCriticalAmount", gun.getDefaultCriticalAmount());
+        item = NBT.setFloatTag(item, "defaultStatusChance", gun.getDefaultStatusChance());
+        item = NBT.setDoubleTag(item, "defaultImpactDamage", gun.getDefaultImpactDamage());
+        item = NBT.setDoubleTag(item, "defaultPunctureDamage", gun.getDefaultPunctureDamage());
+        item = NBT.setDoubleTag(item, "defaultSlashDamage", gun.getDefaultSlashDamage());
+        item = NBT.setDoubleTag(item, "defaultColdDamage", gun.getDefaultColdDamage());
+        item = NBT.setDoubleTag(item, "defaultElectricityDamage", gun.getDefaultElectricityDamage());
+        item = NBT.setDoubleTag(item, "defaultHeatDamage", gun.getDefaultHeatDamage());
+        item = NBT.setDoubleTag(item, "defaultToxinDamage", gun.getDefaultToxinDamage());
+        item = NBT.setDoubleTag(item, "defaultBlastDamage", gun.getDefaultBlastDamage());
+        item = NBT.setDoubleTag(item, "defaultCorrosiveDamage", gun.getDefaultCorrosiveDamage());
+        item = NBT.setDoubleTag(item, "defaultGasDamage", gun.getDefaultGasDamage());
+        item = NBT.setDoubleTag(item, "defaultMagneticDamage", gun.getDefaultMagneticDamage());
+        item = NBT.setDoubleTag(item, "defaultRadiationDamage", gun.getDefaultRadiationDamage());
+        item = NBT.setDoubleTag(item, "defaultVirusDamage", gun.getDefaultVirusDamage());
+
         item = NBT.setStringTag(item, "triggerType", gun.getTriggerType().name());
         item = NBT.setByteTag(item, "burstAtOnce", gun.getBurstAtOnce());
         item = NBT.setIntTag(item, "accuracy", gun.getAccuracy());
@@ -89,6 +106,11 @@ public class ItemStackNBTUtil {
         item = NBT.setFloatTag(item, "strayKnockBack", gun.getStrayExplosionKnockBack());
         item = NBT.setDoubleTag(item, "strayDamage", gun.getStrayExplosionDamage());
         item = NBT.setLongTag(item, "strayExplosionDelay", gun.getStrayExplosionDelay());
+        // harpoon
+        item = NBT.setObjectTag(item, "isHarpoonBullet", gun.isHarpoonBullet());
+        item = NBT.setFloatTag(item, "harpoonGrabRange", gun.getHarpoonGrabRange());
+        item = NBT.setFloatTag(item, "harpoonPullRange", gun.getHarpoonPullRange());
+        item = NBT.setDoubleTag(item, "harpoonDamage", gun.getHarpoonDamage());
 
 
         return item;

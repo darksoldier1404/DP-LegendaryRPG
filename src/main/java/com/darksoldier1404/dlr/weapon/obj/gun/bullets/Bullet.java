@@ -3,7 +3,7 @@ package com.darksoldier1404.dlr.weapon.obj.gun.bullets;
 import java.util.UUID;
 
 @SuppressWarnings("all")
-public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, HomingBullet, StrayBullet {
+public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, HomingBullet, StrayBullet, HarpoonBullet {
     private final UUID uuid;
     // common field
     private float criticalChance;
@@ -49,6 +49,12 @@ public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, H
     private double strayDamage;
     private float strayKnockBack;
     private long strayExplosionDelay;
+    // harpoon
+    private boolean isHarpoonBullet = false;
+    private float harpoonGrabRange;
+    private float harpoonPullRange;
+    private double harpoonDamage;
+
 
     public Bullet(UUID uuid) {
         this.uuid = uuid;
@@ -395,5 +401,45 @@ public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, H
     @Override
     public void setStrayExplosionDelay(long strayExplosionDelay) {
         this.strayExplosionDelay = strayExplosionDelay;
+    }
+
+    @Override
+    public boolean isHarpoonBullet() {
+        return isHarpoonBullet;
+    }
+
+    @Override
+    public void setHarpoonBullet(boolean harpoonBullet) {
+        isHarpoonBullet = harpoonBullet;
+    }
+
+    @Override
+    public float getHarpoonGrabRange() {
+        return harpoonGrabRange;
+    }
+
+    @Override
+    public void setHarpoonGrabRange(float harpoonGrabRange) {
+        this.harpoonGrabRange = harpoonGrabRange;
+    }
+
+    @Override
+    public float getHarpoonPullRange() {
+        return harpoonPullRange;
+    }
+
+    @Override
+    public void setHarpoonPullRange(float harpoonPullRange) {
+        this.harpoonPullRange = harpoonPullRange;
+    }
+
+    @Override
+    public double getHarpoonDamage() {
+        return harpoonDamage;
+    }
+
+    @Override
+    public void setHarpoonDamage(double harpoonDamage) {
+        this.harpoonDamage = harpoonDamage;
     }
 }

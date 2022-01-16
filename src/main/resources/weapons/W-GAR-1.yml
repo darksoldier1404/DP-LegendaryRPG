@@ -121,44 +121,49 @@ StrayKnockBack: 3
 # 유탄 폭발 딜레이 (틱 단위)
 StrayExplosionDelay: 60
 
+# [ 작살탄 ]
+IsHarpoonBullet: true
+HarpoonGrabRange: 5
+HarpoonPullRange: 7
+HarpoonDamage: 10
 
 # --- GLOBAL VARS ---
 
 # 물리 속성
 
 # 충격
-Impact: 1
+DefaultImpact: 1
 # 관통
-Puncture: 1
+DefaultPuncture: 1
 # 베기
-Slash: 4
+DefaultSlash: 4
 
 # 원소 속성
 
 # 냉기
-#Cold: 1
+#DefaultCold: 1
 
 # 전기
-#Electricity: 20
+#DefaultElectricity: 20
 
 # 화염
-Heat: 5
+DefaultHeat: 5
 
 # 독성
-#Toxin: 1
+#DefaultToxin: 1
 
 # --- 공통 유틸리티 변수 ---
 
 # 치명타 확률
 # EX) CriticalChance: 135 = 100% 치명타 -> 35% 추가 치명타 = (35% 추가 치명타가 터질경우)
 # 데미지가 2배가 됩니다.
-CriticalChance: 150
+DefaultCriticalChance: 150
 
 # 치명타 배수
-CriticalAmount: 1.5
+DefaultCriticalAmount: 1.5
 
 # 상태이상 확률 (1~100)
-StatusChance: 10
+DefaultStatusChance: 10
 
 # 제작 레시피
 Craft:
