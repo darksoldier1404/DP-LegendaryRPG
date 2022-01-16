@@ -17,7 +17,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
@@ -108,21 +107,21 @@ public class GunFireLogic implements Listener {
     private void setMetadata(Arrow ar, ItemStack item, double damage) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Bullet b = new Bullet(ar.getUniqueId());
-            b.setCriticalChance(NBT.getFloatTag(item, "criticalChance"));
-            b.setCriticalAmount(NBT.getFloatTag(item, "criticalAmount"));
-            b.setImpactDamage(NBT.getDoubleTag(item, "impactDamage"));
-            b.setPunctureDamage(NBT.getDoubleTag(item, "punctureDamage"));
-            b.setSlashDamage(NBT.getDoubleTag(item, "slashDamage"));
-            b.setColdDamage(NBT.getDoubleTag(item, "coldDamage"));
-            b.setElectricityDamage(NBT.getDoubleTag(item, "electricityDamage"));
-            b.setHeatDamage(NBT.getDoubleTag(item, "heatDamage"));
-            b.setToxinDamage(NBT.getDoubleTag(item, "toxinDamage"));
-            b.setBlastDamage(NBT.getDoubleTag(item, "blastDamage"));
-            b.setCorrosiveDamage(NBT.getDoubleTag(item, "corrosiveDamage"));
-            b.setGasDamage(NBT.getDoubleTag(item, "gasDamage"));
-            b.setMagneticDamage(NBT.getDoubleTag(item, "magneticDamage"));
-            b.setRadiationDamage(NBT.getDoubleTag(item, "radiationDamage"));
-            b.setVirusDamage(NBT.getDoubleTag(item, "virusDamage"));
+            b.setCriticalChance(NBT.getFloatTag(item, "currentCriticalChance"));
+            b.setCriticalAmount(NBT.getFloatTag(item, "currentCriticalAmount"));
+            b.setImpactDamage(NBT.getDoubleTag(item, "currentImpactDamage"));
+            b.setPunctureDamage(NBT.getDoubleTag(item, "currentPunctureDamage"));
+            b.setSlashDamage(NBT.getDoubleTag(item, "currentSlashDamage"));
+            b.setColdDamage(NBT.getDoubleTag(item, "currentColdDamage"));
+            b.setElectricityDamage(NBT.getDoubleTag(item, "currentElectricityDamage"));
+            b.setHeatDamage(NBT.getDoubleTag(item, "currentHeatDamage"));
+            b.setToxinDamage(NBT.getDoubleTag(item, "currentToxinDamage"));
+            b.setBlastDamage(NBT.getDoubleTag(item, "currentBlastDamage"));
+            b.setCorrosiveDamage(NBT.getDoubleTag(item, "currentCorrosiveDamage"));
+            b.setGasDamage(NBT.getDoubleTag(item, "currentGasDamage"));
+            b.setMagneticDamage(NBT.getDoubleTag(item, "currentMagneticDamage"));
+            b.setRadiationDamage(NBT.getDoubleTag(item, "currentRadiationDamage"));
+            b.setVirusDamage(NBT.getDoubleTag(item, "currentVirusDamage"));
             // bullet type
             // homing
             if (NBT.getStringTag(item, "isHomingBullet").equals("true")) {
@@ -159,6 +158,13 @@ public class GunFireLogic implements Listener {
                 b.setStrayExplosionDamage(NBT.getDoubleTag(item, "strayDamage"));
                 b.setStrayExplosionKnockBack(NBT.getFloatTag(item, "strayKnockBack"));
                 b.setStrayExplosionDelay(NBT.getLongTag(item, "strayExplosionDelay"));
+            }
+            // harpoon
+            if (NBT.getStringTag(item, "isHarpoonBullet").equals("true")) {
+                b.setHarpoonBullet(true);
+                b.setHarpoonGrabRange(NBT.getFloatTag(item, "harpoonGrabRange"));
+                b.setHarpoonPullRange(NBT.getFloatTag(item, "harpoonPullRange"));
+                b.setHarpoonDamage(NBT.getDoubleTag(item, "harpoonDamage"));
             }
             plugin.getFBOBJ().put(ar.getUniqueId(), b);
         });

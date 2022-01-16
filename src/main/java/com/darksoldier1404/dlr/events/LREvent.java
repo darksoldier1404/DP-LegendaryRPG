@@ -131,6 +131,26 @@ public class LREvent implements Listener {
                     }
                 }), delay);
             }
+            if (b.isHarpoonBullet()) {
+                Location gl = loc.clone();
+                float range = b.getHarpoonGrabRange();
+                float pullRange = b.getHarpoonPullRange();
+                double damage = b.getHarpoonDamage();
+                //todo true damage logic
+                Bukkit.getScheduler().runTask(plugin, () -> gl.getWorld().getNearbyEntities(gl, range, range, range).forEach(o -> {
+                    if (o instanceof LivingEntity le && !(o instanceof Player)) {
+                        le.setVelocity(gl.toVector().subtract(le.getLocation().toVector()).normalize().multiply(2));
+                        ParticleUtil.line(le.getLocation(), gl.add(0, 1, 0), 0.4F, Particle.ENCHANTMENT_TABLE, 0, 0, 0, 0, 0);
+                        DamageUtils.damage(b, le);
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                            if (le.isValid()) {
+                                le.setVelocity(e.getShooter().getLocation().toVector().subtract(le.getLocation().toVector()).normalize().multiply(pullRange));
+                                ParticleUtil.line(le.getLocation(), e.getShooter().getLocation().add(0, 1, 0), 0.4F, Particle.ENCHANTMENT_TABLE, 0, 0, 0, 0, 0);
+                            }
+                        }, 10L);
+                    }
+                }));
+            }
         } catch (Exception ignored) {
         }
     }

@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.weapon.obj.gun;
 
 import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
+import com.darksoldier1404.dlr.weapon.obj.WarDamageImpl;
 import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
@@ -14,32 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet, StrayBullet {
+public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet, StrayBullet, HarpoonBullet {
     //weapon
     private String displayName;
     private int requiredLevel;
-    private int currentLevel = 0;
+    private int currentLevel;
     private int maxLevel;
-    private double currentExp = 0;
+    private double currentExp;
     private double maxExp;
     private Material material;
     private WeaponType weaponType;
-    private float criticalChance;
-    private float criticalAmount;
-    private float statusChance;
-    private double impactDamage;
-    private double punctureDamage;
-    private double slashDamage;
-    private double coldDamage;
-    private double electricityDamage;
-    private double heatDamage;
-    private double toxinDamage;
-    private double blastDamage;
-    private double corrosiveDamage;
-    private double gasDamage;
-    private double magneticDamage;
-    private double radiationDamage;
-    private double virusDamage;
     // gun
     private TriggerType triggerType;
     private byte burstAtOnce;
@@ -82,6 +67,11 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
     private double strayDamage;
     private float strayKnockBack;
     private long strayExplosionDelay;
+    // harpoon
+    private boolean isHarpoonBullet;
+    private float harpoonGrabRange;
+    private float harpoonPullRange;
+    private double harpoonDamage;
 
     public GunImpl(YamlConfiguration data) {
         long start = System.currentTimeMillis();
@@ -90,22 +80,24 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         this.requiredLevel = data.getInt("RequiredLevel");
         this.material = Material.getMaterial(data.getString("Material"));
         this.weaponType = WeaponType.valueOf(data.getString("WeaponType"));
-        this.criticalChance = (float) data.getDouble("CriticalChance");
-        this.criticalAmount = (float) data.getDouble("CriticalAmount");
-        this.statusChance = (float) data.getDouble("StatusChance");
-        this.impactDamage = data.getDouble("Impact");
-        this.punctureDamage = data.getDouble("Puncture");
-        this.slashDamage = data.getDouble("Slash");
-        this.coldDamage = data.getDouble("Cold");
-        this.electricityDamage = data.getDouble("Electricity");
-        this.heatDamage = data.getDouble("Heat");
-        this.toxinDamage = data.getDouble("Toxin");
-        this.blastDamage = data.getDouble("Blast");
-        this.corrosiveDamage = data.getDouble("Corrosive");
-        this.gasDamage = data.getDouble("Gas");
-        this.magneticDamage = data.getDouble("Magnetic");
-        this.radiationDamage = data.getDouble("Radiation");
-        this.virusDamage = data.getDouble("Virus");
+        // WarDamage
+        setDefaultCriticalChance((float) data.getDouble("DefaultCriticalChance"));
+        setDefaultCriticalAmount((float) data.getDouble("DefaultCriticalAmount"));
+        setDefaultStatusChance((float) data.getDouble("DefaultStatusChance"));
+        setDefaultImpactDamage(data.getDouble("DefaultImpact"));
+        setDefaultPunctureDamage(data.getDouble("DefaultPuncture"));
+        setDefaultSlashDamage(data.getDouble("DefaultSlash"));
+        setDefaultColdDamage(data.getDouble("DefaultCold"));
+        setDefaultElectricityDamage(data.getDouble("DefaultElectricity"));
+        setDefaultHeatDamage(data.getDouble("DefaultHeat"));
+        setDefaultToxinDamage(data.getDouble("DefaultToxin"));
+        setDefaultBlastDamage(data.getDouble("DefaultBlast"));
+        setDefaultCorrosiveDamage(data.getDouble("DefaultCorrosive"));
+        setDefaultGasDamage(data.getDouble("DefaultGas"));
+        setDefaultMagneticDamage(data.getDouble("DefaultMagnetic"));
+        setDefaultRadiationDamage(data.getDouble("DefaultRadiation"));
+        setDefaultVirusDamage(data.getDouble("DefaultVirus"));
+        initWarDamage();
         // gun
         this.triggerType = TriggerType.valueOf(data.getString("TriggerType"));
         this.burstAtOnce = (byte) data.getInt("BurstAtOnce");
@@ -146,44 +138,32 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         this.strayDamage = data.getDouble("StrayDamage");
         this.strayKnockBack = (float) data.getDouble("StrayKnockBack");
         this.strayExplosionDelay = (long) data.getDouble("StrayExplosionDelay");
+        // harpoon
+        this.isHarpoonBullet = data.getBoolean("IsHarpoonBullet");
+        this.harpoonGrabRange = (float) data.getDouble("HarpoonGrabRange");
+        this.harpoonPullRange = (float) data.getDouble("HarpoonPullRange");
+        this.harpoonDamage = data.getDouble("HarpoonDamage");
         currentMagazineSize = magazineSize;
         long end = System.currentTimeMillis();
         System.out.println("GunImpl: " + (end - start));
     }
 
-//    public void test() {
-//        System.out.println("displayName : " + this.displayName);
-//        System.out.println("requiredLevel : " + this.requiredLevel);
-//        System.out.println("material : " + this.material);
-//        System.out.println("weaponType : " + this.weaponType);
-//        System.out.println("criticalChance : " + this.criticalChance);
-//        System.out.println("criticalAmount : " + this.criticalAmount);
-//        System.out.println("statusChance : " + this.statusChance);
-//        System.out.println("impactDamage : " + this.impactDamage);
-//        System.out.println("punctureDamage : " + this.punctureDamage);
-//        System.out.println("slashDamage : " + this.slashDamage);
-//        System.out.println("coldDamage : " + this.coldDamage);
-//        System.out.println("electricityDamage : " + this.electricityDamage);
-//        System.out.println("heatDamage : " + this.heatDamage);
-//        System.out.println("toxinDamage : " + this.toxinDamage);
-//        System.out.println("blastDamage : " + this.blastDamage);
-//        System.out.println("corrosiveDamage : " + this.corrosiveDamage);
-//        System.out.println("gasDamage : " + this.gasDamage);
-//        System.out.println("magneticDamage : " + this.magneticDamage);
-//        System.out.println("radiationDamage : " + this.radiationDamage);
-//        System.out.println("virusDamage : " + this.virusDamage);
-//        System.out.println("triggerType : " + this.triggerType);
-//        System.out.println("burstAtOnce : " + this.burstAtOnce);
-//        System.out.println("accuracy : " + this.accuracy);
-//        System.out.println("ammoType : " + this.ammoType);
-//        System.out.println("fireRate : " + this.fireRate);
-//        System.out.println("magazineSize : " + this.magazineSize);
-//        System.out.println("maxAmmo : " + this.maxAmmo);
-//        System.out.println("reloadTime : " + this.reloadTime);
-//        System.out.println("multiShot : " + this.multiShot);
-//        System.out.println("bulletDeletionTime : " + this.bulletDeletionTime);
-//    }
+    public void initWarDamage() {
+        setCurrentCriticalChance(getDefaultCriticalChance());
+        setCurrentCriticalAmount(getDefaultCriticalAmount());
+        setCurrentImpactDamage(getDefaultImpactDamage());
+        setCurrentPunctureDamage(getDefaultPunctureDamage());
+        setCurrentSlashDamage(getDefaultSlashDamage());
+        setCurrentBlastDamage(getDefaultBlastDamage());
+        setCurrentHeatDamage(getDefaultHeatDamage());
+        setCurrentToxinDamage(getDefaultToxinDamage());
+        setCurrentCorrosiveDamage(getDefaultCorrosiveDamage());
+        setCurrentGasDamage(getDefaultGasDamage());
+        setCurrentMagneticDamage(getDefaultMagneticDamage());
+        setCurrentRadiationDamage(getDefaultRadiationDamage());
+        setCurrentVirusDamage(getDefaultVirusDamage());
 
+    }
 
     public ItemStack getItemStack() {
         ItemStack item = new ItemStack(material);
@@ -192,49 +172,49 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         List<String> lore = new ArrayList<>();
         lore.add("§f◆ §b요구 마스터리 랭크 : " + requiredLevel);
         lore.add("§7┌━━━━━━━━━━━━━━━━━━━━━━━━━┐");
-        lore.add("§f▶   §b치명타 확률 : " + criticalChance + " %");
-        lore.add("§f▶   §b치명타 배수 : " + criticalAmount);
-        lore.add("§f▶   §b상태이상 확률 : " + statusChance + " %");
+        lore.add("§f▶   §b치명타 확률 : " + getCurrentCriticalChance() + " %");
+        lore.add("§f▶   §b치명타 배수 : " + getCurrentCriticalAmount());
+        lore.add("§f▶   §b상태이상 확률 : " + getCurrentStatusChance() + " %");
         lore.add("§7┌━━━━━━━━━━━━━━━━━━━━━━━━━┐");
-        if (impactDamage != 0) {
-            lore.add("§f▶   §b충격 데미지 : " + impactDamage);
+        if (getCurrentImpactDamage() != 0) {
+            lore.add("§f▶   §b충격 데미지 : " + getCurrentImpactDamage());
         }
-        if (punctureDamage != 0) {
-            lore.add("§f▶   §b관통 데미지 : " + punctureDamage);
+        if (getCurrentPunctureDamage() != 0) {
+            lore.add("§f▶   §b관통 데미지 : " + getCurrentPunctureDamage());
         }
-        if (slashDamage != 0) {
-            lore.add("§f▶   §b베기 데미지 : " + slashDamage);
+        if (getCurrentSlashDamage() != 0) {
+            lore.add("§f▶   §b베기 데미지 : " + getCurrentSlashDamage());
         }
         lore.add("§7┌━━━━━━━━━━━━━━━━━━━━━━━━━┐");
-        if (coldDamage != 0) {
-            lore.add("§f▶   §b냉기 데미지 : " + coldDamage);
+        if (getCurrentColdDamage() != 0) {
+            lore.add("§f▶   §b냉기 데미지 : " + getCurrentColdDamage());
         }
-        if (electricityDamage != 0) {
-            lore.add("§f▶   §b전기 데미지 : " + electricityDamage);
+        if (getCurrentElectricityDamage() != 0) {
+            lore.add("§f▶   §b전기 데미지 : " + getCurrentElectricityDamage());
         }
-        if (heatDamage != 0) {
-            lore.add("§f▶   §b화염 데미지 : " + heatDamage);
+        if (getCurrentHeatDamage() != 0) {
+            lore.add("§f▶   §b화염 데미지 : " + getCurrentHeatDamage());
         }
-        if (toxinDamage != 0) {
-            lore.add("§f▶   §b독성 데미지 : " + toxinDamage);
+        if (getCurrentToxinDamage() != 0) {
+            lore.add("§f▶   §b독성 데미지 : " + getCurrentToxinDamage());
         }
-        if (blastDamage != 0) {
-            lore.add("§f▶   §b폭발 데미지 : " + blastDamage);
+        if (getCurrentBlastDamage() != 0) {
+            lore.add("§f▶   §b폭발 데미지 : " + getCurrentBlastDamage());
         }
-        if (corrosiveDamage != 0) {
-            lore.add("§f▶   §b부식 데미지 : " + corrosiveDamage);
+        if (getCurrentCorrosiveDamage() != 0) {
+            lore.add("§f▶   §b부식 데미지 : " + getCurrentCorrosiveDamage());
         }
-        if (gasDamage != 0) {
-            lore.add("§f▶   §b가스 데미지 : " + gasDamage);
+        if (getCurrentGasDamage() != 0) {
+            lore.add("§f▶   §b가스 데미지 : " + getCurrentGasDamage());
         }
-        if (magneticDamage != 0) {
-            lore.add("§f▶   §b자성 데미지 : " + magneticDamage);
+        if (getCurrentMagneticDamage() != 0) {
+            lore.add("§f▶   §b자성 데미지 : " + getCurrentMagneticDamage());
         }
-        if (radiationDamage != 0) {
-            lore.add("§f▶   §b방사능 데미지 : " + radiationDamage);
+        if (getCurrentRadiationDamage() != 0) {
+            lore.add("§f▶   §b방사능 데미지 : " + getCurrentRadiationDamage());
         }
-        if (virusDamage != 0) {
-            lore.add("§f▶   §b바이러스 데미지 : " + virusDamage);
+        if (getCurrentVirusDamage() != 0) {
+            lore.add("§f▶   §b바이러스 데미지 : " + getCurrentVirusDamage());
         }
         lore.add("§7┌━━━━━━━━━━━━━━━━━━━━━━━━━┐");
         lore.add("§f▶   §b트리거 타입 : " + triggerType);
@@ -337,164 +317,28 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
         this.weaponType = weaponType;
     }
 
-    @Override
-    public float getCriticalChance() {
-        return criticalChance;
+    public float getStrayRange() {
+        return strayRange;
     }
 
-    @Override
-    public void setCriticalChance(float criticalChance) {
-        this.criticalChance = criticalChance;
+    public void setStrayRange(float strayRange) {
+        this.strayRange = strayRange;
     }
 
-    @Override
-    public float getCriticalAmount() {
-        return criticalAmount;
+    public double getStrayDamage() {
+        return strayDamage;
     }
 
-    @Override
-    public void setCriticalAmount(float criticalAmount) {
-        this.criticalAmount = criticalAmount;
+    public void setStrayDamage(double strayDamage) {
+        this.strayDamage = strayDamage;
     }
 
-    @Override
-    public float getStatusChance() {
-        return statusChance;
+    public float getStrayKnockBack() {
+        return strayKnockBack;
     }
 
-    @Override
-    public void setStatusChance(float statusChance) {
-        this.statusChance = statusChance;
-    }
-
-    @Override
-    public double getImpactDamage() {
-        return impactDamage;
-    }
-
-    @Override
-    public void setImpactDamage(double impactDamage) {
-        this.impactDamage = impactDamage;
-    }
-
-    @Override
-    public double getPunctureDamage() {
-        return punctureDamage;
-    }
-
-    @Override
-    public void setPunctureDamage(double punctureDamage) {
-        this.punctureDamage = punctureDamage;
-    }
-
-    @Override
-    public double getSlashDamage() {
-        return slashDamage;
-    }
-
-    @Override
-    public void setSlashDamage(double slashDamage) {
-        this.slashDamage = slashDamage;
-    }
-
-    @Override
-    public double getColdDamage() {
-        return coldDamage;
-    }
-
-    @Override
-    public void setColdDamage(double coldDamage) {
-        this.coldDamage = coldDamage;
-    }
-
-    @Override
-    public double getElectricityDamage() {
-        return electricityDamage;
-    }
-
-    @Override
-    public void setElectricityDamage(double electricityDamage) {
-        this.electricityDamage = electricityDamage;
-    }
-
-    @Override
-    public double getHeatDamage() {
-        return heatDamage;
-    }
-
-    @Override
-    public void setHeatDamage(double heatDamage) {
-        this.heatDamage = heatDamage;
-    }
-
-    @Override
-    public double getToxinDamage() {
-        return toxinDamage;
-    }
-
-    @Override
-    public void setToxinDamage(double toxinDamage) {
-        this.toxinDamage = toxinDamage;
-    }
-
-    @Override
-    public double getBlastDamage() {
-        return blastDamage;
-    }
-
-    @Override
-    public void setBlastDamage(double blastDamage) {
-        this.blastDamage = blastDamage;
-    }
-
-    @Override
-    public double getCorrosiveDamage() {
-        return corrosiveDamage;
-    }
-
-    @Override
-    public void setCorrosiveDamage(double corrosiveDamage) {
-        this.corrosiveDamage = corrosiveDamage;
-    }
-
-    @Override
-    public double getGasDamage() {
-        return gasDamage;
-    }
-
-    @Override
-    public void setGasDamage(double gasDamage) {
-        this.gasDamage = gasDamage;
-    }
-
-    @Override
-    public double getMagneticDamage() {
-        return magneticDamage;
-    }
-
-    @Override
-    public void setMagneticDamage(double magneticDamage) {
-        this.magneticDamage = magneticDamage;
-    }
-
-    @Override
-    public double getRadiationDamage() {
-        return radiationDamage;
-    }
-
-    @Override
-    public void setRadiationDamage(double radiationDamage) {
-        this.radiationDamage = radiationDamage;
-    }
-
-    @Override
-    public double getVirusDamage() {
-        return virusDamage;
-    }
-
-    @Override
-    public void setVirusDamage(double virusDamage) {
-        this.virusDamage = virusDamage;
+    public void setStrayKnockBack(float strayKnockBack) {
+        this.strayKnockBack = strayKnockBack;
     }
 
     @Override
@@ -638,7 +482,6 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
     }
 
     // bullet types
-
 
     @Override
     public boolean isHomingBullet() {
@@ -847,5 +690,45 @@ public class GunImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet
     @Override
     public void setStrayExplosionDelay(long strayExplosionDelay) {
         this.strayExplosionDelay = strayExplosionDelay;
+    }
+
+    @Override
+    public boolean isHarpoonBullet() {
+        return isHarpoonBullet;
+    }
+
+    @Override
+    public void setHarpoonBullet(boolean harpoonBullet) {
+        isHarpoonBullet = harpoonBullet;
+    }
+
+    @Override
+    public float getHarpoonGrabRange() {
+        return harpoonGrabRange;
+    }
+
+    @Override
+    public void setHarpoonGrabRange(float harpoonGrabRange) {
+        this.harpoonGrabRange = harpoonGrabRange;
+    }
+
+    @Override
+    public float getHarpoonPullRange() {
+        return harpoonPullRange;
+    }
+
+    @Override
+    public void setHarpoonPullRange(float harpoonPullRange) {
+        this.harpoonPullRange = harpoonPullRange;
+    }
+
+    @Override
+    public double getHarpoonDamage() {
+        return harpoonDamage;
+    }
+
+    @Override
+    public void setHarpoonDamage(double harpoonDamage) {
+        this.harpoonDamage = harpoonDamage;
     }
 }
