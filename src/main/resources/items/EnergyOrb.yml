@@ -1,0 +1,15 @@
+Name: "에너지_오브"
+DisplayName: "&f[ &1에너지 오브 &f]"
+Material: DIAMOND
+CustomModelData: 777
+Effect:
+  - recharge 50 energy
+  - recharge 20 shield
+  - recharge 1 health
+  - increase 10 armor for 10 seconds
+  - increase 10 heat_resistance for 10 seconds
+Command:
+  - -op summon ZOMBIE # 관리자의 권한으로 명령어 실행 (-op 의 위치는 상관이 없습니다. 무조건 -op가 포함되어있다면 커맨드 실행시 삭제후 실행됩니다.)
+  - say hello # 일반 유저가 획득하면 의미가 없다 만 커맨드는 실행된다.
+# 커맨드는 많이 넣지 않는걸 추천합니다.
+# 커맨드 도배로 킥될수도 있거든요 XD

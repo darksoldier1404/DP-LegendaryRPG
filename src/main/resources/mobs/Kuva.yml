@@ -1,20 +1,25 @@
 Name: "Kuva"
 
+# 기본 설정
 DisplayName: "&f[ &6그리니어 &f] &f&l쿠바 렌서 &f[ &6LV.<level> &f]"
 EntityType: ZOMBIE
-
 MinLevel: 10
 MaxLevel: 20
-Health: 350-450
+DropExp: 100
+DropExpPerLevel: 5
+
+# 능력치 설정
+Health: 350
+HealthPerLevel: 50
 Shield: 0
-Armor: 8-18
-Damage: 5-10
-DropExp: 100-150
+ShieldPerLevel: 0
+Armor: 8
+ArmorPerLevel: 5
 
 DropTable:
-  TestItem1:
-    DropChance: 20
-    DropSize: 1-3
+  TestItem1: # item name in DP-LegendaryRPG/items
+    DropChance: 20 # chance of drop 0 ~ 100%
+    DropSize: 1-3 # how many item dropped
   TestItem2:
     DropChance: 20
     DropSize: 1-3
@@ -25,10 +30,11 @@ DropTable:
     DropChance: 20
     DropSize: 1-3
 
+# use this for only ResourcePack
+# this is not for damage or health or any other stats
+# only for the model and textures
 EntityEquipment:
   HEAD: ItemStack
   CHEST: ItemStack
   LEGS: ItemStack
   FEET: ItemStack
-  RIGHT_HAND: ItemStack
-  LEFT_HAND: ItemStack
