@@ -1,5 +1,6 @@
 package com.darksoldier1404.dlr.mobs;
 
+import com.darksoldier1404.dlr.weapon.obj.WarDamageable;
 import org.bukkit.entity.EntityType;
 /*
 Name: "Kuva"
@@ -26,25 +27,27 @@ Shield: 0
 Armor: 8
 Damage: 5
 DropExp: 100
-
-
-EntityEquipment:
-  HEAD: ItemStack
-  CHEST: ItemStack
-  LEGS: ItemStack
-  FEET: ItemStack
-  RIGHT_HAND: ItemStack
-  LEFT_HAND: ItemStack
-
  */
-public interface LRMob {
-    EntityType getEntityType();
+public interface LRMob extends WarDamageable {
     String getName();
+    EntityType getEntityType();
     String getDisplayName();
-    double getHealth();
-    double getShield();
-    double getArmor();
-    double getDamage();
-    double getDropExp();
+    int getMinLevel();
+    int getCurrentLevel();
+    int getMaxLevel();
+    double getMinDropExp();
+    double getCurrentDropExp();
+    double getDropExpPerLevel();
+
+    void setName(String name);
+    void setEntityType(EntityType entityType);
+    void setDisplayName(String displayName);
+    void setMinLevel(int minLevel);
+    void setCurrentLevel(int currentLevel);
+    void setMaxLevel(int maxLevel);
+    void setMinDropExp(double minDropExp);
+    void setCurrentDropExp(double currentDropExp);
+    void setDropExpPerLevel(double dropExpPerLevel);
+
 
 }

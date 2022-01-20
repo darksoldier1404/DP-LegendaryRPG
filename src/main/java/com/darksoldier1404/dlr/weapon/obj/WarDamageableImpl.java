@@ -28,32 +28,32 @@ public class WarDamageableImpl implements WarDamageable {
     private double defaultMagneticResistance;
     private double defaultRadiationResistance;
     private double defaultVirusResistance;
-    private double maxHealth;
-    private double maxHealthRecharge;
-    private double maxShield;
-    private double maxShieldRecharge;
-    private double maxArmor;
-    private double maxEnergy;
-    private double maxEnergyRecharge;
-    private double maxMovementSpeed;
-    private double maxAttackSpeed;
-    private float maxAbilityStrength;
-    private float maxAbilityRange;
-    private float maxAbilityEfficiency;
-    private float maxAbilityDuration;
-    private double maxImpactResistance;
-    private double maxPunctureResistance;
-    private double maxSlashResistance;
-    private double maxColdResistance;
-    private double maxElectricityResistance;
-    private double maxHeatResistance;
-    private double maxToxinResistance;
-    private double maxBlastResistance;
-    private double maxCorrosiveResistance;
-    private double maxGasResistance;
-    private double maxMagneticResistance;
-    private double maxRadiationResistance;
-    private double maxVirusResistance;
+    private double HealthPerLevel;
+    private double HealthRechargePerLevel;
+    private double ShieldPerLevel;
+    private double ShieldRechargePerLevel;
+    private double ArmorPerLevel;
+    private double EnergyPerLevel;
+    private double EnergyRechargePerLevel;
+    private double MovementSpeedPerLevel;
+    private double AttackSpeedPerLevel;
+    private float AbilityStrengthPerLevel;
+    private float AbilityRangePerLevel;
+    private float AbilityEfficiencyPerLevel;
+    private float AbilityDurationPerLevel;
+    private double ImpactResistancePerLevel;
+    private double PunctureResistancePerLevel;
+    private double SlashResistancePerLevel;
+    private double ColdResistancePerLevel;
+    private double ElectricityResistancePerLevel;
+    private double HeatResistancePerLevel;
+    private double ToxinResistancePerLevel;
+    private double BlastResistancePerLevel;
+    private double CorrosiveResistancePerLevel;
+    private double GasResistancePerLevel;
+    private double MagneticResistancePerLevel;
+    private double RadiationResistancePerLevel;
+    private double VirusResistancePerLevel;
     private double currentHealth;
     private double currentHealthRecharge;
     private double currentShield;
@@ -368,263 +368,263 @@ public class WarDamageableImpl implements WarDamageable {
     }
 
     @Override
-    public double getMaxHealth() {
-        return maxHealth;
+    public double getHealthPerLevel() {
+        return HealthPerLevel;
     }
 
     @Override
-    public void setMaxHealth(double maxHealth) {
-        this.maxHealth = maxHealth;
+    public void setHealthPerLevel(double healthPerLevel) {
+        HealthPerLevel = healthPerLevel;
     }
 
     @Override
-    public double getMaxHealthRecharge() {
-        return maxHealthRecharge;
+    public double getHealthRechargePerLevel() {
+        return HealthRechargePerLevel;
     }
 
     @Override
-    public void setMaxHealthRecharge(double maxHealthRecharge) {
-        this.maxHealthRecharge = maxHealthRecharge;
+    public void setHealthRechargePerLevel(double healthRechargePerLevel) {
+        HealthRechargePerLevel = healthRechargePerLevel;
     }
 
     @Override
-    public double getMaxShield() {
-        return maxShield;
+    public double getShieldPerLevel() {
+        return ShieldPerLevel;
     }
 
     @Override
-    public void setMaxShield(double maxShield) {
-        this.maxShield = maxShield;
+    public void setShieldPerLevel(double shieldPerLevel) {
+        ShieldPerLevel = shieldPerLevel;
     }
 
     @Override
-    public double getMaxShieldRecharge() {
-        return maxShieldRecharge;
+    public double getShieldRechargePerLevel() {
+        return ShieldRechargePerLevel;
     }
 
     @Override
-    public void setMaxShieldRecharge(double maxShieldRecharge) {
-        this.maxShieldRecharge = maxShieldRecharge;
+    public void setShieldRechargePerLevel(double shieldRechargePerLevel) {
+        ShieldRechargePerLevel = shieldRechargePerLevel;
     }
 
     @Override
-    public double getMaxArmor() {
-        return maxArmor;
+    public double getArmorPerLevel() {
+        return ArmorPerLevel;
     }
 
     @Override
-    public void setMaxArmor(double maxArmor) {
-        this.maxArmor = maxArmor;
+    public void setArmorPerLevel(double armorPerLevel) {
+        ArmorPerLevel = armorPerLevel;
     }
 
     @Override
-    public double getMaxEnergy() {
-        return maxEnergy;
+    public double getEnergyPerLevel() {
+        return EnergyPerLevel;
     }
 
     @Override
-    public void setMaxEnergy(double maxEnergy) {
-        this.maxEnergy = maxEnergy;
+    public void setEnergyPerLevel(double energyPerLevel) {
+        EnergyPerLevel = energyPerLevel;
     }
 
     @Override
-    public double getMaxEnergyRecharge() {
-        return maxEnergyRecharge;
+    public double getEnergyRechargePerLevel() {
+        return EnergyRechargePerLevel;
     }
 
     @Override
-    public void setMaxEnergyRecharge(double maxEnergyRecharge) {
-        this.maxEnergyRecharge = maxEnergyRecharge;
+    public void setEnergyRechargePerLevel(double energyRechargePerLevel) {
+        EnergyRechargePerLevel = energyRechargePerLevel;
     }
 
     @Override
-    public double getMaxMovementSpeed() {
-        return maxMovementSpeed;
+    public double getMovementSpeedPerLevel() {
+        return MovementSpeedPerLevel;
     }
 
     @Override
-    public void setMaxMovementSpeed(double maxMovementSpeed) {
-        this.maxMovementSpeed = maxMovementSpeed;
+    public void setMovementSpeedPerLevel(double movementSpeedPerLevel) {
+        MovementSpeedPerLevel = movementSpeedPerLevel;
     }
 
     @Override
-    public double getMaxAttackSpeed() {
-        return maxAttackSpeed;
+    public double getAttackSpeedPerLevel() {
+        return AttackSpeedPerLevel;
     }
 
     @Override
-    public void setMaxAttackSpeed(double maxAttackSpeed) {
-        this.maxAttackSpeed = maxAttackSpeed;
+    public void setAttackSpeedPerLevel(double attackSpeedPerLevel) {
+        AttackSpeedPerLevel = attackSpeedPerLevel;
     }
 
     @Override
-    public float getMaxAbilityStrength() {
-        return maxAbilityStrength;
+    public float getAbilityStrengthPerLevel() {
+        return AbilityStrengthPerLevel;
     }
 
     @Override
-    public void setMaxAbilityStrength(float maxAbilityStrength) {
-        this.maxAbilityStrength = maxAbilityStrength;
+    public void setAbilityStrengthPerLevel(float abilityStrengthPerLevel) {
+        AbilityStrengthPerLevel = abilityStrengthPerLevel;
     }
 
     @Override
-    public float getMaxAbilityRange() {
-        return maxAbilityRange;
+    public float getAbilityRangePerLevel() {
+        return AbilityRangePerLevel;
     }
 
     @Override
-    public void setMaxAbilityRange(float maxAbilityRange) {
-        this.maxAbilityRange = maxAbilityRange;
+    public void setAbilityRangePerLevel(float abilityRangePerLevel) {
+        AbilityRangePerLevel = abilityRangePerLevel;
     }
 
     @Override
-    public float getMaxAbilityEfficiency() {
-        return maxAbilityEfficiency;
+    public float getAbilityEfficiencyPerLevel() {
+        return AbilityEfficiencyPerLevel;
     }
 
     @Override
-    public void setMaxAbilityEfficiency(float maxAbilityEfficiency) {
-        this.maxAbilityEfficiency = maxAbilityEfficiency;
+    public void setAbilityEfficiencyPerLevel(float abilityEfficiencyPerLevel) {
+        AbilityEfficiencyPerLevel = abilityEfficiencyPerLevel;
     }
 
     @Override
-    public float getMaxAbilityDuration() {
-        return maxAbilityDuration;
+    public float getAbilityDurationPerLevel() {
+        return AbilityDurationPerLevel;
     }
 
     @Override
-    public void setMaxAbilityDuration(float maxAbilityDuration) {
-        this.maxAbilityDuration = maxAbilityDuration;
+    public void setAbilityDurationPerLevel(float abilityDurationPerLevel) {
+        AbilityDurationPerLevel = abilityDurationPerLevel;
     }
 
     @Override
-    public double getMaxImpactResistance() {
-        return maxImpactResistance;
+    public double getImpactResistancePerLevel() {
+        return ImpactResistancePerLevel;
     }
 
     @Override
-    public void setMaxImpactResistance(double maxImpactResistance) {
-        this.maxImpactResistance = maxImpactResistance;
+    public void setImpactResistancePerLevel(double impactResistancePerLevel) {
+        ImpactResistancePerLevel = impactResistancePerLevel;
     }
 
     @Override
-    public double getMaxPunctureResistance() {
-        return maxPunctureResistance;
+    public double getPunctureResistancePerLevel() {
+        return PunctureResistancePerLevel;
     }
 
     @Override
-    public void setMaxPunctureResistance(double maxPunctureResistance) {
-        this.maxPunctureResistance = maxPunctureResistance;
+    public void setPunctureResistancePerLevel(double punctureResistancePerLevel) {
+        PunctureResistancePerLevel = punctureResistancePerLevel;
     }
 
     @Override
-    public double getMaxSlashResistance() {
-        return maxSlashResistance;
+    public double getSlashResistancePerLevel() {
+        return SlashResistancePerLevel;
     }
 
     @Override
-    public void setMaxSlashResistance(double maxSlashResistance) {
-        this.maxSlashResistance = maxSlashResistance;
+    public void setSlashResistancePerLevel(double slashResistancePerLevel) {
+        SlashResistancePerLevel = slashResistancePerLevel;
     }
 
     @Override
-    public double getMaxColdResistance() {
-        return maxColdResistance;
+    public double getColdResistancePerLevel() {
+        return ColdResistancePerLevel;
     }
 
     @Override
-    public void setMaxColdResistance(double maxColdResistance) {
-        this.maxColdResistance = maxColdResistance;
+    public void setColdResistancePerLevel(double coldResistancePerLevel) {
+        ColdResistancePerLevel = coldResistancePerLevel;
     }
 
     @Override
-    public double getMaxElectricityResistance() {
-        return maxElectricityResistance;
+    public double getElectricityResistancePerLevel() {
+        return ElectricityResistancePerLevel;
     }
 
     @Override
-    public void setMaxElectricityResistance(double maxElectricityResistance) {
-        this.maxElectricityResistance = maxElectricityResistance;
+    public void setElectricityResistancePerLevel(double electricityResistancePerLevel) {
+        ElectricityResistancePerLevel = electricityResistancePerLevel;
     }
 
     @Override
-    public double getMaxHeatResistance() {
-        return maxHeatResistance;
+    public double getHeatResistancePerLevel() {
+        return HeatResistancePerLevel;
     }
 
     @Override
-    public void setMaxHeatResistance(double maxHeatResistance) {
-        this.maxHeatResistance = maxHeatResistance;
+    public void setHeatResistancePerLevel(double heatResistancePerLevel) {
+        HeatResistancePerLevel = heatResistancePerLevel;
     }
 
     @Override
-    public double getMaxToxinResistance() {
-        return maxToxinResistance;
+    public double getToxinResistancePerLevel() {
+        return ToxinResistancePerLevel;
     }
 
     @Override
-    public void setMaxToxinResistance(double maxToxinResistance) {
-        this.maxToxinResistance = maxToxinResistance;
+    public void setToxinResistancePerLevel(double toxinResistancePerLevel) {
+        ToxinResistancePerLevel = toxinResistancePerLevel;
     }
 
     @Override
-    public double getMaxBlastResistance() {
-        return maxBlastResistance;
+    public double getBlastResistancePerLevel() {
+        return BlastResistancePerLevel;
     }
 
     @Override
-    public void setMaxBlastResistance(double maxBlastResistance) {
-        this.maxBlastResistance = maxBlastResistance;
+    public void setBlastResistancePerLevel(double blastResistancePerLevel) {
+        BlastResistancePerLevel = blastResistancePerLevel;
     }
 
     @Override
-    public double getMaxCorrosiveResistance() {
-        return maxCorrosiveResistance;
+    public double getCorrosiveResistancePerLevel() {
+        return CorrosiveResistancePerLevel;
     }
 
     @Override
-    public void setMaxCorrosiveResistance(double maxCorrosiveResistance) {
-        this.maxCorrosiveResistance = maxCorrosiveResistance;
+    public void setCorrosiveResistancePerLevel(double corrosiveResistancePerLevel) {
+        CorrosiveResistancePerLevel = corrosiveResistancePerLevel;
     }
 
     @Override
-    public double getMaxGasResistance() {
-        return maxGasResistance;
+    public double getGasResistancePerLevel() {
+        return GasResistancePerLevel;
     }
 
     @Override
-    public void setMaxGasResistance(double maxGasResistance) {
-        this.maxGasResistance = maxGasResistance;
+    public void setGasResistancePerLevel(double gasResistancePerLevel) {
+        GasResistancePerLevel = gasResistancePerLevel;
     }
 
     @Override
-    public double getMaxMagneticResistance() {
-        return maxMagneticResistance;
+    public double getMagneticResistancePerLevel() {
+        return MagneticResistancePerLevel;
     }
 
     @Override
-    public void setMaxMagneticResistance(double maxMagneticResistance) {
-        this.maxMagneticResistance = maxMagneticResistance;
+    public void setMagneticResistancePerLevel(double magneticResistancePerLevel) {
+        MagneticResistancePerLevel = magneticResistancePerLevel;
     }
 
     @Override
-    public double getMaxRadiationResistance() {
-        return maxRadiationResistance;
+    public double getRadiationResistancePerLevel() {
+        return RadiationResistancePerLevel;
     }
 
     @Override
-    public void setMaxRadiationResistance(double maxRadiationResistance) {
-        this.maxRadiationResistance = maxRadiationResistance;
+    public void setRadiationResistancePerLevel(double radiationResistancePerLevel) {
+        RadiationResistancePerLevel = radiationResistancePerLevel;
     }
 
     @Override
-    public double getMaxVirusResistance() {
-        return maxVirusResistance;
+    public double getVirusResistancePerLevel() {
+        return VirusResistancePerLevel;
     }
 
     @Override
-    public void setMaxVirusResistance(double maxVirusResistance) {
-        this.maxVirusResistance = maxVirusResistance;
+    public void setVirusResistancePerLevel(double virusResistancePerLevel) {
+        VirusResistancePerLevel = virusResistancePerLevel;
     }
 
     @Override

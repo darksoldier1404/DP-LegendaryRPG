@@ -61,7 +61,7 @@ public class LREvent implements Listener {
                 loc.getWorld().getNearbyEntities(loc, range, range, range).forEach(o -> {
                     if (o instanceof LivingEntity le && !(o instanceof Player)) {
                         try {
-                            DamageUtils.damage(b, le);
+                            Bukkit.getScheduler().runTask(plugin, () -> DamageUtils.damage(b, le));
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
@@ -96,8 +96,10 @@ public class LREvent implements Listener {
                     if (nearest != null) {
                         if (!alreadyChained.containsKey(nearest.getUniqueId())) {
                             alreadyChained.put(nearest.getUniqueId(), new HashSet<>());
-                            DamageUtils.damage(b, nearest);
-                            ParticleUtil.line(cl, nearest.getLocation().add(0, 1, 0), 0.4F, Particle.SOUL_FIRE_FLAME, 0, 0, 0, 0, 0);
+                            LivingEntity finalNearest = nearest;
+                            Bukkit.getScheduler().runTask(plugin, () -> DamageUtils.damage(b, finalNearest));
+                            Location finalCl = cl;
+                            Bukkit.getScheduler().runTask(plugin, () -> ParticleUtil.line(finalCl, finalNearest.getLocation().add(0, 1, 0), 0.4F, Particle.SOUL_FIRE_FLAME, 0, 0, 0, 0, 0));
                             cl = nearest.getLocation();
                         }
                     }
@@ -111,8 +113,8 @@ public class LREvent implements Listener {
                 float power = b.getGravityPower();
                 BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> gl.getWorld().getNearbyEntities(gl, range, range, range).forEach(o -> {
                     if (o instanceof LivingEntity le && !(o instanceof Player)) {
-                        le.setVelocity(gl.toVector().subtract(le.getLocation().toVector()).normalize().multiply(power));
-                        DamageUtils.damage(b, le);
+                        Bukkit.getScheduler().runTask(plugin, () -> le.setVelocity(gl.toVector().subtract(le.getLocation().toVector()).normalize().multiply(power)));
+                        Bukkit.getScheduler().runTask(plugin, () -> DamageUtils.damage(b, le));
                     }
                 }), 0L, 5L);
                 Bukkit.getScheduler().runTaskLater(plugin, task::cancel, (long) (duration * 20));
@@ -124,9 +126,9 @@ public class LREvent implements Listener {
                 long delay = b.getStrayExplosionDelay();
                 Bukkit.getScheduler().runTaskLater(plugin, () -> gl.getWorld().getNearbyEntities(gl, range, range, range).forEach(o -> {
                     if (o instanceof LivingEntity le && !(o instanceof Player)) {
-                        le.setVelocity(le.getLocation().toVector().subtract(gl.toVector()).normalize().multiply(knockBack));
-                        DamageUtils.damage(b, le);
-                        ParticleUtil.sphere(loc, range, 20, Particle.CRIT);
+                        Bukkit.getScheduler().runTask(plugin, () -> le.setVelocity(le.getLocation().toVector().subtract(gl.toVector()).normalize().multiply(knockBack)));
+                        Bukkit.getScheduler().runTask(plugin, () -> DamageUtils.damage(b, le));
+                        Bukkit.getScheduler().runTask(plugin, () -> ParticleUtil.sphere(loc, range, 20, Particle.CRIT));
                         loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 0.6F, 1.4F);
                     }
                 }), delay);
@@ -139,13 +141,13 @@ public class LREvent implements Listener {
                 //todo true damage logic
                 Bukkit.getScheduler().runTask(plugin, () -> gl.getWorld().getNearbyEntities(gl, range, range, range).forEach(o -> {
                     if (o instanceof LivingEntity le && !(o instanceof Player)) {
-                        le.setVelocity(gl.toVector().subtract(le.getLocation().toVector()).normalize().multiply(2));
-                        ParticleUtil.line(le.getLocation(), gl.add(0, 1, 0), 0.4F, Particle.ENCHANTMENT_TABLE, 0, 0, 0, 0, 0);
-                        DamageUtils.damage(b, le);
+                        Bukkit.getScheduler().runTask(plugin, () -> le.setVelocity(gl.toVector().subtract(le.getLocation().toVector()).normalize().multiply(2)));
+                        Bukkit.getScheduler().runTask(plugin, () -> ParticleUtil.line(le.getLocation(), gl.add(0, 1, 0), 0.4F, Particle.ENCHANTMENT_TABLE, 0, 0, 0, 0, 0));
+                        Bukkit.getScheduler().runTask(plugin, () -> DamageUtils.damage(b, le));
                         Bukkit.getScheduler().runTaskLater(plugin, () -> {
                             if (le.isValid()) {
-                                le.setVelocity(e.getShooter().getLocation().toVector().subtract(le.getLocation().toVector()).normalize().multiply(pullRange));
-                                ParticleUtil.line(le.getLocation(), e.getShooter().getLocation().add(0, 1, 0), 0.4F, Particle.ENCHANTMENT_TABLE, 0, 0, 0, 0, 0);
+                                Bukkit.getScheduler().runTask(plugin, () -> le.setVelocity(e.getShooter().getLocation().toVector().subtract(le.getLocation().toVector()).normalize().multiply(pullRange)));
+                                Bukkit.getScheduler().runTask(plugin, () -> ParticleUtil.line(le.getLocation(), e.getShooter().getLocation().add(0, 1, 0), 0.4F, Particle.ENCHANTMENT_TABLE, 0, 0, 0, 0, 0));
                             }
                         }, 10L);
                     }
