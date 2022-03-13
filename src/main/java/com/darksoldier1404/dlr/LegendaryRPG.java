@@ -4,6 +4,7 @@ import com.darksoldier1404.dlr.events.GunFireLogic;
 import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
+import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
 import com.darksoldier1404.dlr.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.mobs.dt.DropTableManager;
 import com.darksoldier1404.dlr.tasks.BulletTask;
@@ -35,6 +36,7 @@ public class LegendaryRPG extends JavaPlugin {
     private static LegendaryRPG plugin;
     public YamlConfiguration config; // 설정 파일
     private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
+    private final Map<String, AbilityCast> abilities = new HashMap<>(); // 모든 무기 목록
     private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
     private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
     private final Map<UUID, Tuple<BukkitTask, Arrow>> homingBullets = new HashMap<>(); // 발사된 미사일 총알
@@ -50,6 +52,10 @@ public class LegendaryRPG extends JavaPlugin {
 
     public Map<String, Weapon> getWeapons() {
         return weapons;
+    }
+
+    public Map<String, AbilityCast> getAbilities() {
+        return abilities;
     }
 
     public Map<String, YamlConfiguration> getSpawners() {

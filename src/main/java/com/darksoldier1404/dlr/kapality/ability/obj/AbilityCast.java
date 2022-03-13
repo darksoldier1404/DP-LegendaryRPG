@@ -10,14 +10,12 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class AbilityCast {
-    private final Player caster;
     private final ArrayList<Ability> abilities;
     private final ArrayList<Entity> targetList;
     private BukkitTask task;
     private boolean isCooldown;
 
-    public AbilityCast(Player caster) {
-        this.caster = caster;
+    public AbilityCast() {
         abilities = new ArrayList<>();
         targetList = new ArrayList<>();
         isCooldown = false;
@@ -60,7 +58,7 @@ public class AbilityCast {
         isCooldown = cooldown;
     }
 
-    public void cast() {
+    public void cast(Player caster) {
         task = Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
             for (Ability ability : abilities) {
                 ability.cast(caster, this, task);

@@ -10,7 +10,7 @@ tasks.withType(JavaCompile) {
 }
 
 group 'github.com/darksoldier1404'
-version = '1.0.0.74'
+version = '1.0.0.75'
 
 task deleteMyFile(type: Delete) {
     delete "C:\\Minecraft Servers\\1.17.1 Play Ground\\plugins\\DP-LegendaryRPG-" + version + ".jar"

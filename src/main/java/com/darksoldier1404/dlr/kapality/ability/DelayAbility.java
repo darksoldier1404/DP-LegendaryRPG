@@ -8,17 +8,17 @@ import org.bukkit.scheduler.BukkitTask;
 
 @SuppressWarnings("unused")
 public class DelayAbility extends AbilityAbstract implements Ability {
-    private int delay;
+    private long delay;
 
-    public DelayAbility(int delay) {
+    public DelayAbility(long delay) {
         this.delay = delay;
     }
 
-    public int getDelay() {
+    public long getDelay() {
         return delay;
     }
 
-    public void setDelay(int delay) {
+    public void setDelay(long delay) {
         this.delay = delay;
     }
 
