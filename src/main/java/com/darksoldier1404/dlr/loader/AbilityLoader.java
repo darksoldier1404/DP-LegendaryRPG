@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.loader;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
+import com.darksoldier1404.dlr.kapality.ability.ClearTargetAbility;
 import com.darksoldier1404.dlr.kapality.ability.DelayAbility;
 import com.darksoldier1404.dlr.kapality.ability.TargetAbility;
 import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
@@ -63,7 +64,13 @@ public class AbilityLoader {
                     double angle = data.getDouble(key+".TargetAngle");
                     int maxTarget = data.getInt(key+".MaxTarget");
                     cast.addAbility(new TargetAbility(type, range, angle, maxTarget));
+                    continue;
                 }
+                if(key.equals(".ClearTargetAbility")) {
+                    cast.addAbility(new ClearTargetAbility());
+                    continue;
+                }
+
             }
         }
     }
