@@ -1,7 +1,7 @@
 package com.darksoldier1404.dlr.weapon.obj.gun;
 
 import com.darksoldier1404.dlr.utils.ItemStackNBTUtil;
-import com.darksoldier1404.dlr.weapon.obj.WarDamageImpl;
+import com.darksoldier1404.dlr.obj.WarDamageImpl;
 import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet, StrayBullet, HarpoonBullet {
+public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, GravityBullet, HomingBullet, ExplosiveBullet, StrayBullet, HarpoonBullet, ClusterBullet, RemoteExplosiveBullet {
     //weapon
     private String displayName;
-    private int requiredLevel;
+    private int requireMasteryRank;
     private int currentLevel;
     private int maxLevel;
     private double currentExp;
@@ -72,12 +72,25 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
     private float harpoonGrabRange;
     private float harpoonPullRange;
     private double harpoonDamage;
+    // cluster
+    private boolean isClusterBullet;
+    private boolean isSubClusterBullet;
+    private float clusterExplosionRange;
+    private double clusterExplosionDamage;
+    private int clusterAmount;
+    private double clusterDamage;
+    // explosive
+    private boolean isRemoteExplosiveBullet;
+    private float remoteExplosionRange;
+    private float remoteExplosiveDuration;
+    private double remoteExplosionDamage;
+    private float remoteExplosionKnockBack;
 
     public GunImpl(YamlConfiguration data) {
         long start = System.currentTimeMillis();
         // weapon
         this.displayName = data.getString("DisplayName");
-        this.requiredLevel = data.getInt("RequiredLevel");
+        this.requireMasteryRank = data.getInt("RequireMasteryRank");
         this.material = Material.getMaterial(data.getString("Material"));
         this.weaponType = WeaponType.valueOf(data.getString("WeaponType"));
         // WarDamage
@@ -143,9 +156,26 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
         this.harpoonGrabRange = (float) data.getDouble("HarpoonGrabRange");
         this.harpoonPullRange = (float) data.getDouble("HarpoonPullRange");
         this.harpoonDamage = data.getDouble("HarpoonDamage");
+        // cluster
+        this.isClusterBullet = data.getBoolean("IsClusterBullet");
+        this.clusterExplosionRange = (float) data.getDouble("ClusterExplosionRange");
+        this.clusterExplosionDamage = data.getDouble("ClusterExplosionDamage");
+        this.clusterAmount = data.getInt("ClusterAmount");
+        this.clusterDamage = data.getDouble("ClusterDamage");
+        // Remote explosive bullet
+        this.isRemoteExplosiveBullet = data.getBoolean("IsRemoteExplosiveBullet");
+        this.remoteExplosionRange = (float) data.getDouble("RemoteExplosionRange");
+        this.remoteExplosiveDuration = (float) data.getDouble("RemoteExplosiveDuration");
+        this.remoteExplosionDamage = data.getDouble("RemoteExplosionDamage");
+        this.remoteExplosionKnockBack = (float) data.getDouble("RemoteExplosionKnockBack");
         currentMagazineSize = magazineSize;
         long end = System.currentTimeMillis();
         System.out.println("GunImpl: " + (end - start));
+    }
+
+    @Override
+    public GunImpl clone() throws CloneNotSupportedException {
+        return (GunImpl) super.clone();
     }
 
     public void initWarDamage() {
@@ -162,7 +192,6 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
         setCurrentMagneticDamage(getDefaultMagneticDamage());
         setCurrentRadiationDamage(getDefaultRadiationDamage());
         setCurrentVirusDamage(getDefaultVirusDamage());
-
     }
 
     public ItemStack getItemStack() {
@@ -170,7 +199,7 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
         ItemMeta im = item.getItemMeta();
         im.setDisplayName("§f[ §e주 무기 §f] §b" + displayName + " §f[ §6LV." + currentLevel + " §f]");
         List<String> lore = new ArrayList<>();
-        lore.add("§f◆ §b요구 마스터리 랭크 : " + requiredLevel);
+        lore.add("§f◆ §b요구 마스터리 랭크 : " + requireMasteryRank);
         lore.add("§7┌━━━━━━━━━━━━━━━━━━━━━━━━━┐");
         lore.add("§f▶   §b치명타 확률 : " + getCurrentCriticalChance() + " %");
         lore.add("§f▶   §b치명타 배수 : " + getCurrentCriticalAmount());
@@ -248,13 +277,13 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
     }
 
     @Override
-    public int getRequiredLevel() {
-        return requiredLevel;
+    public int getRequireMasteryRank() {
+        return requireMasteryRank;
     }
 
     @Override
-    public void setRequiredLevel(int requiredLevel) {
-        this.requiredLevel = requiredLevel;
+    public void setRequireMasteryRank(int requireMasteryRank) {
+        this.requireMasteryRank = requireMasteryRank;
     }
 
     @Override
@@ -730,5 +759,113 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
     @Override
     public void setHarpoonDamage(double harpoonDamage) {
         this.harpoonDamage = harpoonDamage;
+    }
+
+    @Override
+    public boolean isClusterBullet() {
+        return isClusterBullet;
+    }
+
+    @Override
+    public void setClusterBullet(boolean clusterBullet) {
+        isClusterBullet = clusterBullet;
+    }
+
+    @Override
+    public boolean isSubClusterBullet() {
+        return isSubClusterBullet;
+    }
+
+    @Override
+    public void setSubClusterBullet(boolean subClusterBullet) {
+        isSubClusterBullet = subClusterBullet;
+    }
+
+    @Override
+    public float getClusterExplosionRange() {
+        return clusterExplosionRange;
+    }
+
+    @Override
+    public void setClusterExplosionRange(float clusterExplosionRange) {
+        this.clusterExplosionRange = clusterExplosionRange;
+    }
+
+    @Override
+    public double getClusterExplosionDamage() {
+        return clusterExplosionDamage;
+    }
+
+    @Override
+    public void setClusterExplosionDamage(double clusterExplosionDamage) {
+        this.clusterExplosionDamage = clusterExplosionDamage;
+    }
+
+    @Override
+    public int getClusterAmount() {
+        return clusterAmount;
+    }
+
+    @Override
+    public void setClusterAmount(int clusterAmount) {
+        this.clusterAmount = clusterAmount;
+    }
+
+    @Override
+    public double getClusterDamage() {
+        return clusterDamage;
+    }
+
+    @Override
+    public void setClusterDamage(double clusterDamage) {
+        this.clusterDamage = clusterDamage;
+    }
+
+    @Override
+    public boolean isRemoteExplosiveBullet() {
+        return isRemoteExplosiveBullet;
+    }
+
+    @Override
+    public void setRemoteExplosiveBullet(boolean remoteExplosiveBullet) {
+        isRemoteExplosiveBullet = remoteExplosiveBullet;
+    }
+
+    @Override
+    public float getRemoteExplosionRange() {
+        return remoteExplosionRange;
+    }
+
+    @Override
+    public void setRemoteExplosionRange(float remoteExplosionRange) {
+        this.remoteExplosionRange = remoteExplosionRange;
+    }
+
+    public float getRemoteExplosiveDuration() {
+        return remoteExplosiveDuration;
+    }
+
+    public void setRemoteExplosiveDuration(float remoteExplosiveDuration) {
+        this.remoteExplosiveDuration = remoteExplosiveDuration;
+    }
+
+    @Override
+    public double getRemoteExplosionDamage() {
+        return remoteExplosionDamage;
+    }
+
+    @Override
+    public void setRemoteExplosionDamage(double remoteExplosionDamage) {
+        this.remoteExplosionDamage = remoteExplosionDamage;
+    }
+
+    @Override
+    public float getRemoteExplosionKnockBack() {
+        return remoteExplosionKnockBack;
+    }
+
+    @Override
+    public void setRemoteExplosionKnockBack(float remoteExplosionKnockBack) {
+        this.remoteExplosionKnockBack = remoteExplosionKnockBack;
     }
 }

@@ -64,7 +64,7 @@ public class CommandFunction {
 //        }
 //    }
 
-    public static World initWorld(UUID uuid) {
+    public static void initWorld(UUID uuid) {
         World w = Bukkit.getWorld("Mission-" + uuid);
         if (w == null) {
             plugin.getLogger().info(uuid + " - Mission World generating...");
@@ -81,6 +81,23 @@ public class CommandFunction {
             w.setGameRule(GameRule.DO_INSOMNIA, false);
         }
         Bukkit.getWorlds().add(w);
-        return w;
+    }
+    public static void initWorld(String name) {
+        World w = Bukkit.getWorld(name);
+        if (w == null) {
+            plugin.getLogger().info(name + " World generating...");
+            WorldCreator wc = new WorldCreator(name);
+            wc.generator(new VoidGenerator());
+            w = wc.createWorld();
+            w.setSpawnLocation(0, 64, 0);
+            w.setGameRule(GameRule.KEEP_INVENTORY, true);
+            w.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+            w.setGameRule(GameRule.DO_FIRE_TICK, false);
+            w.setGameRule(GameRule.DISABLE_RAIDS, false);
+            w.setGameRule(GameRule.DO_TRADER_SPAWNING, false);
+            w.setGameRule(GameRule.DO_PATROL_SPAWNING, false);
+            w.setGameRule(GameRule.DO_INSOMNIA, false);
+        }
+        Bukkit.getWorlds().add(w);
     }
 }

@@ -22,7 +22,7 @@ public class EntityGetDamageEvent implements Listener {
             Bukkit.getScheduler().runTask(plugin, () -> le.setNoDamageTicks(0));
             if (e.getDamager() instanceof Arrow ar) {
                 DamageUtils.damage(plugin.getFBOBJ().get(ar.getUniqueId()), le);
-                plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(ar));
+                plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(ar, null));
                 ar.remove();
             }
         }

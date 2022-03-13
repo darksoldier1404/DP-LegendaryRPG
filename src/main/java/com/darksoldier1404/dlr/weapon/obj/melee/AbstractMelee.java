@@ -1,6 +1,6 @@
 package com.darksoldier1404.dlr.weapon.obj.melee;
 
-import com.darksoldier1404.dlr.weapon.obj.WarDamageImpl;
+import com.darksoldier1404.dlr.obj.WarDamageImpl;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import org.bukkit.Material;
 
@@ -31,13 +31,13 @@ public class AbstractMelee extends WarDamageImpl implements Melee {
     }
 
     @Override
-    public int getRequiredLevel() {
+    public int getRequireMasteryRank() {
         return requiredLevel;
     }
 
     @Override
-    public void setRequiredLevel(int requiredLevel) {
-        this.requiredLevel = requiredLevel;
+    public void setRequireMasteryRank(int requireMasteryRank) {
+        this.requiredLevel = requireMasteryRank;
     }
 
     @Override

@@ -8,8 +8,8 @@ DisplayName: "W-GAR-1"
 # 해당 무기를 유저간 거래를 가능하게 할지의 여부
 CanTrade: false
 
-# 이 무기를 사용하기 위해 필요한 레벨
-RequiredLevel: 1
+# 이 무기를 사용하기 위해 필요한 마스터리 랭크
+RequireMasteryRank: 1
 
 # 이 무기가 달성 가능한 최대 레벨
 MaxWeaponLevel: 30
@@ -126,6 +126,21 @@ IsHarpoonBullet: true
 HarpoonGrabRange: 5
 HarpoonPullRange: 7
 HarpoonDamage: 10
+
+# [ 확산탄 ]
+IsClusterBullet: true
+ClusterExplosionRange: 5
+ClusterExplosionDamage: 10
+ClusterAmount: 5
+ClusterDamage: 15
+
+# [ 원격 폭발탄 ]
+IsRemoteExplosiveBullet: true
+RemoteExplosionRange: 10
+RemoteExplosiveDuration: 10
+RemoteExplosionDamage: 20
+RemoteExplosionKnockBack: 1.5
+
 
 # --- GLOBAL VARS ---
 

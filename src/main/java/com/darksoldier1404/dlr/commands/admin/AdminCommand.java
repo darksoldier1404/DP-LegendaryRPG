@@ -1,17 +1,15 @@
 package com.darksoldier1404.dlr.commands.admin;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.functions.CommandFunction;
 import com.darksoldier1404.dlr.mobs.LRMobImpl;
-import com.darksoldier1404.dlr.utils.LRMobLoader;
-import com.darksoldier1404.dlr.utils.WeaponLoader;
+import com.darksoldier1404.dlr.loader.LRMobLoader;
+import com.darksoldier1404.dlr.loader.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public class AdminCommand implements CommandExecutor, TabCompleter {
@@ -91,8 +88,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                         LivingEntity le = (LivingEntity) ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), lrm.getEntityType());
                         lrm.setUuid(le.getUniqueId());
                         lrm.setLivingEntity(le);
-                        le.setMaxHealth(lrm.getMaxHealth());
-                        le.setHealth(lrm.getMaxHealth());
+                        le.setMaxHealth(lrm.getCurrentHealth());
+                        le.setHealth(lrm.getCurrentHealth());
                         le.setCustomName(lrm.getDisplayName());
                         le.setCustomNameVisible(true);
                         le.setRemoveWhenFarAway(false);
@@ -104,8 +101,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 LivingEntity le = (LivingEntity) ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), lrm.getEntityType());
                 lrm.setUuid(le.getUniqueId());
                 lrm.setLivingEntity(le);
-                le.setMaxHealth(lrm.getMaxHealth());
-                le.setHealth(lrm.getMaxHealth());
+                le.setMaxHealth(lrm.getCurrentHealth());
+                le.setHealth(lrm.getCurrentHealth());
                 le.setCustomName(lrm.getDisplayName());
                 le.setCustomNameVisible(true);
                 le.setRemoveWhenFarAway(false);

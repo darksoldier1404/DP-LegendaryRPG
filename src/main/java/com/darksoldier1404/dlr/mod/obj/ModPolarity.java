@@ -1,5 +1,6 @@
 package com.darksoldier1404.dlr.mod.obj;
 
+@SuppressWarnings("all")
 public enum ModPolarity {
     DEPOLISON("Damage, Powers"),
     DEHEMORS("Defensive, Health, Armor"),

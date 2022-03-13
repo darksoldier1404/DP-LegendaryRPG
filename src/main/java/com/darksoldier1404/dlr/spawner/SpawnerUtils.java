@@ -4,6 +4,7 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+@SuppressWarnings("all")
 public class SpawnerUtils {
     private final static LegendaryRPG plugin = LegendaryRPG.getInstance();
 

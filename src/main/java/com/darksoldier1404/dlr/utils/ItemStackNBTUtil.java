@@ -1,7 +1,7 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
-import com.darksoldier1404.duc.utils.NBT;
+import com.darksoldier1404.dppc.utils.NBT;
 import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings("all")
@@ -29,7 +29,7 @@ public class ItemStackNBTUtil {
 
     public static ItemStack setNBTValues(ItemStack item, GunImpl gun) {
         item = NBT.setStringTag(item, "displayName", gun.getDisplayName());
-        item = NBT.setIntTag(item, "requiredLevel", gun.getRequiredLevel());
+        item = NBT.setIntTag(item, "requiredLevel", gun.getRequireMasteryRank());
         item = NBT.setStringTag(item, "material", gun.getMaterial().name());
         item = NBT.setStringTag(item, "weaponType", gun.getWeaponType().name());
         item = NBT.setFloatTag(item, "currentCriticalChance", gun.getCurrentCriticalChance());
@@ -111,8 +111,18 @@ public class ItemStackNBTUtil {
         item = NBT.setFloatTag(item, "harpoonGrabRange", gun.getHarpoonGrabRange());
         item = NBT.setFloatTag(item, "harpoonPullRange", gun.getHarpoonPullRange());
         item = NBT.setDoubleTag(item, "harpoonDamage", gun.getHarpoonDamage());
-
-
+        // cluster
+        item = NBT.setObjectTag(item, "isClusterBullet", gun.isClusterBullet());
+        item = NBT.setFloatTag(item, "clusterExplosionRange", gun.getClusterExplosionRange());
+        item = NBT.setDoubleTag(item, "clusterExplosionDamage", gun.getClusterExplosionDamage());
+        item = NBT.setFloatTag(item, "clusterAmount", gun.getClusterAmount());
+        item = NBT.setDoubleTag(item, "clusterDamage", gun.getClusterDamage());
+        // remoteExplosive
+        item = NBT.setObjectTag(item, "isRemoteExplosiveBullet", gun.isRemoteExplosiveBullet());
+        item = NBT.setFloatTag(item, "remoteExplosionRange", gun.getRemoteExplosionRange());
+        item = NBT.setFloatTag(item, "remoteExplosiveDuration", gun.getRemoteExplosiveDuration());
+        item = NBT.setDoubleTag(item, "remoteExplosionDamage", gun.getRemoteExplosionDamage());
+        item = NBT.setFloatTag(item, "remoteExplosionKnockBack", gun.getRemoteExplosionKnockBack());
         return item;
     }
 }

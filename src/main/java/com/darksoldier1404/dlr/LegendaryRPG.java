@@ -4,18 +4,19 @@ import com.darksoldier1404.dlr.events.GunFireLogic;
 import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
+import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
 import com.darksoldier1404.dlr.mobs.LRMobImpl;
+import com.darksoldier1404.dlr.mobs.dt.DropTableManager;
 import com.darksoldier1404.dlr.tasks.BulletTask;
-import com.darksoldier1404.dlr.utils.LRMobLoader;
-import com.darksoldier1404.dlr.utils.WeaponLoader;
+import com.darksoldier1404.dlr.loader.LRMobLoader;
+import com.darksoldier1404.dlr.loader.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.Weapon;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
-import com.darksoldier1404.duc.utils.ConfigUtils;
-import com.darksoldier1404.duc.utils.Metrics;
-import com.darksoldier1404.duc.utils.Tuple;
+import com.darksoldier1404.dppc.utils.ConfigUtils;
+import com.darksoldier1404.dppc.utils.Metrics;
+import com.darksoldier1404.dppc.utils.Tuple;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -35,6 +36,7 @@ public class LegendaryRPG extends JavaPlugin {
     private static LegendaryRPG plugin;
     public YamlConfiguration config; // 설정 파일
     private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
+    private final Map<String, AbilityCast> abilities = new HashMap<>(); // 모든 무기 목록
     private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
     private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
     private final Map<UUID, Tuple<BukkitTask, Arrow>> homingBullets = new HashMap<>(); // 발사된 미사일 총알
@@ -42,6 +44,7 @@ public class LegendaryRPG extends JavaPlugin {
     private final Map<UUID, Bullet> FBOBJ = new HashMap<>(); // 발사된 모든 총알 - 객체
     private final Map<String, LRMobImpl> lrmobs = new HashMap<>(); // 로드된 모든 몹
     private final Map<UUID, LRMobImpl> summonedLRMobs = new HashMap<>(); // 로드된 모든 몹
+    private final DropTableManager dtm = new DropTableManager();
 
     public Map<String, YamlConfiguration> getRawWeapons() {
         return rawWeapons;
@@ -49,6 +52,10 @@ public class LegendaryRPG extends JavaPlugin {
 
     public Map<String, Weapon> getWeapons() {
         return weapons;
+    }
+
+    public Map<String, AbilityCast> getAbilities() {
+        return abilities;
     }
 
     public Map<String, YamlConfiguration> getSpawners() {
@@ -69,6 +76,14 @@ public class LegendaryRPG extends JavaPlugin {
 
     public Map<String, LRMobImpl> getLrmobs() {
         return lrmobs;
+    }
+
+    public Map<UUID, LRMobImpl> getSummonedLRMobs() {
+        return summonedLRMobs;
+    }
+
+    public DropTableManager getDropTableManager() {
+        return dtm;
     }
 
     public static LegendaryRPG getInstance() {

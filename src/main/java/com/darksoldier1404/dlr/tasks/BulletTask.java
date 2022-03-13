@@ -2,7 +2,7 @@ package com.darksoldier1404.dlr.tasks;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
-import com.darksoldier1404.duc.utils.Tuple;
+import com.darksoldier1404.dppc.utils.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.scheduler.BukkitTask;
@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings("all")
 public class BulletTask {
     private static final LegendaryRPG plugin = LegendaryRPG.getInstance();
     private static BukkitTask bulletHitTask = null;
@@ -44,34 +45,34 @@ public class BulletTask {
                 homingBullets.forEach((uuid, tuple) -> {
                     if (tuple.getB().isOnGround()) {
                         tuple.getA().cancel();
-                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(tuple.getB()));
+                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(tuple.getB(), null));
                         homingBullets.remove(uuid);
                         firedBullets.remove(uuid);
                     } else if (tuple.getB().isDead()) {
                         tuple.getA().cancel();
-                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(tuple.getB()));
+                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(tuple.getB(), null));
                         homingBullets.remove(uuid);
                         firedBullets.remove(uuid);
                     } else if (!tuple.getB().isValid()) {
                         tuple.getA().cancel();
-                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(tuple.getB()));
+                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(tuple.getB(), null));
                         homingBullets.remove(uuid);
                         firedBullets.remove(uuid);
                     }
                 });
                 firedBullets.forEach((uuid, arrow) -> {
                     if (arrow.isOnGround()) {
-                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(arrow));
+                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(arrow, null));
                         homingBullets.remove(uuid);
                         firedBullets.remove(uuid);
                     }
                     if (arrow.isDead()) {
-                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(arrow));
+                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(arrow, null));
                         homingBullets.remove(uuid);
                         firedBullets.remove(uuid);
                     }
                     if (!arrow.isValid()) {
-                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(arrow));
+                        plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(arrow, null));
                         homingBullets.remove(uuid);
                         firedBullets.remove(uuid);
                     }

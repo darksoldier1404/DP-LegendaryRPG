@@ -1,0 +1,27 @@
+Name: Excalibur
+DefaultHealth: 100
+DefaultShield: 125
+DefaultArmor: 50
+DefaultSpeed: 1.15
+DefaultEnergy: 100
+
+DefaultAbilityStrength: 100
+DefaultAbilityRange: 100
+DefaultAbilityEfficiency: 100
+DefaultAbilityDuration: 100
+
+Ability1Name: test1.yml
+Ability1Cost: 25
+Ability1Cooldown: 0
+
+Ability2Name: test2
+Ability2Cost: 50
+Ability2Cooldown: 0
+
+Ability3Name: test3
+Ability3Cost: 75
+Ability3Cooldown: 0
+
+Ability4Name: test4
+Ability4Cost: 100
+Ability4Cooldown: 0

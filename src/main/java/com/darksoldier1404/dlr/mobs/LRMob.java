@@ -1,6 +1,6 @@
 package com.darksoldier1404.dlr.mobs;
 
-import com.darksoldier1404.dlr.weapon.obj.WarDamageable;
+import com.darksoldier1404.dlr.obj.WarDamageable;
 import org.bukkit.entity.EntityType;
 /*
 Name: "Kuva"
@@ -28,6 +28,7 @@ Armor: 8
 Damage: 5
 DropExp: 100
  */
+@SuppressWarnings("all")
 public interface LRMob extends WarDamageable {
     String getName();
     EntityType getEntityType();

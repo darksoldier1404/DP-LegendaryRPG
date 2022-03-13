@@ -21,28 +21,28 @@ public class DamageUtils {
     public static void damage(Bullet b, LivingEntity vic) {
         try {
             // physical damage
-            double impact = b.getImpactDamage();
-            double puncture = b.getPunctureDamage();
-            double slash = b.getSlashDamage();
+            double impact = b.getCurrentImpactDamage();
+            double puncture = b.getCurrentPunctureDamage();
+            double slash = b.getCurrentSlashDamage();
             // elemental damage
-            double cold = b.getColdDamage();
-            double electric = b.getElectricityDamage();
-            double heat = b.getHeatDamage();
-            double toxin = b.getToxinDamage();
+            double cold = b.getCurrentColdDamage();
+            double electric = b.getCurrentElectricityDamage();
+            double heat = b.getCurrentHeatDamage();
+            double toxin = b.getCurrentToxinDamage();
             // combined damage
-            double blast = b.getBlastDamage();
-            double corrosive = b.getCorrosiveDamage();
-            double gas = b.getGasDamage();
-            double magnetic = b.getMagneticDamage();
-            double radiation = b.getRadiationDamage();
-            double virus = b.getVirusDamage();
+            double blast = b.getCurrentBlastDamage();
+            double corrosive = b.getCurrentCorrosiveDamage();
+            double gas = b.getCurrentGasDamage();
+            double magnetic = b.getCurrentMagneticDamage();
+            double radiation = b.getCurrentRadiationDamage();
+            double virus = b.getCurrentVirusDamage();
 
-            float sc = b.getStatusChance();
+            float sc = b.getCurrentStatusChance();
 
             double damage = impact + puncture + slash;
 
-            float criticalChance = b.getCriticalChance();
-            float criticalAmount = b.getCriticalAmount();
+            float criticalChance = b.getCurrentCriticalChance();
+            float criticalAmount = b.getCurrentCriticalAmount();
             boolean isCritical = false;
             int loop = (int) (criticalChance * 0.01);
             if (loop != 0) {
