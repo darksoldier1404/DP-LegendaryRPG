@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.utils;
+package com.darksoldier1404.dlr.loader;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;

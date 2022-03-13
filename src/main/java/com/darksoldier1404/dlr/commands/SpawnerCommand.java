@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public class SpawnerCommand implements CommandExecutor, TabCompleter {
     private final String prefix = LegendaryRPG.prefix;
 

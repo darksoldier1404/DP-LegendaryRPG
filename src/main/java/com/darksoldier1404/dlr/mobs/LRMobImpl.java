@@ -1,6 +1,6 @@
 package com.darksoldier1404.dlr.mobs;
 
-import com.darksoldier1404.dlr.weapon.obj.WarDamageableImpl;
+import com.darksoldier1404.dlr.obj.WarDamageableImpl;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -15,11 +15,18 @@ public class LRMobImpl extends WarDamageableImpl implements LRMob{
     private String name;
     private String displayName;
     private double dropExp;
+    private int minLevel;
+    private int currentLevel;
+    private int maxLevel;
+    private double minDropExp;
+    private double currentDropExp;
+    private double dropExpPerLevel;
 
     public LRMobImpl(YamlConfiguration data) {
         setEntityType(EntityType.valueOf(data.getString("EntityType")));
         setName(data.getString("Name"));
         setDisplayName(data.getString("DisplayName"));
+        setMinDropExp(data.getDouble("MinDropExp"));
         double health = data.getDouble("Health");
         double shield = data.getDouble("Shield");
         double armor = data.getDouble("Armor");
@@ -91,11 +98,63 @@ public class LRMobImpl extends WarDamageableImpl implements LRMob{
         this.displayName = displayName;
     }
 
-    public double getDropExp() {
-        return dropExp;
+    @Override
+    public int getMinLevel() {
+        return minLevel;
     }
 
-    public void setDropExp(double dropExp) {
-        this.dropExp = dropExp;
+    @Override
+    public void setMinLevel(int minLevel) {
+        this.minLevel = minLevel;
+    }
+
+    @Override
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    @Override
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    @Override
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
+
+    @Override
+    public double getMinDropExp() {
+        return minDropExp;
+    }
+
+    @Override
+    public void setMinDropExp(double minDropExp) {
+        this.minDropExp = minDropExp;
+    }
+
+    @Override
+    public double getCurrentDropExp() {
+        return currentDropExp;
+    }
+
+    @Override
+    public void setCurrentDropExp(double currentDropExp) {
+        this.currentDropExp = currentDropExp;
+    }
+
+    @Override
+    public double getDropExpPerLevel() {
+        return dropExpPerLevel;
+    }
+
+    @Override
+    public void setDropExpPerLevel(double dropExpPerLevel) {
+        this.dropExpPerLevel = dropExpPerLevel;
     }
 }

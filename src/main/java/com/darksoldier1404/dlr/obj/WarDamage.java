@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.weapon.obj;
+package com.darksoldier1404.dlr.obj;
 
 @SuppressWarnings("unused")
 public interface WarDamage {

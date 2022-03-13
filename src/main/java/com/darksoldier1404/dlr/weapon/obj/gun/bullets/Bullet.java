@@ -1,27 +1,12 @@
 package com.darksoldier1404.dlr.weapon.obj.gun.bullets;
 
+import com.darksoldier1404.dlr.obj.WarDamageImpl;
+
 import java.util.UUID;
 
 @SuppressWarnings("all")
-public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, HomingBullet, StrayBullet, HarpoonBullet {
+public class Bullet extends WarDamageImpl implements ElectricBullet, ExplosiveBullet, GravityBullet, HomingBullet, StrayBullet, HarpoonBullet, ClusterBullet, RemoteExplosiveBullet {
     private final UUID uuid;
-    // common field
-    private float criticalChance;
-    private float criticalAmount;
-    private float statusChance;
-    private double impactDamage;
-    private double punctureDamage;
-    private double slashDamage;
-    private double coldDamage;
-    private double electricityDamage;
-    private double heatDamage;
-    private double toxinDamage;
-    private double blastDamage;
-    private double corrosiveDamage;
-    private double gasDamage;
-    private double magneticDamage;
-    private double radiationDamage;
-    private double virusDamage;
     // bullet type
     // homing
     private boolean isHomingBullet = false;
@@ -54,7 +39,19 @@ public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, H
     private float harpoonGrabRange;
     private float harpoonPullRange;
     private double harpoonDamage;
-
+    // cluster
+    private boolean isClusterBullet;
+    private boolean isSubClusterBullet;
+    private float clusterExplosionRange;
+    private double clusterExplosionDamage;
+    private int clusterAmount;
+    private double clusterDamage;
+    // remoteExplosive
+    private boolean isRemoteExplosiveBullet;
+    private float remoteExplosionRange;
+    private float remoteExplosiveDuration;
+    private double remoteExplosionDamage;
+    private float remoteExplosionKnockBack;
 
     public Bullet(UUID uuid) {
         this.uuid = uuid;
@@ -63,135 +60,6 @@ public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, H
     public UUID getUniqueId() {
         return uuid;
     }
-
-    public float getCriticalChance() {
-        return criticalChance;
-    }
-
-    public void setCriticalChance(float criticalChance) {
-        this.criticalChance = criticalChance;
-    }
-
-    public float getCriticalAmount() {
-        return criticalAmount;
-    }
-
-    public void setCriticalAmount(float criticalAmount) {
-        this.criticalAmount = criticalAmount;
-    }
-
-    public float getStatusChance() {
-        return statusChance;
-    }
-
-    public void setStatusChance(float statusChance) {
-        this.statusChance = statusChance;
-    }
-
-    public double getImpactDamage() {
-        return impactDamage;
-    }
-
-    public void setImpactDamage(double impactDamage) {
-        this.impactDamage = impactDamage;
-    }
-
-    public double getPunctureDamage() {
-        return punctureDamage;
-    }
-
-    public void setPunctureDamage(double punctureDamage) {
-        this.punctureDamage = punctureDamage;
-    }
-
-    public double getSlashDamage() {
-        return slashDamage;
-    }
-
-    public void setSlashDamage(double slashDamage) {
-        this.slashDamage = slashDamage;
-    }
-
-    public double getColdDamage() {
-        return coldDamage;
-    }
-
-    public void setColdDamage(double coldDamage) {
-        this.coldDamage = coldDamage;
-    }
-
-    public double getElectricityDamage() {
-        return electricityDamage;
-    }
-
-    public void setElectricityDamage(double electricityDamage) {
-        this.electricityDamage = electricityDamage;
-    }
-
-    public double getHeatDamage() {
-        return heatDamage;
-    }
-
-    public void setHeatDamage(double heatDamage) {
-        this.heatDamage = heatDamage;
-    }
-
-    public double getToxinDamage() {
-        return toxinDamage;
-    }
-
-    public void setToxinDamage(double toxinDamage) {
-        this.toxinDamage = toxinDamage;
-    }
-
-    public double getBlastDamage() {
-        return blastDamage;
-    }
-
-    public void setBlastDamage(double blastDamage) {
-        this.blastDamage = blastDamage;
-    }
-
-    public double getCorrosiveDamage() {
-        return corrosiveDamage;
-    }
-
-    public void setCorrosiveDamage(double corrosiveDamage) {
-        this.corrosiveDamage = corrosiveDamage;
-    }
-
-    public double getGasDamage() {
-        return gasDamage;
-    }
-
-    public void setGasDamage(double gasDamage) {
-        this.gasDamage = gasDamage;
-    }
-
-    public double getMagneticDamage() {
-        return magneticDamage;
-    }
-
-    public void setMagneticDamage(double magneticDamage) {
-        this.magneticDamage = magneticDamage;
-    }
-
-    public double getRadiationDamage() {
-        return radiationDamage;
-    }
-
-    public void setRadiationDamage(double radiationDamage) {
-        this.radiationDamage = radiationDamage;
-    }
-
-    public double getVirusDamage() {
-        return virusDamage;
-    }
-
-    public void setVirusDamage(double virusDamage) {
-        this.virusDamage = virusDamage;
-    }
-
     @Override
     public boolean isHomingBullet() {
         return isHomingBullet;
@@ -441,5 +309,115 @@ public class Bullet implements ElectricBullet, ExplosiveBullet, GravityBullet, H
     @Override
     public void setHarpoonDamage(double harpoonDamage) {
         this.harpoonDamage = harpoonDamage;
+    }
+
+    @Override
+    public boolean isClusterBullet() {
+        return isClusterBullet;
+    }
+
+    @Override
+    public boolean isSubClusterBullet() {
+        return isSubClusterBullet;
+    }
+
+    @Override
+    public void setClusterBullet(boolean clusterBullet) {
+        isClusterBullet = clusterBullet;
+    }
+
+    @Override
+    public void setSubClusterBullet(boolean subClusterBullet) {
+        isSubClusterBullet = subClusterBullet;
+    }
+
+    @Override
+    public float getClusterExplosionRange() {
+        return clusterExplosionRange;
+    }
+
+    @Override
+    public void setClusterExplosionRange(float clusterExplosionRange) {
+        this.clusterExplosionRange = clusterExplosionRange;
+    }
+
+    @Override
+    public double getClusterExplosionDamage() {
+        return clusterExplosionDamage;
+    }
+
+    @Override
+    public void setClusterExplosionDamage(double clusterExplosionDamage) {
+        this.clusterExplosionDamage = clusterExplosionDamage;
+    }
+
+    @Override
+    public int getClusterAmount() {
+        return clusterAmount;
+    }
+
+    @Override
+    public void setClusterAmount(int clusterAmount) {
+        this.clusterAmount = clusterAmount;
+    }
+
+    @Override
+    public double getClusterDamage() {
+        return clusterDamage;
+    }
+
+    @Override
+    public void setClusterDamage(double clusterDamage) {
+        this.clusterDamage = clusterDamage;
+    }
+
+    @Override
+    public boolean isRemoteExplosiveBullet() {
+        return isRemoteExplosiveBullet;
+    }
+
+    @Override
+    public void setRemoteExplosiveBullet(boolean remoteExplosiveBullet) {
+        isRemoteExplosiveBullet = remoteExplosiveBullet;
+    }
+
+    @Override
+    public float getRemoteExplosionRange() {
+        return remoteExplosionRange;
+    }
+
+    @Override
+    public void setRemoteExplosionRange(float remoteExplosionRange) {
+        this.remoteExplosionRange = remoteExplosionRange;
+    }
+
+    @Override
+    public float getRemoteExplosiveDuration() {
+        return remoteExplosiveDuration;
+    }
+
+    @Override
+    public void setRemoteExplosiveDuration(float remoteExplosiveDuration) {
+        this.remoteExplosiveDuration = remoteExplosiveDuration;
+    }
+
+    @Override
+    public double getRemoteExplosionDamage() {
+        return remoteExplosionDamage;
+    }
+
+    @Override
+    public void setRemoteExplosionDamage(double remoteExplosionDamage) {
+        this.remoteExplosionDamage = remoteExplosionDamage;
+    }
+
+    @Override
+    public float getRemoteExplosionKnockBack() {
+        return remoteExplosionKnockBack;
+    }
+
+    @Override
+    public void setRemoteExplosionKnockBack(float remoteExplosionKnockBack) {
+        this.remoteExplosionKnockBack = remoteExplosionKnockBack;
     }
 }

@@ -1,5 +1,6 @@
 package com.darksoldier1404.dlr.weapon.obj.gun.bullets;
 
+@SuppressWarnings("all")
 public interface GravityBullet {
     boolean isGravityBullet();
 

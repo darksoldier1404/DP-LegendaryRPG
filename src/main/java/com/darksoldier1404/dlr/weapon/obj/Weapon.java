@@ -1,13 +1,14 @@
 package com.darksoldier1404.dlr.weapon.obj;
 
+import com.darksoldier1404.dlr.obj.WarDamage;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import org.bukkit.Material;
 
 @SuppressWarnings("unused")
-public interface Weapon extends WarDamage{
+public interface Weapon extends WarDamage, Cloneable {
     String getDisplayName();
 
-    int getRequiredLevel();
+    int getRequireMasteryRank();
 
     int getCurrentLevel();
 
@@ -23,7 +24,7 @@ public interface Weapon extends WarDamage{
 
     void setDisplayName(String displayName);
 
-    void setRequiredLevel(int requiredLevel);
+    void setRequireMasteryRank(int requireMasteryRank);
 
     void setCurrentLevel(int currentLevel);
 

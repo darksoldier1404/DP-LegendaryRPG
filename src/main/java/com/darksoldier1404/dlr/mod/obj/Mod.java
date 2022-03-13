@@ -1,5 +1,6 @@
 package com.darksoldier1404.dlr.mod.obj;
 
+@SuppressWarnings("all")
 public interface Mod {
     String getName();
 

@@ -3,13 +3,17 @@ package com.darksoldier1404.dlr.events;
 import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
 import com.darksoldier1404.dlr.events.fire.BulletLaunchedEvent;
+import com.darksoldier1404.dlr.utils.BulletUtils;
 import com.darksoldier1404.dlr.utils.DamageUtils;
+import com.darksoldier1404.dlr.utils.VectorUtils;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
-import com.darksoldier1404.duc.utils.ParticleUtil;
+import com.darksoldier1404.dppc.utils.ParticleUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -152,6 +156,21 @@ public class LREvent implements Listener {
                         }, 10L);
                     }
                 }));
+            }
+            if (b.isClusterBullet()) {
+                Location gl = loc.clone();
+                float range = b.getClusterExplosionRange();
+                double clusterExplosionDamage = b.getClusterExplosionDamage();
+                double clusterDamage = b.getClusterDamage();
+                int clusterAmount = b.getClusterAmount();
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    Arrow bullet = e.getShooter().launchProjectile(Arrow.class);
+                    bullet.setVelocity(VectorUtils.getRandomCirclePoint(gl, range).multiply(1.5));
+                    bullet.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
+//                    BulletUtils.launchProjectile(e.getShooter())
+//                    plugin.getFBOBJ().put(ar.getUniqueId(), bullet);
+                    // todo make this work
+                }, 10L);
             }
         } catch (Exception ignored) {
         }

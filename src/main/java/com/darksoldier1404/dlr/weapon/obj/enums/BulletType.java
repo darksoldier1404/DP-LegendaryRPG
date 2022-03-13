@@ -1,5 +1,6 @@
 package com.darksoldier1404.dlr.weapon.obj.enums;
 
+@SuppressWarnings("all")
 public enum BulletType {
     NORMAL("일반"),
     HOMING("유도"),
