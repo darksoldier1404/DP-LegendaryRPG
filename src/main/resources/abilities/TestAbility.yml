@@ -1,18 +1,18 @@
 TestAbility: # 어빌리티의 이름
   Type: NormalType # 어빌리티의 타입 클래스
 
-.CostAbility: # 코스트 어빌리티 클래스
+=CostAbility: # 코스트 어빌리티 클래스
   CostType: Energy # 지불할 타입
   value: 25 # 지불할 값
 
-.TargetAbility: # 적 타겟팅 어빌리티 클래스
+=TargetAbility: # 적 타겟팅 어빌리티 클래스
   TargetType: Cone # 타겟 범위 형식
   TargetRange: 10 # 타겟 범위
   TargetAngle: 75 # 타겟 범위 각도
   MaxTarget: 5 # 최대 타겟팅 수
 
-.DelayAbility: # 캐스팅할 어빌리티 클래스
+=DelayAbility: # 캐스팅할 어빌리티 클래스
   delay: 3 # 값 - 초단위
 
-.DamageAbility: # 데미지 어빌리티 클래스
+=DamageAbility: # 데미지 어빌리티 클래스
   value: 50 # 값

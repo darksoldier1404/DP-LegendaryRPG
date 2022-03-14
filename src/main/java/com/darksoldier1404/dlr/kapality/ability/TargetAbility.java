@@ -25,7 +25,7 @@ public class TargetAbility extends AbilityAbstract implements Ability {
 
     @Override
     public void cast(Player caster, AbilityCast cast, BukkitTask task) {
-        if (targetType == TargetType.Circle) {
+        if (targetType == TargetType.CIRCLE) {
             caster.getNearbyEntities(range, 2, range).forEach(entity -> {
                 if (cast.getTargetList().size() >= maxTarget) return;
                 if (LRMobUtils.isLRMob(entity.getUniqueId())) {
@@ -34,7 +34,7 @@ public class TargetAbility extends AbilityAbstract implements Ability {
             });
             return;
         }
-        if (targetType == TargetType.Line) {
+        if (targetType == TargetType.LINE) {
             Cone.getEntitiesInCone(caster.getNearbyEntities(range, 2, range), caster.getLocation().toVector(), range, 5, caster.getLocation().getDirection()).forEach(entity -> {
                 if (cast.getTargetList().size() >= maxTarget) return;
                 if (LRMobUtils.isLRMob(entity.getUniqueId())) {
@@ -43,7 +43,7 @@ public class TargetAbility extends AbilityAbstract implements Ability {
             });
             return;
         }
-        if (targetType == TargetType.Cone) {
+        if (targetType == TargetType.CONE) {
             Cone.getEntitiesInCone(caster.getNearbyEntities(range, 2, range), caster.getLocation().toVector(), range, angle, caster.getLocation().getDirection()).forEach(entity -> {
                 if (cast.getTargetList().size() >= maxTarget) return;
                 if (LRMobUtils.isLRMob(entity.getUniqueId())) {
@@ -52,7 +52,7 @@ public class TargetAbility extends AbilityAbstract implements Ability {
             });
             return;
         }
-        if (targetType == TargetType.Sphere) {
+        if (targetType == TargetType.SPHERE) {
             caster.getNearbyEntities(range, range, range).forEach(entity -> {
                 if (cast.getTargetList().size() >= maxTarget) return;
                 if (LRMobUtils.isLRMob(entity.getUniqueId())) {

@@ -24,6 +24,7 @@ public class AbilityCast {
 
     public void addAbility(Ability ability) {
         abilities.add(ability);
+        LegendaryRPG.getInstance().getLogger().info("Added ability: " + ability.getClass().getName());
     }
 
     public void removeAbility(Ability ability) {

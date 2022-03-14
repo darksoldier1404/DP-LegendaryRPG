@@ -5,6 +5,7 @@ import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
 import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.loader.AbilityLoader;
 import com.darksoldier1404.dlr.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.mobs.dt.DropTableManager;
 import com.darksoldier1404.dlr.tasks.BulletTask;
@@ -126,6 +127,8 @@ public class LegendaryRPG extends JavaPlugin {
         WeaponLoader.loadGuns();
         LRMobLoader.saveDefaultMobs();
         LRMobLoader.loadMobs();
+        AbilityLoader.saveDefaultAbilities();
+        AbilityLoader.loadAbilities();
 
         config = ConfigUtils.loadDefaultPluginConfig(plugin);
         plugin.getServer().getPluginManager().registerEvents(new LREvent(), plugin);

@@ -5,7 +5,7 @@ api-version: 1.18
 authors: [ DEAD_POOLIO_ ]
 depend:
   - DPP-Core
-  - FastAsyncWorldEdit
+#  - FastAsyncWorldEdit
 commands:
   lrs:
   lra:
