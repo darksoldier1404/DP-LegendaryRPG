@@ -35,10 +35,11 @@ public class AbilityLoader {
                             System.out.println("어빌리티가 없습니다.");
                             continue;
                         }
-                        if (keys.get(0).startsWith(".")) {
+                        if (keys.get(0).startsWith("=")) {
                             System.out.println("어빌리티 이름이 누락되었습니다.");
                             continue;
                         }
+                        System.out.println(keys.toString());
                         String name = keys.get(0);
                         keys.remove(0);
                         AbilityCast abilityCast = new AbilityCast();
@@ -53,12 +54,12 @@ public class AbilityLoader {
 
     public static void initAbilityCast(ArrayList<String> keys, AbilityCast cast, YamlConfiguration data) {
         for (String key : keys) {
-            if(key.startsWith(".")) {
-                if(key.equals(".DelayAbility")) {
+            if(key.startsWith("=")) {
+                if(key.equals("=DelayAbility")) {
                     cast.addAbility(new DelayAbility(data.getLong(key+".delay")));
                     continue;
                 }
-                if(key.equals(".TargetAbility")) {
+                if(key.equals("=TargetAbility")) {
                     TargetType type = TargetType.valueOf(data.getString(key+".TargetType").toUpperCase());
                     double range = data.getDouble(key+".TargetRange");
                     double angle = data.getDouble(key+".TargetAngle");
@@ -66,11 +67,10 @@ public class AbilityLoader {
                     cast.addAbility(new TargetAbility(type, range, angle, maxTarget));
                     continue;
                 }
-                if(key.equals(".ClearTargetAbility")) {
+                if(key.equals("=ClearTargetAbility")) {
                     cast.addAbility(new ClearTargetAbility());
                     continue;
                 }
-
             }
         }
     }
