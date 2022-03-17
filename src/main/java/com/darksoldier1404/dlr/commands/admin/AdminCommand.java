@@ -94,6 +94,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                         le.setCustomNameVisible(true);
                         le.setRemoveWhenFarAway(false);
                         le.setCanPickupItems(false);
+                        plugin.getSummonedLRMobs().put(le.getUniqueId(), lrm);
                     }
                     return false;
                 }
@@ -107,6 +108,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 le.setCustomNameVisible(true);
                 le.setRemoveWhenFarAway(false);
                 le.setCanPickupItems(false);
+                plugin.getSummonedLRMobs().put(le.getUniqueId(), lrm);
             }
             return false;
         }
