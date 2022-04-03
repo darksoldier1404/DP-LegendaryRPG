@@ -7,9 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class EntityGetDamageEvent implements Listener {
     private final LegendaryRPG plugin = LegendaryRPG.getInstance();
@@ -19,15 +21,20 @@ public class EntityGetDamageEvent implements Listener {
         e.setCancelled(true);
         if (e.getEntity() instanceof Player) return;
         if (e.getEntity() instanceof LivingEntity le) {
-            Bukkit.getScheduler().runTask(plugin, () -> le.setNoDamageTicks(0));
-            if (e.getDamager() instanceof Arrow ar) {
-                DamageUtils.damage(plugin.getFBOBJ().get(ar.getUniqueId()), le);
-                plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(ar, null));
-                ar.remove();
+            if (e.getDamager() instanceof Projectile ar) {
+                if (ar.getShooter() != null) {
+                    if (ar.getShooter() instanceof Player) {
+                        if (ar instanceof Arrow a) {
+                            Player p = (Player) ar.getShooter();
+                            ItemStack item = p.getItemInHand();
+                            Bukkit.getScheduler().runTask(plugin, () -> le.setNoDamageTicks(0));
+                            DamageUtils.damage(plugin.getFBOBJ().get(ar.getUniqueId()), le);
+                            plugin.getServer().getPluginManager().callEvent(new BulletHitedEvent(a, item));
+                            ar.remove();
+                        }
+                    }
+                }
             }
         }
     }
-
-
-
 }

@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.dEntity.mobs;
 
 import com.darksoldier1404.dlr.obj.WarDamageableImpl;
+import com.darksoldier1404.dppc.utils.ColorUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -8,7 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.UUID;
 
 @SuppressWarnings("all")
-public class LRMobImpl extends WarDamageableImpl implements LRMob{
+public class LRMobImpl extends WarDamageableImpl implements LRMob {
     private UUID uuid;
     private LivingEntity le;
     private EntityType entityType;
@@ -42,6 +43,11 @@ public class LRMobImpl extends WarDamageableImpl implements LRMob{
         setHealthPerLevel(healthPerLevel);
         setShieldPerLevel(shieldPerLevel);
         setArmorPerLevel(armorPerLevel);
+    }
+
+    public void updateName() {
+        le.setCustomName(ColorUtils.applyColor(getDisplayName().replace("<level>", getCurrentLevel() + "") + " | &cHP: " + getCurrentHealth() + "&7/&c" + getDefaultHealth()));
+        le.setCustomNameVisible(true);
     }
 
     public UUID getUuid() {

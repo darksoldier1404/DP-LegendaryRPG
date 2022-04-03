@@ -27,21 +27,21 @@ public class BulletUtils {
     public static void setMetadata(Arrow ar, ItemStack item, double damage) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Bullet b = new Bullet(ar.getUniqueId());
-//            b.setCriticalChance(NBT.getFloatTag(item, "currentCriticalChance"));
-//            b.setCriticalAmount(NBT.getFloatTag(item, "currentCriticalAmount"));
-//            b.setImpactDamage(NBT.getDoubleTag(item, "currentImpactDamage"));
-//            b.setPunctureDamage(NBT.getDoubleTag(item, "currentPunctureDamage"));
-//            b.setSlashDamage(NBT.getDoubleTag(item, "currentSlashDamage"));
-//            b.setColdDamage(NBT.getDoubleTag(item, "currentColdDamage"));
-//            b.setElectricityDamage(NBT.getDoubleTag(item, "currentElectricityDamage"));
-//            b.setHeatDamage(NBT.getDoubleTag(item, "currentHeatDamage"));
-//            b.setToxinDamage(NBT.getDoubleTag(item, "currentToxinDamage"));
-//            b.setBlastDamage(NBT.getDoubleTag(item, "currentBlastDamage"));
-//            b.setCorrosiveDamage(NBT.getDoubleTag(item, "currentCorrosiveDamage"));
-//            b.setGasDamage(NBT.getDoubleTag(item, "currentGasDamage"));
-//            b.setMagneticDamage(NBT.getDoubleTag(item, "currentMagneticDamage"));
-//            b.setRadiationDamage(NBT.getDoubleTag(item, "currentRadiationDamage"));
-//            b.setVirusDamage(NBT.getDoubleTag(item, "currentVirusDamage"));
+            b.setDefaultCriticalChance(NBT.getFloatTag(item, "currentCriticalChance"));
+            b.setDefaultCriticalAmount(NBT.getFloatTag(item, "currentCriticalAmount"));
+            b.setDefaultImpactDamage(NBT.getDoubleTag(item, "currentImpactDamage"));
+            b.setDefaultPunctureDamage(NBT.getDoubleTag(item, "currentPunctureDamage"));
+            b.setDefaultSlashDamage(NBT.getDoubleTag(item, "currentSlashDamage"));
+            b.setDefaultColdDamage(NBT.getDoubleTag(item, "currentColdDamage"));
+            b.setDefaultElectricityDamage(NBT.getDoubleTag(item, "currentElectricityDamage"));
+            b.setDefaultHeatDamage(NBT.getDoubleTag(item, "currentHeatDamage"));
+            b.setDefaultToxinDamage(NBT.getDoubleTag(item, "currentToxinDamage"));
+            b.setDefaultBlastDamage(NBT.getDoubleTag(item, "currentBlastDamage"));
+            b.setDefaultCorrosiveDamage(NBT.getDoubleTag(item, "currentCorrosiveDamage"));
+            b.setDefaultGasDamage(NBT.getDoubleTag(item, "currentGasDamage"));
+            b.setDefaultMagneticDamage(NBT.getDoubleTag(item, "currentMagneticDamage"));
+            b.setDefaultRadiationDamage(NBT.getDoubleTag(item, "currentRadiationDamage"));
+            b.setDefaultVirusDamage(NBT.getDoubleTag(item, "currentVirusDamage"));
             // bullet type
             // homing
             if (NBT.getStringTag(item, "isHomingBullet").equals("true")) {

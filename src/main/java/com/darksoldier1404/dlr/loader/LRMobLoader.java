@@ -33,6 +33,7 @@ public class LRMobLoader {
                         }
                         String name = w.getString("Name");
                         plugin.getLrmobs().put(name, new LRMobImpl(w));
+                        plugin.getRawLRMobs().put(name, w);
                         plugin.getLogger().info("Loaded mob: " + name);
                     }
                 }

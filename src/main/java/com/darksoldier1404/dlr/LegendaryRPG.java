@@ -39,6 +39,7 @@ public class LegendaryRPG extends JavaPlugin {
     private final Map<String, Weapon> weapons = new HashMap<>(); // 모든 무기 목록
     private final Map<String, AbilityCast> abilities = new HashMap<>(); // 모든 무기 목록
     private final Map<String, YamlConfiguration> rawWeapons = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
+    private final Map<String, YamlConfiguration> rawLRMobs = new HashMap<>(); // 모든 무기의 콘피그 raw 파일
     private final Map<String, YamlConfiguration> spawners = new HashMap<>(); // 스포너 목록
     private final Map<UUID, Tuple<BukkitTask, Arrow>> homingBullets = new HashMap<>(); // 발사된 미사일 총알
     private final Map<UUID, Arrow> firedBullets = new HashMap<>(); // 발사된 모든 총알
@@ -73,6 +74,10 @@ public class LegendaryRPG extends JavaPlugin {
 
     public Map<UUID, Bullet> getFBOBJ() {
         return FBOBJ;
+    }
+
+    public Map<String, YamlConfiguration> getRawLRMobs() {
+        return rawLRMobs;
     }
 
     public Map<String, LRMobImpl> getLrmobs() {
