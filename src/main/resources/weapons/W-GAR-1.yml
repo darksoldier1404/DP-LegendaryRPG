@@ -63,9 +63,9 @@ MultiShot: 100
 # --- Before Bullet Hited ---
 
 # 해당 총이 발사하는 총알의 타입
-# NORMAL, HOMING, EXPLOSIVE, PENETRATING, CHAIN, LASER
+# NORMAL, EXPLOSIVE
 
-BulletType: HOMING
+BulletType: NORMAL
 
 # --- After Bullet Hited ---
 # 총알이 적이나 블럭에 닿으면 어떤 추가설정을 할지 정합니다.

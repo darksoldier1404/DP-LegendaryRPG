@@ -5,6 +5,7 @@ import com.darksoldier1404.dlr.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.loader.LRMobLoader;
 import com.darksoldier1404.dlr.loader.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
+import com.darksoldier1404.dppc.utils.ColorUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -90,7 +91,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                         lrm.setLivingEntity(le);
                         le.setMaxHealth(lrm.getCurrentHealth());
                         le.setHealth(lrm.getCurrentHealth());
-                        le.setCustomName(lrm.getDisplayName());
+                        le.setCustomName(ColorUtils.applyColor(lrm.getDisplayName()));
                         le.setCustomNameVisible(true);
                         le.setRemoveWhenFarAway(false);
                         le.setCanPickupItems(false);
@@ -104,7 +105,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 lrm.setLivingEntity(le);
                 le.setMaxHealth(lrm.getCurrentHealth());
                 le.setHealth(lrm.getCurrentHealth());
-                le.setCustomName(lrm.getDisplayName());
+                le.setCustomName(ColorUtils.applyColor(lrm.getDisplayName()));
                 le.setCustomNameVisible(true);
                 le.setRemoveWhenFarAway(false);
                 le.setCanPickupItems(false);

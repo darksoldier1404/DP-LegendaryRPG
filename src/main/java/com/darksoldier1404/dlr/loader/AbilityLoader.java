@@ -73,7 +73,7 @@ public class AbilityLoader {
                     continue;
                 }
                 if(key.equals("=ProjectileAbility")) {
-                    cast.addAbility(new ProjectileAbility(data.getString(key+".ProjectileType")));
+                    cast.addAbility(new ProjectileAbility(data, key));
                     continue;
                 }
             }
