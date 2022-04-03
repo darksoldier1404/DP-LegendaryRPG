@@ -1,8 +1,7 @@
 package com.darksoldier1404.dlr.loader;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.mobs.LRMobImpl;
-import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
+import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.kapality.enums;
+package com.darksoldier1404.dlr.dEntity.kapality.enums;
 
 import org.jetbrains.annotations.Nullable;
 

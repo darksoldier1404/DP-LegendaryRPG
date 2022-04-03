@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.mobs.dt.obj;
+package com.darksoldier1404.dlr.dEntity.mobs.dt.obj;
 
 import com.darksoldier1404.dppc.utils.Tuple;
 import org.bukkit.inventory.ItemStack;

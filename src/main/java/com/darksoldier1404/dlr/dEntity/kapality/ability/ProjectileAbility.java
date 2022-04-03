@@ -1,10 +1,10 @@
-package com.darksoldier1404.dlr.kapality.ability;
+package com.darksoldier1404.dlr.dEntity.kapality.ability;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.kapality.ability.obj.Ability;
-import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
-import com.darksoldier1404.dlr.kapality.ability.obj.BulletAbilityAbstract;
-import com.darksoldier1404.dlr.kapality.enums.ProjectileType;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.Ability;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.BulletAbilityAbstract;
+import com.darksoldier1404.dlr.dEntity.kapality.enums.ProjectileType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;

@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.kapality.obj;
+package com.darksoldier1404.dlr.dEntity.kapality.obj;
 
 import com.darksoldier1404.dlr.obj.WarDamageableImpl;
 

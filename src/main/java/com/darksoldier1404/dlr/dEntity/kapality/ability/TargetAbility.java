@@ -1,9 +1,9 @@
-package com.darksoldier1404.dlr.kapality.ability;
+package com.darksoldier1404.dlr.dEntity.kapality.ability;
 
-import com.darksoldier1404.dlr.kapality.ability.obj.Ability;
-import com.darksoldier1404.dlr.kapality.ability.obj.AbilityAbstract;
-import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
-import com.darksoldier1404.dlr.kapality.enums.TargetType;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.Ability;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityAbstract;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.dEntity.kapality.enums.TargetType;
 import com.darksoldier1404.dlr.utils.Cone;
 import com.darksoldier1404.dlr.utils.LRMobUtils;
 import org.bukkit.entity.Player;

@@ -1,8 +1,8 @@
-package com.darksoldier1404.dlr.kapality.ability;
+package com.darksoldier1404.dlr.dEntity.kapality.ability;
 
-import com.darksoldier1404.dlr.kapality.ability.obj.Ability;
-import com.darksoldier1404.dlr.kapality.ability.obj.AbilityAbstract;
-import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.Ability;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityAbstract;
+import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityCast;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
