@@ -3,7 +3,6 @@ package com.darksoldier1404.dlr.events;
 import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.events.fire.BulletHitedEvent;
 import com.darksoldier1404.dlr.events.fire.BulletLaunchedEvent;
-import com.darksoldier1404.dlr.utils.BulletUtils;
 import com.darksoldier1404.dlr.utils.DamageUtils;
 import com.darksoldier1404.dlr.utils.VectorUtils;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;

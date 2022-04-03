@@ -1,6 +1,7 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
+import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.dEntity.obj.ElementalType;
 import com.darksoldier1404.dlr.obj.WarDamage;
 import org.bukkit.Bukkit;
@@ -23,23 +24,26 @@ public class DamageUtils {
 
     public static void damage(WarDamage b, LivingEntity vic) {
         try {
+            if (!LRMobUtils.isLRMob(vic.getUniqueId())) return;
+            if (b == null) return;
+            LRMobImpl lrm = plugin.getSummonedLRMobs().get(vic.getUniqueId());
             // physical damage
             Map<ElementalType, Double> damageTable = new HashMap<>();
-            damageTable.put(ElementalType.IMPACT, b.getCurrentImpactDamage());
-            damageTable.put(ElementalType.PUNCTURE, b.getCurrentPunctureDamage());
-            damageTable.put(ElementalType.SLASH, b.getCurrentSlashDamage());
+            damageTable.put(ElementalType.IMPACT, b.getDefaultImpactDamage());
+            damageTable.put(ElementalType.PUNCTURE, b.getDefaultPunctureDamage());
+            damageTable.put(ElementalType.SLASH, b.getDefaultSlashDamage());
             // elemental damage
-            damageTable.put(ElementalType.COLD, b.getCurrentColdDamage());
-            damageTable.put(ElementalType.ELECTRICITY, b.getCurrentElectricityDamage());
-            damageTable.put(ElementalType.HEAT, b.getCurrentHeatDamage());
-            damageTable.put(ElementalType.TOXIN, b.getCurrentToxinDamage());
+            damageTable.put(ElementalType.COLD, b.getDefaultColdDamage());
+            damageTable.put(ElementalType.ELECTRICITY, b.getDefaultElectricityDamage());
+            damageTable.put(ElementalType.HEAT, b.getDefaultHeatDamage());
+            damageTable.put(ElementalType.TOXIN, b.getDefaultToxinDamage());
             // combined damage
-            damageTable.put(ElementalType.BLAST, b.getCurrentBlastDamage());
-            damageTable.put(ElementalType.CORROSIVE, b.getCurrentCorrosiveDamage());
-            damageTable.put(ElementalType.GAS, b.getCurrentGasDamage());
-            damageTable.put(ElementalType.MAGNETIC, b.getCurrentMagneticDamage());
-            damageTable.put(ElementalType.RADIATION, b.getCurrentRadiationDamage());
-            damageTable.put(ElementalType.VIRUS, b.getCurrentVirusDamage());
+            damageTable.put(ElementalType.BLAST, b.getDefaultBlastDamage());
+            damageTable.put(ElementalType.CORROSIVE, b.getDefaultCorrosiveDamage());
+            damageTable.put(ElementalType.GAS, b.getDefaultGasDamage());
+            damageTable.put(ElementalType.MAGNETIC, b.getDefaultMagneticDamage());
+            damageTable.put(ElementalType.RADIATION, b.getDefaultRadiationDamage());
+            damageTable.put(ElementalType.VIRUS, b.getDefaultVirusDamage());
 
             float sc = b.getCurrentStatusChance();
 
@@ -62,7 +66,6 @@ public class DamageUtils {
             double totalPhysicalDamage = impact + puncture + slash;
             double totalSingleElementalDamage = cold + electricity + heat + toxin;
             double totalCombinedElementalDamage = blast + corrosive + gas + magnetic + radiation + virus;
-            double totalDamage = totalPhysicalDamage + totalSingleElementalDamage + totalCombinedElementalDamage;
 
             ElementalType mainType = ElementalType.SLASH;
             ElementalType additionalType;
@@ -77,8 +80,8 @@ public class DamageUtils {
                 mainType = ElementalType.SLASH;
             }
 
-            float criticalChance = b.getCurrentCriticalChance();
-            float criticalAmount = b.getCurrentCriticalAmount();
+            float criticalChance = b.getDefaultCriticalChance();
+            float criticalAmount = b.getDefaultCriticalAmount();
             boolean isCritical = false;
             int loop = (int) (criticalChance * 0.01);
             if (loop != 0) {
@@ -89,13 +92,19 @@ public class DamageUtils {
                 totalPhysicalDamage *= criticalAmount;
                 isCritical = true;
             }
-            double finalDamage = totalPhysicalDamage;
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                vic.setHealth(Math.max(0, vic.getHealth() - finalDamage));
-                vic.setCustomName("체력 : " + (int) vic.getHealth());
-            });
-
-//            damageCounter(vic, damage, loop, isCritical);
+            final double totalDamage = totalPhysicalDamage + totalSingleElementalDamage + totalCombinedElementalDamage;
+            lrm.setCurrentHealth(lrm.getCurrentHealth() - totalDamage);
+            if (lrm.getCurrentHealth() <= 0) {
+                vic.setHealth(0);
+                vic.remove();
+                plugin.getSummonedLRMobs().remove(lrm);
+            }else{
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    lrm.updateName();
+                    System.out.println(lrm.getUuid());
+                });
+                damageCounter(vic, totalDamage, loop, isCritical);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

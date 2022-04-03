@@ -85,28 +85,30 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 }
                 if(args.length == 4) {
                     for(int i = 0; i < Integer.parseInt(args[3]); i++) {
-                        LRMobImpl lrm = plugin.getLrmobs().get(args[2]);
+                        LRMobImpl lrm = new LRMobImpl(plugin.getRawLRMobs().get(args[2]));
                         LivingEntity le = (LivingEntity) ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), lrm.getEntityType());
                         lrm.setUuid(le.getUniqueId());
                         lrm.setLivingEntity(le);
-                        le.setMaxHealth(lrm.getCurrentHealth());
-                        le.setHealth(lrm.getCurrentHealth());
-                        le.setCustomName(ColorUtils.applyColor(lrm.getDisplayName()));
+                        lrm.setCurrentHealth(lrm.getDefaultHealth());
+                        le.setCustomName(ColorUtils.applyColor(lrm.getDisplayName().replace("<level>", lrm.getCurrentLevel() + "") + " | &cHP: " + lrm.getCurrentHealth() + "&7/&c" + lrm.getDefaultHealth()));
                         le.setCustomNameVisible(true);
+                        le.setMaxHealth(lrm.getDefaultHealth());
+                        le.setHealth(lrm.getDefaultHealth());
                         le.setRemoveWhenFarAway(false);
                         le.setCanPickupItems(false);
                         plugin.getSummonedLRMobs().put(le.getUniqueId(), lrm);
                     }
                     return false;
                 }
-                LRMobImpl lrm = plugin.getLrmobs().get(args[2]);
+                LRMobImpl lrm = new LRMobImpl(plugin.getRawLRMobs().get(args[2]));
                 LivingEntity le = (LivingEntity) ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), lrm.getEntityType());
                 lrm.setUuid(le.getUniqueId());
                 lrm.setLivingEntity(le);
-                le.setMaxHealth(lrm.getCurrentHealth());
-                le.setHealth(lrm.getCurrentHealth());
-                le.setCustomName(ColorUtils.applyColor(lrm.getDisplayName()));
+                lrm.setCurrentHealth(lrm.getDefaultHealth());
+                le.setCustomName(ColorUtils.applyColor(lrm.getDisplayName().replace("<level>", lrm.getCurrentLevel() + "") + " | &cHP: " + lrm.getCurrentHealth() + "&7/&c" + lrm.getDefaultHealth()));
                 le.setCustomNameVisible(true);
+                le.setMaxHealth(lrm.getDefaultHealth());
+                le.setHealth(lrm.getDefaultHealth());
                 le.setRemoveWhenFarAway(false);
                 le.setCanPickupItems(false);
                 plugin.getSummonedLRMobs().put(le.getUniqueId(), lrm);
