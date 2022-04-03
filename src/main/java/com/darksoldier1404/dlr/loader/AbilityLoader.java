@@ -3,6 +3,7 @@ package com.darksoldier1404.dlr.loader;
 import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.kapality.ability.ClearTargetAbility;
 import com.darksoldier1404.dlr.kapality.ability.DelayAbility;
+import com.darksoldier1404.dlr.kapality.ability.ProjectileAbility;
 import com.darksoldier1404.dlr.kapality.ability.TargetAbility;
 import com.darksoldier1404.dlr.kapality.ability.obj.AbilityCast;
 import com.darksoldier1404.dlr.kapality.enums.TargetType;
@@ -69,6 +70,10 @@ public class AbilityLoader {
                 }
                 if(key.equals("=ClearTargetAbility")) {
                     cast.addAbility(new ClearTargetAbility());
+                    continue;
+                }
+                if(key.equals("=ProjectileAbility")) {
+                    cast.addAbility(new ProjectileAbility(data, key));
                     continue;
                 }
             }

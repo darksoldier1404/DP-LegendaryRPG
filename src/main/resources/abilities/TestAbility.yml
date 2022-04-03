@@ -16,3 +16,8 @@ TestAbility: # 어빌리티의 이름
 
 =DamageAbility: # 데미지 어빌리티 클래스
   value: 50 # 값
+
+=ProjectileAbility:
+  ProjectileType: ARROW
+  IsHomingBullet: true
+  StartHomingDelay: 1

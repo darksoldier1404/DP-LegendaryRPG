@@ -57,6 +57,7 @@ public class GunFireLogic implements Listener {
                         return;
                     }
                     BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType"));
+                    boolean isHomingBullet = Boolean.parseBoolean(NBT.getStringTag(item, "isHomingBullet"));
                     float bulletSpeed = NBT.getFloatTag(item, "bulletSpeed");
                     float fireRate = NBT.getFloatTag(item, "fireRate");
                     float bulletDeletionTime = NBT.getFloatTag(item, "bulletDeletionTime");
@@ -66,7 +67,7 @@ public class GunFireLogic implements Listener {
                     float imp = multiShot - im;
 
                     List<LivingEntity> les = new ArrayList<>();
-                    if (bulletType == BulletType.HOMING) {
+                    if (isHomingBullet) {
                         for (Entity ne : p.getNearbyEntities(70, 70, 70)) {
                             if (ne instanceof LivingEntity) {
                                 les.add((LivingEntity) ne);
@@ -74,7 +75,7 @@ public class GunFireLogic implements Listener {
                         }
                     }
                     for (int i = 0; i < im; i++) {
-                        if (bulletType == BulletType.HOMING) {
+                        if (isHomingBullet) {
                             BulletUtils.launchHomingProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy, les);
                             continue;
                         }
@@ -82,7 +83,7 @@ public class GunFireLogic implements Listener {
                     }
                     if (imp > 0) {
                         if (Math.random() < imp) {
-                            if (bulletType == BulletType.HOMING) {
+                            if (isHomingBullet) {
                                 BulletUtils.launchHomingProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy, les);
                             } else {
                                 BulletUtils.launchProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy);
