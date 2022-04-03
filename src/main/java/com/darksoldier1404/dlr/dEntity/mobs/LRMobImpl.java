@@ -1,4 +1,4 @@
-package com.darksoldier1404.dlr.mobs;
+package com.darksoldier1404.dlr.dEntity.mobs;
 
 import com.darksoldier1404.dlr.obj.WarDamageableImpl;
 import org.bukkit.configuration.file.YamlConfiguration;

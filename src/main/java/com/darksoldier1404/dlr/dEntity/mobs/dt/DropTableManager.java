@@ -1,7 +1,7 @@
-package com.darksoldier1404.dlr.mobs.dt;
+package com.darksoldier1404.dlr.dEntity.mobs.dt;
 
-import com.darksoldier1404.dlr.mobs.dt.obj.DropTable;
-import com.darksoldier1404.dlr.mobs.dt.obj.DropTableAlreadyExists;
+import com.darksoldier1404.dlr.dEntity.mobs.dt.obj.DropTable;
+import com.darksoldier1404.dlr.dEntity.mobs.dt.obj.DropTableAlreadyExists;
 
 import java.util.HashMap;
 import java.util.Map;

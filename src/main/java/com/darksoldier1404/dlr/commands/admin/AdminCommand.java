@@ -1,7 +1,7 @@
 package com.darksoldier1404.dlr.commands.admin;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.mobs.LRMobImpl;
+import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.loader.LRMobLoader;
 import com.darksoldier1404.dlr.loader.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;

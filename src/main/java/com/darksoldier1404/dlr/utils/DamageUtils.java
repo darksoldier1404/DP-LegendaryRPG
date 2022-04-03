@@ -1,7 +1,8 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
+import com.darksoldier1404.dlr.dEntity.obj.ElementalType;
+import com.darksoldier1404.dlr.obj.WarDamage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @SuppressWarnings("all")
@@ -18,42 +21,75 @@ public class DamageUtils {
     private final static Random rd = new Random();
     private final static LegendaryRPG plugin = LegendaryRPG.getInstance();
 
-    public static void damage(Bullet b, LivingEntity vic) {
+    public static void damage(WarDamage b, LivingEntity vic) {
         try {
             // physical damage
-            double impact = b.getCurrentImpactDamage();
-            double puncture = b.getCurrentPunctureDamage();
-            double slash = b.getCurrentSlashDamage();
+            Map<ElementalType, Double> damageTable = new HashMap<>();
+            damageTable.put(ElementalType.IMPACT, b.getCurrentImpactDamage());
+            damageTable.put(ElementalType.PUNCTURE, b.getCurrentPunctureDamage());
+            damageTable.put(ElementalType.SLASH, b.getCurrentSlashDamage());
             // elemental damage
-            double cold = b.getCurrentColdDamage();
-            double electric = b.getCurrentElectricityDamage();
-            double heat = b.getCurrentHeatDamage();
-            double toxin = b.getCurrentToxinDamage();
+            damageTable.put(ElementalType.COLD, b.getCurrentColdDamage());
+            damageTable.put(ElementalType.ELECTRICITY, b.getCurrentElectricityDamage());
+            damageTable.put(ElementalType.HEAT, b.getCurrentHeatDamage());
+            damageTable.put(ElementalType.TOXIN, b.getCurrentToxinDamage());
             // combined damage
-            double blast = b.getCurrentBlastDamage();
-            double corrosive = b.getCurrentCorrosiveDamage();
-            double gas = b.getCurrentGasDamage();
-            double magnetic = b.getCurrentMagneticDamage();
-            double radiation = b.getCurrentRadiationDamage();
-            double virus = b.getCurrentVirusDamage();
+            damageTable.put(ElementalType.BLAST, b.getCurrentBlastDamage());
+            damageTable.put(ElementalType.CORROSIVE, b.getCurrentCorrosiveDamage());
+            damageTable.put(ElementalType.GAS, b.getCurrentGasDamage());
+            damageTable.put(ElementalType.MAGNETIC, b.getCurrentMagneticDamage());
+            damageTable.put(ElementalType.RADIATION, b.getCurrentRadiationDamage());
+            damageTable.put(ElementalType.VIRUS, b.getCurrentVirusDamage());
 
             float sc = b.getCurrentStatusChance();
 
-            double damage = impact + puncture + slash;
+            double impact = damageTable.get(ElementalType.IMPACT);
+            double puncture = damageTable.get(ElementalType.PUNCTURE);
+            double slash = damageTable.get(ElementalType.SLASH);
+
+            double cold = damageTable.get(ElementalType.COLD);
+            double electricity = damageTable.get(ElementalType.ELECTRICITY);
+            double heat = damageTable.get(ElementalType.HEAT);
+            double toxin = damageTable.get(ElementalType.TOXIN);
+
+            double blast = damageTable.get(ElementalType.BLAST);
+            double corrosive = damageTable.get(ElementalType.CORROSIVE);
+            double gas = damageTable.get(ElementalType.GAS);
+            double magnetic = damageTable.get(ElementalType.MAGNETIC);
+            double radiation = damageTable.get(ElementalType.RADIATION);
+            double virus = damageTable.get(ElementalType.VIRUS);
+
+            double totalPhysicalDamage = impact + puncture + slash;
+            double totalSingleElementalDamage = cold + electricity + heat + toxin;
+            double totalCombinedElementalDamage = blast + corrosive + gas + magnetic + radiation + virus;
+            double totalDamage = totalPhysicalDamage + totalSingleElementalDamage + totalCombinedElementalDamage;
+
+            ElementalType mainType = ElementalType.SLASH;
+            ElementalType additionalType;
+
+            if (impact > puncture && impact > slash) {
+                mainType = ElementalType.IMPACT;
+            }
+            if (puncture > impact && puncture > slash) {
+                mainType = ElementalType.PUNCTURE;
+            }
+            if (slash > impact && slash > puncture) {
+                mainType = ElementalType.SLASH;
+            }
 
             float criticalChance = b.getCurrentCriticalChance();
             float criticalAmount = b.getCurrentCriticalAmount();
             boolean isCritical = false;
             int loop = (int) (criticalChance * 0.01);
             if (loop != 0) {
-                damage *= criticalAmount + loop;
+                totalPhysicalDamage *= criticalAmount + loop;
                 criticalChance = criticalChance - (loop * 100);
             }
             if (Math.random() * 100 < criticalChance) {
-                damage *= criticalAmount;
+                totalPhysicalDamage *= criticalAmount;
                 isCritical = true;
             }
-            double finalDamage = damage;
+            double finalDamage = totalPhysicalDamage;
             Bukkit.getScheduler().runTask(plugin, () -> {
                 vic.setHealth(Math.max(0, vic.getHealth() - finalDamage));
                 vic.setCustomName("체력 : " + (int) vic.getHealth());
