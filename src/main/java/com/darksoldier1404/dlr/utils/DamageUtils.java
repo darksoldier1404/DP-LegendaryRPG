@@ -4,11 +4,13 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.dEntity.obj.ElementalType;
 import com.darksoldier1404.dlr.obj.WarDamage;
+import com.darksoldier1404.dlr.obj.WarDamageable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -98,7 +100,7 @@ public class DamageUtils {
                 vic.setHealth(0);
                 vic.remove();
                 plugin.getSummonedLRMobs().remove(lrm);
-            }else{
+            } else {
                 Bukkit.getScheduler().runTask(plugin, () -> {
                     lrm.updateName();
                     System.out.println(lrm.getUuid());
@@ -107,6 +109,50 @@ public class DamageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void damage(WarDamageable entity, ElementalType type, double damage) {
+        switch (type) {
+            case IMPACT:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultImpactResistance()));
+                break;
+            case PUNCTURE:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultPunctureResistance()));
+                break;
+            case SLASH:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultSlashResistance()));
+                break;
+            case COLD:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultColdResistance()));
+                break;
+            case ELECTRICITY:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultElectricityResistance()));
+                break;
+            case HEAT:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultHeatResistance()));
+                break;
+            case TOXIN:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultToxinResistance()));
+                break;
+            case BLAST:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultBlastResistance()));
+                break;
+            case CORROSIVE:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultCorrosiveResistance()));
+                break;
+            case GAS:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultGasResistance()));
+                break;
+            case MAGNETIC:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultMagneticResistance()));
+                break;
+            case RADIATION:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultRadiationResistance()));
+                break;
+            case VIRUS:
+                entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultVirusResistance()));
+                break;
         }
     }
 

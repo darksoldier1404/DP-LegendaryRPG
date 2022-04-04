@@ -45,8 +45,9 @@ public class GunFireLogic implements Listener {
                 if (NBT.hasTagKey(item, "fireRate")) {
                     e.setCancelled(true);
                     // if while reloading return
-                    if (GunUtils.reloading.contains(p.getUniqueId())) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§ccancel reloading"));
+                    if (GunUtils.reloading.containsKey(p.getUniqueId())) {
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§c재장전 취소"));
+                        GunUtils.reloading.get(p.getUniqueId()).cancel();
                         GunUtils.reloading.remove(p.getUniqueId());
                         return;
                     }
@@ -98,7 +99,7 @@ public class GunFireLogic implements Listener {
                     p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_SHOOT, 0.6F, 1.6F);
                     Bukkit.getPluginManager().callEvent(new GunFireEvent(p, item));
                     item = NBT.setIntTag(item, "currentMagazineSize", NBT.getIntegerTag(item, "currentMagazineSize") - 1);
-                    p.spigot().sendMessage(ChatMessageType.SYSTEM, TextComponent.fromLegacyText("§cAmmo: " + NBT.getIntegerTag(item, "currentMagazineSize") + "/" + NBT.getIntegerTag(item, "magazineSize")));
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§c탄창: " + NBT.getIntegerTag(item, "currentMagazineSize") + "/" + NBT.getIntegerTag(item, "magazineSize") + " | " + NBT.getIntegerTag(item, "currentAmmo")));
                     p.setItemInHand(item);
                 }
             }

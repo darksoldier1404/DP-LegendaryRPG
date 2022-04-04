@@ -149,7 +149,9 @@ public class LegendaryRPG extends JavaPlugin {
     @Override
     public void onDisable() {
         // save all yaml file
-
+        for(LRMobImpl lrm : summonedLRMobs.values()) {
+            lrm.getLe().remove();
+        }
     }
 
     private void disableThisPlugin() {

@@ -1,7 +1,9 @@
 package com.darksoldier1404.dlr.obj;
 
+import com.darksoldier1404.dlr.dEntity.obj.ElementalDamageTable;
+
 @SuppressWarnings("unused")
-public class WarDamageableImpl implements WarDamageable {
+public class WarDamageableImpl extends ElementalDamageTable implements WarDamageable {
     private double defaultHealth;
     private double defaultHealthRecharge;
     private double defaultShield;
