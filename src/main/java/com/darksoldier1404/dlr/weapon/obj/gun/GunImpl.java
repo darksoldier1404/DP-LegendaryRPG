@@ -121,6 +121,7 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
         this.fireRate = (float) data.getDouble("FireRate");
         this.magazineSize = data.getInt("MagazineSize");
         this.maxAmmo = data.getInt("MaxAmmo");
+        this.currentAmmo = maxAmmo;
         this.reloadTime = (float) data.getDouble("ReloadTime");
         this.multiShot = (float) data.getDouble("MultiShot");
         this.bulletDeletionTime = (byte) data.getInt("BulletDeletionTime");

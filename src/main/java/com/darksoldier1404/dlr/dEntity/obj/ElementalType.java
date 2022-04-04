@@ -1,5 +1,6 @@
 package com.darksoldier1404.dlr.dEntity.obj;
 
+@SuppressWarnings("unused")
 public enum ElementalType {
     IMPACT,
     PUNCTURE,

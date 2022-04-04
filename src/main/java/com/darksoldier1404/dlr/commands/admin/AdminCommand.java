@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("all")
 public class AdminCommand implements CommandExecutor, TabCompleter {
@@ -72,6 +73,13 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
             }
             if (args[1].equals("list")) {
                 plugin.getLrmobs().keySet().forEach(o -> sender.sendMessage(prefix + o));
+                return false;
+            }
+            if(args[1].equals("ka")) {
+                for(UUID uuid : plugin.getSummonedLRMobs().keySet()) {
+                    plugin.getSummonedLRMobs().get(uuid).getLe().remove();
+                    plugin.getSummonedLRMobs().remove(uuid);
+                }
                 return false;
             }
             if (args[1].equals("spawn")) {
@@ -165,7 +173,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 return Arrays.asList("list", "give", "reload");
             }
             if (args[0].equals("mob")) {
-                return Arrays.asList("spawn", "ka");
+                return Arrays.asList("spawn", "ka", "reload", "list");
             }
         }
         if (args[0].equals("mob")) {
