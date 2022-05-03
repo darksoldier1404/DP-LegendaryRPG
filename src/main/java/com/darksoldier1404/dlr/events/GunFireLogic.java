@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,8 +25,8 @@ import java.util.*;
 
 @SuppressWarnings("all")
 public class GunFireLogic implements Listener {
-    private final LegendaryRPG plugin = LegendaryRPG.getInstance();
-    private final Set<UUID> fired = new HashSet<>();
+    private static final LegendaryRPG plugin = LegendaryRPG.getInstance();
+    private static final Set<UUID> fired = new HashSet<>();
 
 
     @EventHandler
@@ -36,75 +37,103 @@ public class GunFireLogic implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) { // TODO: 최적화 진행
+    public void onDraw(PlayerInteractEvent e) {
+        if(e.getItem() == null) return;
+        if(e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if(!plugin.getDrawing().contains(e.getPlayer().getUniqueId())){
+            plugin.getDrawing().add(e.getPlayer().getUniqueId());
+            return;
+        }
+        plugin.getDrawing().remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onShoot(EntityShootBowEvent e) {
+        if(!(e.getEntity() instanceof Player)) return;
+        e.setCancelled(true);
+        Player p = (Player) e.getEntity();
+        if(plugin.getDrawing().contains(p.getUniqueId())) {
+            plugin.getDrawing().remove(p.getUniqueId());
+            return;
+        }
+    }
+
+    @EventHandler
+    public void onFire(PlayerInteractEvent e) { // TODO: 최적화 진행
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player p = e.getPlayer();
             if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (e.getItem() == null) return;
                 ItemStack item = e.getItem();
-                if (NBT.hasTagKey(item, "fireRate")) {
-                    e.setCancelled(true);
-                    // if while reloading return
-                    if (GunUtils.reloading.containsKey(p.getUniqueId())) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§c재장전 취소"));
-                        GunUtils.reloading.get(p.getUniqueId()).cancel();
-                        GunUtils.reloading.remove(p.getUniqueId());
-                        return;
-                    }
-                    if (fired.contains(p.getUniqueId())) return;
-                    int ammo = NBT.getIntegerTag(item, "currentMagazineSize");
-                    if (ammo <= 0) {
-                        GunUtils.reload(p, item);
-                        return;
-                    }
-                    BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType"));
-                    boolean isHomingBullet = Boolean.parseBoolean(NBT.getStringTag(item, "isHomingBullet"));
-                    float bulletSpeed = NBT.getFloatTag(item, "bulletSpeed");
-                    float fireRate = NBT.getFloatTag(item, "fireRate");
-                    float bulletDeletionTime = NBT.getFloatTag(item, "bulletDeletionTime");
-                    float multiShot = NBT.getFloatTag(item, "multiShot");
-                    float accuracy = NBT.getFloatTag(item, "accuracy");
-                    int im = (int) multiShot;
-                    float imp = multiShot - im;
-
-                    List<LivingEntity> les = new ArrayList<>();
-                    if (isHomingBullet) {
-                        for (Entity ne : p.getNearbyEntities(70, 70, 70)) {
-                            if (ne instanceof LivingEntity) {
-                                les.add((LivingEntity) ne);
-                            }
-                        }
-                    }
-                    for (int i = 0; i < im; i++) {
-                        if (isHomingBullet) {
-                            BulletUtils.launchHomingProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy, les);
-                            continue;
-                        }
-                        BulletUtils.launchProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy);
-                    }
-                    if (imp > 0) {
-                        if (Math.random() < imp) {
-                            if (isHomingBullet) {
-                                BulletUtils.launchHomingProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy, les);
-                            } else {
-                                BulletUtils.launchProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy);
-                            }
-                        }
-                    }
-                    // after launched bullet
-                    if (!((long) (20 / fireRate) == 0)) {
-                        fired.add(p.getUniqueId());
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> fired.remove(p.getUniqueId()), (long) (20 / fireRate));
-                    }
-                    p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_SHOOT, 0.6F, 1.6F);
-                    Bukkit.getPluginManager().callEvent(new GunFireEvent(p, item));
-                    item = NBT.setIntTag(item, "currentMagazineSize", NBT.getIntegerTag(item, "currentMagazineSize") - 1);
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§c탄창: " + NBT.getIntegerTag(item, "currentMagazineSize") + "/" + NBT.getIntegerTag(item, "magazineSize") + " | " + NBT.getIntegerTag(item, "currentAmmo")));
-                    p.setItemInHand(item);
-                }
+                fire(p, item);
+                e.setCancelled(true);
             }
         });
     }
 
 
+    public static void fire(Player p, ItemStack item) {
+        if (NBT.hasTagKey(item, "fireRate")) {
+            // if while reloading return
+            if (GunUtils.reloading.containsKey(p.getUniqueId())) {
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§c재장전 취소"));
+                GunUtils.reloading.get(p.getUniqueId()).cancel();
+                GunUtils.reloading.remove(p.getUniqueId());
+                return;
+            }
+            if (fired.contains(p.getUniqueId())) return;
+            int ammo = NBT.getIntegerTag(item, "currentMagazineSize");
+            if (ammo <= 0) {
+                GunUtils.reload(p, item);
+                if(plugin.getDrawing().contains(p.getUniqueId())) {
+                    plugin.getDrawing().remove(p.getUniqueId());
+                }
+                return;
+            }
+            BulletType bulletType = BulletType.valueOf(NBT.getStringTag(item, "bulletType"));
+            boolean isHomingBullet = Boolean.parseBoolean(NBT.getStringTag(item, "isHomingBullet"));
+            float bulletSpeed = NBT.getFloatTag(item, "bulletSpeed");
+            float fireRate = NBT.getFloatTag(item, "fireRate");
+            float bulletDeletionTime = NBT.getFloatTag(item, "bulletDeletionTime");
+            float multiShot = NBT.getFloatTag(item, "multiShot");
+            float accuracy = NBT.getFloatTag(item, "accuracy");
+            int im = (int) multiShot;
+            float imp = multiShot - im;
+
+            List<LivingEntity> les = new ArrayList<>();
+            if (isHomingBullet) {
+                for (Entity ne : p.getNearbyEntities(70, 70, 70)) {
+                    if (ne instanceof LivingEntity) {
+                        les.add((LivingEntity) ne);
+                    }
+                }
+            }
+            for (int i = 0; i < im; i++) {
+                if (isHomingBullet) {
+                    BulletUtils.launchHomingProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy, les);
+                    continue;
+                }
+                BulletUtils.launchProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy);
+            }
+            if (imp > 0) {
+                if (Math.random() < imp) {
+                    if (isHomingBullet) {
+                        BulletUtils.launchHomingProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy, les);
+                    } else {
+                        BulletUtils.launchProjectile(p, item, bulletSpeed, bulletDeletionTime, accuracy);
+                    }
+                }
+            }
+            // after launched bullet
+            if (!((long) (20 / fireRate) == 0)) {
+                fired.add(p.getUniqueId());
+                Bukkit.getScheduler().runTaskLater(plugin, () -> fired.remove(p.getUniqueId()), (long) (20 / fireRate));
+            }
+            p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_SHOOT, 0.6F, 1.6F);
+            Bukkit.getPluginManager().callEvent(new GunFireEvent(p, item));
+            item = NBT.setIntTag(item, "currentMagazineSize", NBT.getIntegerTag(item, "currentMagazineSize") - 1);
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§c탄창: " + NBT.getIntegerTag(item, "currentMagazineSize") + "/" + NBT.getIntegerTag(item, "magazineSize") + " | " + NBT.getIntegerTag(item, "currentAmmo")));
+            p.setItemInHand(item);
+        }
+    }
 }

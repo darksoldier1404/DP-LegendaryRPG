@@ -1,7 +1,7 @@
 package com.darksoldier1404.dlr.commands.admin;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
+import com.darksoldier1404.dlr.dentity.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.loader.LRMobLoader;
 import com.darksoldier1404.dlr.loader.WeaponLoader;
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
@@ -61,6 +61,10 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 //            CommandFunction.startMission((Player) sender);
 //            return false;
 //        }
+        if(args[0].equals("test")) {
+            LegendaryRPG.getInstance().getAbilities().get("TestAbility").cast((Player) sender);
+            return false;
+        }
         if (args[0].equals("mob")) {
             if (args.length == 1) {
                 sender.sendMessage(prefix + "/lra mob spawn <몹이름> : 해당 몹을 스폰시킵니다.");

@@ -6,6 +6,7 @@ import com.darksoldier1404.dlr.weapon.obj.enums.BulletType;
 import com.darksoldier1404.dlr.weapon.obj.enums.TriggerType;
 import com.darksoldier1404.dlr.weapon.obj.enums.WeaponType;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.*;
+import com.darksoldier1404.dppc.utils.ColorUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -89,7 +90,7 @@ public class GunImpl extends WarDamageImpl implements Gun, ElectricBullet, Gravi
     public GunImpl(YamlConfiguration data) {
         long start = System.currentTimeMillis();
         // weapon
-        this.displayName = data.getString("DisplayName");
+        this.displayName = ColorUtils.applyColor(data.getString("DisplayName"));
         this.requireMasteryRank = data.getInt("RequireMasteryRank");
         this.material = Material.getMaterial(data.getString("Material"));
         this.weaponType = WeaponType.valueOf(data.getString("WeaponType"));

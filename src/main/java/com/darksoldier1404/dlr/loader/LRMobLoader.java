@@ -1,15 +1,10 @@
 package com.darksoldier1404.dlr.loader;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
-import org.bukkit.Bukkit;
+import com.darksoldier1404.dlr.dentity.mobs.LRMobImpl;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 @SuppressWarnings("all")
 public class LRMobLoader {

@@ -33,7 +33,7 @@ public class WeaponLoader {
                             continue;
                         }
                         String type = w.getString("WeaponType");
-                        String name = w.getString("DisplayName");
+                        String name = file.getName();
                         String bulletType = w.getString("BulletType");
                         if(type.equals("GUN")) {
                             plugin.getWeapons().put(name, new GunImpl(w));

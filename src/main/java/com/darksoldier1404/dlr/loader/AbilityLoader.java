@@ -1,12 +1,9 @@
 package com.darksoldier1404.dlr.loader;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.dEntity.kapality.ability.ClearTargetAbility;
-import com.darksoldier1404.dlr.dEntity.kapality.ability.DelayAbility;
-import com.darksoldier1404.dlr.dEntity.kapality.ability.ProjectileAbility;
-import com.darksoldier1404.dlr.dEntity.kapality.ability.TargetAbility;
-import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityCast;
-import com.darksoldier1404.dlr.dEntity.kapality.enums.TargetType;
+import com.darksoldier1404.dlr.dentity.kapality.ability.*;
+import com.darksoldier1404.dlr.dentity.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.dentity.kapality.enums.TargetType;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -73,6 +70,10 @@ public class AbilityLoader {
                 }
                 if(key.equals("=ProjectileAbility")) {
                     cast.addAbility(new ProjectileAbility(data, key));
+                    continue;
+                }
+                if(key.equals("=DamageAbility")) {
+                    cast.addAbility(new DamageAbility(data, key));
                     continue;
                 }
             }

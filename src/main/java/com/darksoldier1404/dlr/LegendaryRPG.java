@@ -1,30 +1,31 @@
 package com.darksoldier1404.dlr;
 
+import com.darksoldier1404.dlr.dentity.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.dentity.mobs.LRMobImpl;
+import com.darksoldier1404.dlr.dentity.mobs.dt.DropTableManager;
 import com.darksoldier1404.dlr.events.GunFireLogic;
 import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;
 import com.darksoldier1404.dlr.functions.CommandFunction;
-import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityCast;
 import com.darksoldier1404.dlr.loader.AbilityLoader;
-import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
-import com.darksoldier1404.dlr.dEntity.mobs.dt.DropTableManager;
-import com.darksoldier1404.dlr.tasks.BulletTask;
 import com.darksoldier1404.dlr.loader.LRMobLoader;
 import com.darksoldier1404.dlr.loader.WeaponLoader;
+import com.darksoldier1404.dlr.tasks.BulletTask;
 import com.darksoldier1404.dlr.weapon.obj.Weapon;
 import com.darksoldier1404.dlr.weapon.obj.gun.bullets.Bullet;
 import com.darksoldier1404.dppc.utils.ConfigUtils;
 import com.darksoldier1404.dppc.utils.Metrics;
 import com.darksoldier1404.dppc.utils.Tuple;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 // TODO : 이벤트 의존 -> 스케듈러 의존으로 변경 & 데미지 관련 이벤트, 총 발사, 총알 핸들링 관련은 모두 대기열에 추가하여 핸들링 하도록 변경
 // 이로 인하여 이 플러그인은 싱글 쓰레드가 아닌 멀티 쓰레드에서 더 좋은 성능을 가질 수 있게된다.
@@ -47,6 +48,7 @@ public class LegendaryRPG extends JavaPlugin {
     private final Map<String, LRMobImpl> lrmobs = new HashMap<>(); // 로드된 모든 몹
     private final Map<UUID, LRMobImpl> summonedLRMobs = new HashMap<>(); // 로드된 모든 몹
     private final DropTableManager dtm = new DropTableManager();
+    private final Set<UUID> drawing = new HashSet<>(); // 연사중인 플레이어
 
     public Map<String, YamlConfiguration> getRawWeapons() {
         return rawWeapons;
@@ -90,6 +92,10 @@ public class LegendaryRPG extends JavaPlugin {
 
     public DropTableManager getDropTableManager() {
         return dtm;
+    }
+
+    public Set<UUID> getDrawing() {
+        return drawing;
     }
 
     public static LegendaryRPG getInstance() {
@@ -144,12 +150,25 @@ public class LegendaryRPG extends JavaPlugin {
 
         BulletTask.BulletHitTask();
 //        BulletTask.BulletListTask();
+        plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
+            try {
+                for (final Player p : plugin.getServer().getOnlinePlayers()) {
+                    if (p.getItemInHand() != null && p.getItemInHand().getType() == Material.BOW
+                            && drawing.contains(p.getUniqueId())) {
+                        final ItemStack item = p.getItemInHand();
+                        GunFireLogic.fire(p, item);
+                    }
+                }
+            } catch (Exception e) {
+            }
+
+        }, 20L, 1L);
     }
 
     @Override
     public void onDisable() {
         // save all yaml file
-        for(LRMobImpl lrm : summonedLRMobs.values()) {
+        for (LRMobImpl lrm : summonedLRMobs.values()) {
             lrm.getLe().remove();
         }
     }
