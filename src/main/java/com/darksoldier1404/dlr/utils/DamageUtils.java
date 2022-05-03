@@ -1,8 +1,8 @@
 package com.darksoldier1404.dlr.utils;
 
 import com.darksoldier1404.dlr.LegendaryRPG;
-import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
-import com.darksoldier1404.dlr.dEntity.obj.ElementalType;
+import com.darksoldier1404.dlr.dentity.mobs.LRMobImpl;
+import com.darksoldier1404.dlr.dentity.obj.ElementalType;
 import com.darksoldier1404.dlr.obj.WarDamage;
 import com.darksoldier1404.dlr.obj.WarDamageable;
 import org.bukkit.Bukkit;
@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -103,9 +102,8 @@ public class DamageUtils {
             } else {
                 Bukkit.getScheduler().runTask(plugin, () -> {
                     lrm.updateName();
-                    System.out.println(lrm.getUuid());
                 });
-                damageCounter(vic, totalDamage, loop, isCritical);
+//                damageCounter(vic, totalDamage, loop, isCritical);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,6 +151,19 @@ public class DamageUtils {
             case VIRUS:
                 entity.setCurrentHealth(entity.getCurrentHealth() - (damage - entity.getDefaultVirusResistance()));
                 break;
+        }
+        if(entity instanceof LRMobImpl) {
+            LRMobImpl lrm = (LRMobImpl) entity;
+            if (entity.getCurrentHealth() <= 0) {
+                lrm.getLe().setHealth(0);
+                lrm.getLe().remove();
+                plugin.getSummonedLRMobs().remove(lrm);
+            } else {
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    lrm.updateName();
+                });
+//                damageCounter(vic, totalDamage, loop, isCritical);
+            }
         }
     }
 

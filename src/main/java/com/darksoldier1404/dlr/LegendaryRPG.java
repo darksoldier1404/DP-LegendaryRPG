@@ -1,8 +1,8 @@
 package com.darksoldier1404.dlr;
 
-import com.darksoldier1404.dlr.dEntity.kapality.ability.obj.AbilityCast;
-import com.darksoldier1404.dlr.dEntity.mobs.LRMobImpl;
-import com.darksoldier1404.dlr.dEntity.mobs.dt.DropTableManager;
+import com.darksoldier1404.dlr.dentity.kapality.ability.obj.AbilityCast;
+import com.darksoldier1404.dlr.dentity.mobs.LRMobImpl;
+import com.darksoldier1404.dlr.dentity.mobs.dt.DropTableManager;
 import com.darksoldier1404.dlr.events.GunFireLogic;
 import com.darksoldier1404.dlr.events.LREvent;
 import com.darksoldier1404.dlr.events.damage.EntityGetDamageEvent;

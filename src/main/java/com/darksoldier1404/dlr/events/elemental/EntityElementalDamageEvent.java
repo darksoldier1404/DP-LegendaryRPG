@@ -1,6 +1,6 @@
 package com.darksoldier1404.dlr.events.elemental;
 
-import com.darksoldier1404.dlr.dEntity.obj.ElementalType;
+import com.darksoldier1404.dlr.dentity.obj.ElementalType;
 import com.darksoldier1404.dlr.obj.WarDamageable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
