@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class ClearTargetAbility extends AbilityAbstract implements Ability {
 
     @Override
-    public void cast(Player caster, AbilityCast cast, BukkitTask task) {
+    public void cast(Player caster, AbilityCast cast) {
         cast.getTargetList().clear();
     }
 }

@@ -9,5 +9,5 @@ public interface Ability {
 
     AbilityType getAbilityType();
 
-    void cast(Player caster, AbilityCast cast, BukkitTask task);
+    void cast(Player caster, AbilityCast cast);
 }
