@@ -7,6 +7,8 @@ import com.darksoldier1404.dlr.dentity.kapality.enums.TargetType;
 import com.darksoldier1404.dlr.utils.Cone;
 import com.darksoldier1404.dlr.utils.LRMobUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 @SuppressWarnings("unused")
@@ -24,7 +26,7 @@ public class TargetAbility extends AbilityAbstract implements Ability {
     }
 
     @Override
-    public void cast(Player caster, AbilityCast cast, BukkitTask task) {
+    public void cast(Player caster, AbilityCast cast) {
         switch (targetType) {
             case CIRCLE -> caster.getNearbyEntities(range, 2, range).forEach(entity -> {
                 if (cast.getTargetList().size() >= maxTarget) return;

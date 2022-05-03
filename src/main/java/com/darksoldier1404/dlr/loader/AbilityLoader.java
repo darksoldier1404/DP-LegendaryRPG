@@ -52,10 +52,6 @@ public class AbilityLoader {
     public static void initAbilityCast(ArrayList<String> keys, AbilityCast cast, YamlConfiguration data) {
         for (String key : keys) {
             if(key.startsWith("=")) {
-                if(key.equals("=DelayAbility")) {
-                    cast.addAbility(new DelayAbility(data.getLong(key+".delay")));
-                    continue;
-                }
                 if(key.equals("=TargetAbility")) {
                     TargetType type = TargetType.valueOf(data.getString(key+".TargetType").toUpperCase());
                     double range = data.getDouble(key+".TargetRange");
@@ -74,6 +70,14 @@ public class AbilityLoader {
                 }
                 if(key.equals("=DamageAbility")) {
                     cast.addAbility(new DamageAbility(data, key));
+                    continue;
+                }
+                if(key.equals("=ParticleAbility")) {
+                    cast.addAbility(new ParticleAbility(data, key));
+                    continue;
+                }
+                if(key.equals("=SoundAbility")) {
+                    cast.addAbility(new SoundAbility(data, key));
                     continue;
                 }
             }

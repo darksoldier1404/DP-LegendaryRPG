@@ -4,7 +4,6 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +12,12 @@ import java.util.List;
 public class AbilityCast {
     private final ArrayList<Ability> abilities;
     private final ArrayList<Entity> targetList;
-    private BukkitTask task;
     private boolean isCooldown;
 
     public AbilityCast() {
         abilities = new ArrayList<>();
         targetList = new ArrayList<>();
         isCooldown = false;
-        task = null;
     }
 
     public void addAbility(Ability ability) {
@@ -61,9 +58,9 @@ public class AbilityCast {
     }
 
     public void cast(Player caster) {
-        task = Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
             for (Ability ability : abilities) {
-                ability.cast(caster, this, task);
+                ability.cast(caster, this);
             }
         });
     }

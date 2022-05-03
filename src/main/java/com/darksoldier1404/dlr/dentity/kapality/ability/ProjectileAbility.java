@@ -15,9 +15,12 @@ import org.bukkit.scheduler.BukkitTask;
 public class ProjectileAbility extends BulletAbilityAbstract implements Ability {
     private ProjectileType type;
 
+    private final long delay;
+
     public ProjectileAbility(YamlConfiguration data, String key) {
         try {
             this.type = ProjectileType.getByName(data.getString(key + ".ProjectileType"));
+            delay = data.getLong(key + ".Delay");
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid ProjectileType");
         }
@@ -106,98 +109,100 @@ public class ProjectileAbility extends BulletAbilityAbstract implements Ability 
     }
 
     @Override
-    public void cast(Player caster, AbilityCast cast, BukkitTask task) {
-        Projectile ar;
-        switch (type) {
-            case ARROW:
-                ar = caster.launchProjectile(Arrow.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Arrow"));
-                break;
-            case DRAGONFIREBALL:
-                ar = caster.launchProjectile(DragonFireball.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "DragonFireball"));
-                break;
-            case EGG:
-                ar = caster.launchProjectile(Egg.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Egg"));
-                break;
+    public void cast(Player caster, AbilityCast cast) {
+        Bukkit.getScheduler().runTaskLater(LegendaryRPG.getInstance(), () -> {
+            Projectile ar;
+            switch (type) {
+                case ARROW:
+                    ar = caster.launchProjectile(Arrow.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Arrow"));
+                    break;
+                case DRAGONFIREBALL:
+                    ar = caster.launchProjectile(DragonFireball.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "DragonFireball"));
+                    break;
+                case EGG:
+                    ar = caster.launchProjectile(Egg.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Egg"));
+                    break;
 
-            case ENDERPEARL:
-                ar = caster.launchProjectile(EnderPearl.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "EnderPearl"));
-                break;
-            case FIREBALL:
-                ar = caster.launchProjectile(Fireball.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Fireball"));
-                break;
-            case FIREWORK:
-                ar = caster.launchProjectile(Firework.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Firework"));
-                break;
-            case FISHHOOK:
-                ar = caster.launchProjectile(FishHook.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "FishHook"));
-                break;
-            case LARGEFIREBALL:
-                ar = caster.launchProjectile(LargeFireball.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "LargeFireball"));
-                break;
-            case LINGERINGPOTION:
-                ar = caster.launchProjectile(LingeringPotion.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "LingeringPotion"));
-                break;
-            case LLAMASPIT:
-                ar = caster.launchProjectile(LlamaSpit.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "LlamaSpit"));
-                break;
-            case SHULKERBULLET:
-                ar = caster.launchProjectile(ShulkerBullet.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ShulkerBullet"));
-                break;
-            case SIZEDFIREBALL:
-                ar = caster.launchProjectile(SmallFireball.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SmallFireball"));
-                break;
-            case SMALLFIREBALL:
-                ar = caster.launchProjectile(SmallFireball.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SmallFireball"));
-                break;
-            case SNOWBALL:
-                ar = caster.launchProjectile(Snowball.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Snowball"));
-                break;
-            case SPECTRALARROW:
-                ar = caster.launchProjectile(SpectralArrow.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SpectralArrow"));
-                break;
-            case SPLASHPOTION:
-                ar = caster.launchProjectile(SplashPotion.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SplashPotion"));
-                break;
-            case THROWABLEPROJECTILE:
-                ar = caster.launchProjectile(ThrowableProjectile.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ThrowableProjectile"));
-                break;
-            case THROWNEXPBOTTLE:
-                ar = caster.launchProjectile(ThrownExpBottle.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ThrownExpBottle"));
-                break;
-            case THROWNPOTION:
-                ar = caster.launchProjectile(ThrownPotion.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ThrownPotion"));
-                break;
-            case TIPPEDARROW:
-                ar = caster.launchProjectile(TippedArrow.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "TippedArrow"));
-                break;
-            case TRIDENT:
-                ar = caster.launchProjectile(Trident.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Trident"));
-                break;
-            case WITHERSKULL:
-                ar = caster.launchProjectile(WitherSkull.class);
-                ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "WitherSkull"));
-                break;
-        }
+                case ENDERPEARL:
+                    ar = caster.launchProjectile(EnderPearl.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "EnderPearl"));
+                    break;
+                case FIREBALL:
+                    ar = caster.launchProjectile(Fireball.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Fireball"));
+                    break;
+                case FIREWORK:
+                    ar = caster.launchProjectile(Firework.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Firework"));
+                    break;
+                case FISHHOOK:
+                    ar = caster.launchProjectile(FishHook.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "FishHook"));
+                    break;
+                case LARGEFIREBALL:
+                    ar = caster.launchProjectile(LargeFireball.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "LargeFireball"));
+                    break;
+                case LINGERINGPOTION:
+                    ar = caster.launchProjectile(LingeringPotion.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "LingeringPotion"));
+                    break;
+                case LLAMASPIT:
+                    ar = caster.launchProjectile(LlamaSpit.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "LlamaSpit"));
+                    break;
+                case SHULKERBULLET:
+                    ar = caster.launchProjectile(ShulkerBullet.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ShulkerBullet"));
+                    break;
+                case SIZEDFIREBALL:
+                    ar = caster.launchProjectile(SmallFireball.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SmallFireball"));
+                    break;
+                case SMALLFIREBALL:
+                    ar = caster.launchProjectile(SmallFireball.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SmallFireball"));
+                    break;
+                case SNOWBALL:
+                    ar = caster.launchProjectile(Snowball.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Snowball"));
+                    break;
+                case SPECTRALARROW:
+                    ar = caster.launchProjectile(SpectralArrow.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SpectralArrow"));
+                    break;
+                case SPLASHPOTION:
+                    ar = caster.launchProjectile(SplashPotion.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "SplashPotion"));
+                    break;
+                case THROWABLEPROJECTILE:
+                    ar = caster.launchProjectile(ThrowableProjectile.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ThrowableProjectile"));
+                    break;
+                case THROWNEXPBOTTLE:
+                    ar = caster.launchProjectile(ThrownExpBottle.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ThrownExpBottle"));
+                    break;
+                case THROWNPOTION:
+                    ar = caster.launchProjectile(ThrownPotion.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "ThrownPotion"));
+                    break;
+                case TIPPEDARROW:
+                    ar = caster.launchProjectile(TippedArrow.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "TippedArrow"));
+                    break;
+                case TRIDENT:
+                    ar = caster.launchProjectile(Trident.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "Trident"));
+                    break;
+                case WITHERSKULL:
+                    ar = caster.launchProjectile(WitherSkull.class);
+                    ar.setMetadata("ProjectileAbilityCast", new FixedMetadataValue(LegendaryRPG.getInstance(), "WitherSkull"));
+                    break;
+            }
+        }, delay);
     }
 }
