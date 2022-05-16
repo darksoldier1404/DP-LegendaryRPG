@@ -4,9 +4,11 @@ import com.darksoldier1404.dlr.LegendaryRPG;
 import com.darksoldier1404.dlr.dentity.mobs.LRMobImpl;
 import com.darksoldier1404.dlr.loader.LRMobLoader;
 import com.darksoldier1404.dlr.loader.WeaponLoader;
+import com.darksoldier1404.dlr.utils.ParticleUtil;
 import com.darksoldier1404.dlr.weapon.obj.gun.GunImpl;
 import com.darksoldier1404.dppc.utils.ColorUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -61,8 +63,13 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 //            CommandFunction.startMission((Player) sender);
 //            return false;
 //        }
-        if(args[0].equals("test")) {
+        if (args[0].equals("test")) {
             LegendaryRPG.getInstance().getAbilities().get("TestAbility").cast((Player) sender);
+            return false;
+        }
+        if (args[0].equals("pt")) {
+            Player p = (Player) sender;
+            ParticleUtil.square(p.getLocation().clone().add(10, 0, 0), p.getLocation().clone().add(0, 0, 10), p.getLocation().clone().add(-10, 0, 0), p.getLocation().clone().add(0, 0, -10), 0.1F, Particle.FLAME);
             return false;
         }
         if (args[0].equals("mob")) {
@@ -79,8 +86,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 plugin.getLrmobs().keySet().forEach(o -> sender.sendMessage(prefix + o));
                 return false;
             }
-            if(args[1].equals("ka")) {
-                for(UUID uuid : plugin.getSummonedLRMobs().keySet()) {
+            if (args[1].equals("ka")) {
+                for (UUID uuid : plugin.getSummonedLRMobs().keySet()) {
                     plugin.getSummonedLRMobs().get(uuid).getLe().remove();
                     plugin.getSummonedLRMobs().remove(uuid);
                 }
@@ -95,8 +102,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(prefix + "해당 몹이 존재하지 않습니다.");
                     return false;
                 }
-                if(args.length == 4) {
-                    for(int i = 0; i < Integer.parseInt(args[3]); i++) {
+                if (args.length == 4) {
+                    for (int i = 0; i < Integer.parseInt(args[3]); i++) {
                         LRMobImpl lrm = new LRMobImpl(plugin.getRawLRMobs().get(args[2]));
                         LivingEntity le = (LivingEntity) ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), lrm.getEntityType());
                         lrm.setUuid(le.getUniqueId());
@@ -181,7 +188,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (args[0].equals("mob")) {
-            if(args[1].equals("spawn")) {
+            if (args[1].equals("spawn")) {
                 if (args.length == 3) {
                     return plugin.getLrmobs().keySet().stream().toList();
                 }
