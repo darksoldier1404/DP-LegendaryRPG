@@ -234,7 +234,7 @@ public class ParticleUtil {
         });
     }
 
-    public static void sphere(Location middle, double radius, double distance, Particle particle) {
+    public static void sphere(Location middle, double radius, double distance, Particle particle, int count, double extra) {
         Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
             for (double polarAnge = 0.0; polarAnge < 360.0; polarAnge += distance) {
                 for (double elevationAngle = 0.0; elevationAngle < 180.0; elevationAngle += distance) {
@@ -243,7 +243,26 @@ public class ParticleUtil {
                     double dy = radius * Math.sin(Math.toRadians(elevationAngle))
                             * Math.sin(Math.toRadians(polarAnge));
                     double dz = radius * Math.cos(Math.toRadians(elevationAngle));
-                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), 0, dx, dy, dz);
+                    middle.getWorld().spawnParticle(particle, middle.clone().add(dx, dy, dz), count, dx, dy, dz, extra);
+                }
+            }
+        });
+    }
+
+    public static void square(Location loc1, Location loc2, Location loc3, Location loc4, float space, Particle particle) {
+        Bukkit.getScheduler().runTask(LegendaryRPG.getInstance(), () -> {
+            for (double x = loc1.getX(); x <= loc2.getX(); x += space) {
+                for (double y = loc1.getY(); y <= loc2.getY(); y += space) {
+                    for (double z = loc1.getZ(); z <= loc2.getZ(); z += space) {
+                        loc1.getWorld().spawnParticle(particle, loc1.clone().add(x, y, z), 1, 0, 0, 0);
+                    }
+                }
+            }
+            for (double x = loc3.getX(); x <= loc4.getX(); x += space) {
+                for (double y = loc3.getY(); y <= loc4.getY(); y += space) {
+                    for (double z = loc3.getZ(); z <= loc4.getZ(); z += space) {
+                        loc3.getWorld().spawnParticle(particle, loc3.clone().add(x, y, z), 1, 0, 0, 0);
+                    }
                 }
             }
         });

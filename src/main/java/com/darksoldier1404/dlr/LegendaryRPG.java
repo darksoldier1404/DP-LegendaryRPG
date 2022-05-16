@@ -27,9 +27,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
-// TODO : 이벤트 의존 -> 스케듈러 의존으로 변경 & 데미지 관련 이벤트, 총 발사, 총알 핸들링 관련은 모두 대기열에 추가하여 핸들링 하도록 변경
-// 이로 인하여 이 플러그인은 싱글 쓰레드가 아닌 멀티 쓰레드에서 더 좋은 성능을 가질 수 있게된다.
-
 @SuppressWarnings("all")
 public class LegendaryRPG extends JavaPlugin {
     private final int pluginID = 13314;

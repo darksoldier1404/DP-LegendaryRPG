@@ -25,6 +25,9 @@ public class ParticleAbility extends AbilityAbstract implements Ability {
     private final double space;
     private final Particle particleType;
     private final long delay;
+    private final double minRadius;
+    private final double maxRadius;
+    private final double defaultRadius;
 
     public ParticleAbility(YamlConfiguration data, String key) {
         centerPoint = CenterPoint.valueOf(data.getString(key + ".CenterPoint").toUpperCase());
@@ -40,6 +43,9 @@ public class ParticleAbility extends AbilityAbstract implements Ability {
         count = data.getInt(key + ".COUNT");
         particleType = Particle.valueOf(data.getString(key + ".ParticleType").toUpperCase());
         delay = data.getLong(key + ".Delay");
+        minRadius = data.getDouble(key + ".MinRadius");
+        maxRadius = data.getDouble(key + ".MaxRadius");
+        defaultRadius = data.getDouble(key + ".DefaultRadius");
     }
 
     @Override
@@ -57,10 +63,24 @@ public class ParticleAbility extends AbilityAbstract implements Ability {
                     if (centerPoint == CenterPoint.CONNECT) {
                         cast.getTargetList().forEach(target -> ParticleUtil.line(caster.getLocation().add(cpox, cpoy, cpoz), target.getLocation().add(tpox, tpoy, tpoz), space, particleType, 0, 0, 0, count, speed));
                     }
-                    if(centerPoint == CenterPoint.CASTER) {
+                    if (centerPoint == CenterPoint.CASTER) {
                         ParticleUtil.line(caster.getLocation().clone().add(cpox, cpoy, cpoz), caster.getLocation().clone().add(tpox, tpoy, tpoz), space, particleType, 0, 0, 0, count, speed);
                     }
                     break;
+                case CIRCLE:
+                    if (centerPoint == CenterPoint.CASTER) {
+                        ParticleUtil.around(caster, minRadius, maxRadius, particleType, count, speed);
+                    }
+                    if (centerPoint == CenterPoint.TARGET) {
+                        cast.getTargetList().forEach(target -> ParticleUtil.around(target, minRadius, maxRadius, particleType, count, speed));
+                    }
+                case SPHERE:
+                    if (centerPoint == CenterPoint.CASTER) {
+                        ParticleUtil.sphere(caster.getLocation(), defaultRadius, space, particleType, count, speed);
+                    }
+                    if (centerPoint == CenterPoint.TARGET) {
+                        cast.getTargetList().forEach(target -> ParticleUtil.sphere(caster.getLocation(), defaultRadius, space, particleType, count, speed));
+                    }
             }
         }, delay);
     }
